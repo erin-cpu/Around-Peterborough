@@ -30,6 +30,14 @@ foreach ($l in $links) { $body = $body.Replace($l, '') }
 $desc = 'Calendar, downtown map and shop guide to the 2026 holiday season in Peterborough, New Hampshire.'
 $linkBlock = $links -join "`n"
 
+# GoatCounter analytics, injected here rather than in src/page.html because the
+# Claude artifact viewer's content policy blocks gc.zgo.at. Only the public
+# GitHub Pages build counts. Set to '' to turn it off.
+$goatCounter = 'aroundpeterborough'
+$analytics = if ($goatCounter) {
+  '<script data-goatcounter="https://' + $goatCounter + '.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>'
+} else { '' }
+
 $head = @"
 <!doctype html>
 <html lang="en">
@@ -43,6 +51,7 @@ $head = @"
 <meta property="og:title" content="$title">
 <meta property="og:description" content="$desc">
 $linkBlock
+$analytics
 <style>
   /* Equivalent of the reset the Claude artifact viewer applies. */
   :root{
