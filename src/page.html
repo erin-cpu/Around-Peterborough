@@ -795,6 +795,9 @@ const POIS = [
   {g:"shop", n:"Roy’s Market", x:419, y:312},
   {g:"shop", n:"The Toadstool Bookshop", x:419, y:442},
   {g:"shop", n:"The Apothecary", x:341, y:452},
+  {g:"shop", n:"Underneath It All", x:437, y:450},
+  {g:"shop", n:"Hobbs Jewelers", x:443, y:466},
+  {g:"culture", n:"Peterborough Art Academy", x:421, y:466},
   {g:"shop", n:"Anytime Apparel", x:359, y:493},
   {g:"shop", n:"Knitty Gritty Yarn Shop", x:365, y:497},
   {g:"shop", n:"Tribals Rugs by Hand", x:373, y:500},
@@ -1570,7 +1573,8 @@ let DB = null, shops = [], shopsLoaded = false, canWrite = null, editingId = nul
    complete before anyone types anything. A saved entry with the same id adds
    the hours and the offer on top. */
 const DIR_CAT   = {food:"Eat & drink", shop:"Shop", culture:"Arts & makers", civic:"Services"};
-const DIR_EXTRA = ["The Blue Fern Gallery","Bar Harbor Bank & Trust","Performance Health & Fitness"];
+const DIR_EXTRA = ["The Blue Fern Gallery","Bar Harbor Bank & Trust","Performance Health & Fitness",
+                   "Peterborough Art Academy"];
 const SHOP_ADDR = {
   "Steele’s Stationers":"40 Main Street",
   "The Blue Fern Gallery":"40B Main Street",
@@ -1583,7 +1587,11 @@ const SHOP_ADDR = {
   "Performance Health & Fitness":"301 Jaffrey Road",
   "The Toadstool Bookshop":"Depot Square",
   "Aesop’s Tables":"Depot Square",
-  "European Esthetics":"Depot Square"
+  "European Esthetics":"Depot Square",
+  "Underneath It All":"20-10 Depot Street",
+  "The Apothecary":"20 Depot Street, Unit 40",
+  "Hobbs Jewelers":"20-30 Depot Street",
+  "Peterborough Art Academy":"Depot Square"
 };
 function slug(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
 
