@@ -378,6 +378,14 @@ section[role="tabpanel"]{animation:fade .25s ease both}
 .poi .d{fill:var(--paper);stroke:var(--pc);stroke-width:2.6}
 .poi:hover .d,.poi.sel .d{fill:var(--pc)}
 .hit{fill:transparent;stroke:none}
+.stop{cursor:pointer}
+.stop circle{fill:var(--cranberry);stroke:var(--paper);stroke-width:2}
+.stop:hover circle,.stop.sel circle{stroke:var(--ink);stroke-width:2.5}
+.stop .num{font-family:var(--body);font-size:11.5px;font-weight:800;fill:var(--paper)}
+.stop .cap{
+  font-family:var(--body);font-size:11.5px;font-weight:700;fill:var(--ink);
+  paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round;
+}
 .pin{cursor:pointer}
 .pin .body{fill:var(--c);stroke:var(--paper);stroke-width:1.5}
 .pin .head{fill:var(--paper)}
@@ -605,7 +613,7 @@ const CATS = {
    Geometry traced from OpenStreetMap (ODbL), projected equirectangular about
    42.877 N: x = (lon + 71.9540) * 88014, y = (42.8800 - lat) * 120000.
    One unit is about 0.93 m, so the drawing is to scale. */
-const MAP_VIEW = "40 60 700 580";
+const MAP_VIEW = "40 -110 700 750";
 
 const VENUES = {
   putnam:   {name:"Putnam Park", short:"Putnam Park", sub:"Grove Street",
@@ -638,8 +646,8 @@ const ROADS = [
   ["Main Street",1,"M323 283L316 282L292 278L270 275L258 273L167 257L153 254L143 251L127 245L112 237L105 233L91 223L79 212L67 199L33 156L11 128"],
   ["Grove Street",1,"M261 478L266 459L273 438L282 410L286 398L288 393L290 386L295 375L299 359L320 292L323 283"],
   ["Grove Street",1,"M314 742L291 634L282 589L278 574L273 552L270 542L263 510L260 492L260 485L261 478"],
-  ["Concord Street",1,"M534 300L535 289L536 280L543 254L549 231L564 181L587 102L611 25L617 5L630 -38L635 -53L643 -82"],
-  ["Summer Street",1,"M416 300L417 291L418 281L420 256L420 246L418 223L413 197L412 184L412 174L413 159L415 142L419 122L421 110L423 103L426 92L429 83L436 64L446 42L454 27L463 8L467 -2L471 -16L481 -49L496 -103"],
+  ["Concord Street",1,"M534 300L535 289L536 280L543 254L549 231L564 181L587 102L611 25L617 5L630 -38L635 -53L643 -82L665 -150L672 -173L675 -184L678 -196L682 -213"],
+  ["Summer Street",1,"M416 300L417 291L418 281L420 256L420 246L418 223L413 197L412 184L412 174L413 159L415 142L419 122L421 110L423 103L426 92L429 83L436 64L446 42L454 27L463 8L467 -2L471 -16L481 -49L496 -103L511 -159L514 -170L518 -186L521 -196L531 -236"],
   ["Depot Street",1,"M407 399L408 392L409 355L409 345L408 335L408 311L408 299"],
   ["Pine Street",1,"M584 726L576 702L542 606L538 590L534 574L530 540L529 529L528 520L526 512L524 504"],
   ["Pine Street",1,"M524 504L538 469L542 455L546 440L551 416L552 398L553 380L553 368L553 356L550 344L546 332L541 321L537 312L534 300"],
@@ -681,11 +689,13 @@ const STREETLABELS = [
   ["DEPOT ST",398,396,-90],["CONCORD ST",580,170,-74],["SUMMER ST",436,200,-83],
   ["SCHOOL ST",340,401,13],["PINE ST",548,432,-77],["GRANITE ST",499,582,-79],
   ["VINE ST",130,110,10],["RIVER ST",55,212,27],["VALE ST",122,574,-10],
-  ["SCOTT ST",174,604,-80],["CENTRAL ST",110,628,-85]
+  ["SCOTT ST",174,604,-80],["CENTRAL ST",110,628,-85],
+  ["CONCORD ST",662,-128,-71],["SUMMER ST",506,-140,-75]
 ];
 const WATERLABELS = [["NUBANUSIT BROOK",118,372,24],["CONTOOCOOK RIVER",478,514,-60]];
 
 const POIGROUPS = {
+  stroll:  {label:"Holiday Stroll stops", c:"var(--cranberry)"},
   parking: {label:"Parking",        c:"var(--c-music)"},
   food:    {label:"Eat & drink",    c:"var(--c-market)"},
   shop:    {label:"Shops",          c:"var(--c-shop)"},
@@ -724,13 +734,40 @@ const POIS = [
 const LOTS = [[381,357],[451,423],[383,440],[397,433],[360,221],[283,245],[408,102],[375,582],
   [133,317],[214,384],[513,210],[491,178],[480,192],[649,125],[657,76],[439,283],[433,310],
   [436,296],[386,303],[349,295],[398,290],[222,271],[314,333],[299,345],[284,418],[274,449],
-  [259,476],[358,459],[401,205],[388,261]];
+  [259,476],[358,459],[401,205],[388,261],
+  [668,11],[600,-82],[721,-42],[509,-96],[525,-156]];
+
+/* The seven Holiday Stroll stops, numbered as the event flyer numbers them.
+   Stops 1 and 7 are too far out for this map and carry no coordinates. */
+const STROLL = [
+  {n:1, name:"The Church of Jesus Christ of Latter-day Saints", short:"Latter-day Saints",
+   addr:"65 Old Bennington Road",
+   blurb:"Free pancake breakfast 8–10 AM; Nativity Walk, children’s crafts, music and hot cocoa until noon"},
+  {n:2, name:"All Saints’ Church", short:"All Saints’", addr:"52 Concord Street",
+   x:698, y:-70, lx:686, ly:-66, anchor:"end",
+   blurb:"Kids Holiday Shop 9:30 AM–1 PM for ages 4–15, with volunteer elves and free gift wrapping; church and stained-glass tours"},
+  {n:3, name:"Peterborough United Methodist Church", short:"Methodist", addr:"43 Concord Street",
+   santa:"11:00", x:650, y:24, lx:638, ly:28, anchor:"end",
+   blurb:"$5 lunch 11 AM–1:30 PM with vegan and gluten-free options; baked goods, woodwork, holiday greens and kids crafts"},
+  {n:4, name:"Union Congregational Church", short:"Union Congregational", addr:"33 Concord Street",
+   santa:"9:30", x:638, y:97, lx:626, ly:101, anchor:"end",
+   blurb:"Coffee and donuts, luncheon, bake sale, jelly, crafts, country store, jewelry and attic treasures"},
+  {n:5, name:"Christian Science Church", short:"Christian Science", addr:"24 Concord Street",
+   santa:"10:15", x:548, y:160, lx:536, ly:164, anchor:"end",
+   blurb:"Hospitality center with cider and cookies, benefitting End 68 Hours of Hunger"},
+  {n:6, name:"Unitarian Universalist Church", short:"", addr:"25 Main Street",
+   santa:"11:45", x:382, y:272, lx:370, ly:276, anchor:"end",
+   blurb:"Free children’s paint party, cookie walk, balsam wreaths and holiday gifts; music and carolers all day"},
+  {n:7, name:"Divine Mercy Church", short:"Divine Mercy", addr:"12 Church Street, off Route 101",
+   santa:"12:30",
+   blurb:"All-day café with scones, soups, sandwiches and quiche; cookies, handcrafted gifts, raffle baskets and advent candles"}
+];
 
 const OFFMAP = [
   {name:"ConVal High School", sub:"Hancock Rd, north of downtown", map:true, ids:["craftfair"]},
   {name:"Rosaly’s Farmstand", sub:"Three Sunday classes, 11 AM", map:true, ids:["centerpiece","wreath-nov29","wreath-dec6"]},
   {name:"MAxT Makerspace", sub:"Open house, and host of the Night Market", map:true, ids:["maxt-openhouse"]},
-  {name:"Churches across town", sub:"Seven stops on the Holiday Stroll", ids:["stroll"]},
+  {name:"Stroll stops off this map", sub:"Latter-day Saints on Old Bennington Rd; Divine Mercy on Church St", ids:["stroll"]},
   {name:"Giving Tree locations", sub:"Eight hosts around town — listed on the event", ids:["givingtrees"]}
 ];
 
@@ -738,9 +775,14 @@ const EVENTS = [
   {
     id:"stroll", title:"Peterborough Holiday Stroll", cat:"family",
     start:"2026-11-21", time:"9 AM – 2 PM", sort:540,
-    place:"Participating churches around town", venue:"churches",
-    desc:"Festivities, food, fellowship and fun, hosted together by churches across Peterborough.",
-    list:["The Church of Jesus Christ of Latter-day Saints","All Saints’ Church","Peterborough United Methodist Church","Union Congregational Church","Christian Science Church","Unitarian Universalist Church","Divine Mercy Church"]
+    place:"Seven churches across Peterborough", venue:"churches",
+    badge:"32nd annual",
+    desc:"Festivities, food, fellowship and fun, hosted together by churches across Peterborough. Santa visits each location at the times below, and every stop flies red, green and white balloons. Free parking in the lot across from All Saints’ Church.",
+    list: STROLL.map(s => s.n + ". " + s.name + " · " + s.addr
+            + (s.santa ? " · Santa at " + s.santa : "") + " — " + s.blurb),
+    note:"Five of the seven are on the downtown map — open the map and pick “Holiday Stroll stops” to see just those. Questions, or want to take part next year? Call 603-563-8067, or write to:",
+    email:"peterboroughholidaystroll@gmail.com",
+    links:[{label:"Holiday Stroll on Facebook", href:"https://www.facebook.com/peterboroughholidaystroll/"}]
   },
   {
     id:"craftfair", title:"ConVal High School Holiday Craft Fair", cat:"market", also:["shop"],
@@ -1108,7 +1150,9 @@ renderList();
 const mapBox = document.getElementById("mapbox");
 const venueList = document.getElementById("venuelist");
 const mapNote = document.getElementById("mapnote");
-const layerState = {on:new Set(Object.keys(POIGROUPS))};
+/* The Stroll layer is a solo: turning it on hides the rest, and vice versa. */
+const DEFAULT_LAYERS = ["parking","food","shop","culture","civic"];
+const layerState = {on:new Set(DEFAULT_LAYERS)};
 let activeVenue = "putnam";
 let activePoi = null;
 
@@ -1154,6 +1198,15 @@ function buildMap(){
     + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="13"></circle>'
     + '<title>'+esc(p.n)+'</title></g>').join("");
 
+  const stops = layerState.on.has("stroll") ? STROLL.filter(s => s.x != null).map(s => {
+    const label = s.n + ". " + s.name + (s.santa ? " · Santa at " + s.santa : "");
+    return '<g class="stop'+(activePoi==="stop"+s.n?" sel":"")+'" data-poi="stop'+s.n+'" data-label="'+esc(label)+'" data-group="stroll" role="button" tabindex="0">'
+      + '<circle cx="'+s.x+'" cy="'+s.y+'" r="10"></circle>'
+      + '<text class="num" x="'+s.x+'" y="'+(s.y+3.9)+'" text-anchor="middle">'+s.n+'</text>'
+      + (s.short ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
+      + '<title>'+esc(label)+'</title></g>';
+  }).join("") : "";
+
   const pins = Object.entries(VENUES).filter(e => !e[1].route).map(([key, v]) =>
       '<g class="pin'+(key===activeVenue?" on":"")+'" data-v="'+key+'" style="--c:'+venueColor(key,"var(--ink-3)")+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'">'
     + '<circle class="hit" cx="'+v.x+'" cy="'+v.y+'" r="22"></circle>'
@@ -1168,8 +1221,8 @@ function buildMap(){
 
   mapBox.innerHTML =
     '<svg viewBox="'+MAP_VIEW+'" role="img" aria-label="Map of downtown Peterborough, New Hampshire, showing holiday event locations">'
-    + '<rect class="ground" x="40" y="60" width="700" height="580" rx="8"></rect>'
-    + water + greens + roads + routes + labels + lots + pois + pins
+    + '<rect class="ground" x="40" y="-110" width="700" height="750" rx="8"></rect>'
+    + water + greens + roads + routes + labels + lots + pois + stops + pins
     /* 108 units is 100 metres at this projection */
     + '<g transform="translate(560,614)">'
     +   '<path class="scalebar" d="M0 0h108M0 -4v8M108 -4v8"></path>'
@@ -1239,7 +1292,7 @@ function setVenue(key){
 function mapHit(target){
   const v = target.closest(".pin, .routehit");
   if(v){ setVenue(v.dataset.v); return true; }
-  const p = target.closest(".poi, .lot");
+  const p = target.closest(".poi, .lot, .stop");
   if(p){ setPoi(p); return true; }
   return false;
 }
@@ -1251,7 +1304,12 @@ mapBox.addEventListener("keydown", e => {
 document.getElementById("maplayers").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if(!b) return;
   const k = b.dataset.layer;
-  if(layerState.on.has(k)) layerState.on.delete(k); else layerState.on.add(k);
+  if(k === "stroll"){
+    layerState.on = layerState.on.has("stroll") ? new Set(DEFAULT_LAYERS) : new Set(["stroll"]);
+  } else {
+    layerState.on.delete("stroll");
+    if(layerState.on.has(k)) layerState.on.delete(k); else layerState.on.add(k);
+  }
   activePoi = null; renderLayers(); buildMap();
 });
 venueList.addEventListener("click", e => {
