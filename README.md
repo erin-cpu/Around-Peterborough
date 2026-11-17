@@ -31,8 +31,9 @@ and 28 points of interest across seven toggleable layers — two of which
 (Holiday Stroll stops, Giving Trees) solo themselves and hide the rest.
 
 It pans by dragging and zooms with the `+` / `−` buttons or ctrl-wheel. The
-house button returns to downtown; **ALL** frames the whole town, out to ConVal
-and MAxT on the Hancock Road. Downtown detail — minor streets, street labels,
+house button returns to downtown; **ALL** frames the whole town — ConVal and
+Brady's north up the Hancock Road, Divine Mercy east on Wilton Road, and MAxT
+south-west at Noone Falls. Downtown detail — minor streets, street labels,
 parking, and the downtown markers — drops away past 2.2× so the wide view stays
 readable. The out-of-town road network is a separate, harder-thinned set
 (`HIGHWAYS`) drawn at every zoom.

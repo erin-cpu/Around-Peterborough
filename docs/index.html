@@ -678,8 +678,8 @@ const VENUES = {
              x:285, y:462, lx:300, ly:457, anchor:"start"},
   conval:   {name:"ConVal Regional High School", short:"ConVal", sub:"184 Hancock Road",
              x:1039, y:-3774, lx:1060, ly:-3770, anchor:"start"},
-  maxt:     {name:"MAxT Makerspace", short:"MAxT", sub:"49 Vose Farm Road",
-             x:1832, y:-4078, lx:1853, ly:-4074, anchor:"start"},
+  maxt:     {name:"MAxT Makerspace", short:"MAxT", sub:"Noone Falls, 50 Jaffrey Road",
+             x:-682, y:2418, lx:-660, ly:2423, anchor:"start"},
   mainst:   {name:"Shops on Main, Depot & School Streets",
              sub:"Main between Grove and Pine, plus Depot and School",
              rc:"var(--c-shop)", w:9,
@@ -746,6 +746,9 @@ const HIGHWAYS = [
   ["tertiary","M735 1767L738 1700L728 1599L716 1535L690 1400L666 1283L651 1187L636 1076L623 924L617 853L596 771L576 702L542 606L526 512L524 504"],
   ["secondary","M236 1107L257 1069L320 951L330 894L324 791L291 634L273 552L260 485L261 478"],
   ["tertiary","M11 128L-18 98L-60 67L-303 -75L-414 -141L-477 -167L-574 -196L-601 -204"],
+  /* Grove Street south out of downtown, then Jaffrey Road down to Noone. */
+  ["secondary","M236 1107L221 1129L216 1137L211 1146L195 1173L184 1192L163 1228L132 1279L113 1311L104 1327L76 1374L65 1389L44 1416L25 1436L-10 1474"],
+  ["primary","M-10 1474L-37 1501L-62 1527L-96 1562L-139 1607L-164 1634L-264 1742L-320 1805L-349 1835L-428 1923L-454 1956L-480 1990L-547 2088L-590 2150L-604 2172L-630 2223L-644 2257L-663 2293L-696 2346L-708 2365L-720 2387L-733 2413L-760 2470L-771 2494L-800 2562L-807 2586L-814 2636L-820 2711L-826 2809L-831 2888L-838 2938L-849 2996L-857 3028L-869 3061L-881 3092L-896 3123L-919 3169L-930 3191L-954 3245L-963 3268L-982 3333L-988 3366L-995 3424L-998 3458L-998 3492L-996 3534L-984 3668L-972 3798"],
   /* Wilton Road / Route 101 running east, past Church Street. */
   ["primary","M221 1129L234 1138L251 1149L272 1171L294 1187L329 1222L343 1240L361 1262L372 1279L380 1293L396 1330L406 1352L415 1376L422 1393L428 1407L446 1452L472 1516L484 1544L500 1575L512 1595L533 1625L548 1642L579 1676L628 1714L680 1744L735 1767L841 1786L961 1793L1128 1802L1254 1809L1339 1814L1446 1820L1558 1826L1719 1836"]
 ];
@@ -1328,7 +1331,7 @@ function buildMap(){
   mapBox.innerHTML =
     '<svg viewBox="'+view.x+' '+view.y+' '+view.w+' '+view.h+'" preserveAspectRatio="xMidYMid meet"'
     + ' role="img" aria-label="Map of Peterborough, New Hampshire, showing holiday event locations">'
-    + '<rect class="ground" x="-1600" y="-5900" width="5200" height="8100"></rect>'
+    + '<rect class="ground" x="-2200" y="-5900" width="6200" height="10400"></rect>'
     + water + greens + hwy + roads + routes + labels + lots + pois + stops + pins
     + '<g transform="translate('+sbx+','+sby+')">'
     +   '<path class="scalebar" d="M0 0h'+sb.u+'M0 '+r1(-4)+'v'+r1(8)+'M'+sb.u+' '+r1(-4)+'v'+r1(8)+'"></path>'
@@ -1342,7 +1345,7 @@ function buildMap(){
 }
 
 /* ---- zoom and pan ---- */
-const MIN_W = 170, MAX_W = 6200;
+const MIN_W = 170, MAX_W = 7600;
 
 function applyView(){
   const svg = mapBox.querySelector("svg");
@@ -1381,8 +1384,9 @@ function mapPoint(e){
 document.getElementById("zin").addEventListener("click", () => zoomCentre(1/1.7));
 document.getElementById("zout").addEventListener("click", () => zoomCentre(1.7));
 document.getElementById("zhome").addEventListener("click", goHome);
-/* Frames downtown together with Brady's, ConVal and MAxT up the Hancock Road. */
-document.getElementById("ztown").addEventListener("click", () => focusOn(950, -1335, 6150));
+/* Frames downtown with ConVal and Brady's to the north, Divine Mercy east and
+   MAxT south-west at Noone Falls. */
+document.getElementById("ztown").addEventListener("click", () => focusOn(178, -678, 6700));
 
 /* Ctrl/Cmd + wheel zooms; a plain wheel still scrolls the page past the map. */
 mapBox.addEventListener("wheel", e => {
