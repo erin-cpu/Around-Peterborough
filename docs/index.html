@@ -1301,14 +1301,18 @@ function buildMap(){
     + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="'+r1(13)+'"></circle>'
     + '</g>').join("");
 
-  const stops = layerState.on.has("stroll") ? STROLL.filter(s => s.x != null && show(s.x, s.y)).map(s => {
+  /* The downtown stops are behind the Stroll filter, but a stop out of town is
+     the only thing in its corner of the map, so it draws either way. */
+  const strollOn = layerState.on.has("stroll");
+  const stops = STROLL.filter(s => s.x != null &&
+      (strollOn ? show(s.x, s.y) : !nearHome(s.x, s.y))).map(s => {
     const label = s.n + ". " + s.name + (s.santa ? " · Santa at " + s.santa : "");
     return '<g class="stop'+(activePoi==="stop"+s.n?" sel":"")+'" data-poi="stop'+s.n+'" data-label="'+esc(label)+'" data-group="stroll" role="button" tabindex="0">'
       + '<circle cx="'+s.x+'" cy="'+s.y+'" r="'+r1(10)+'"></circle>'
       + '<text class="num" x="'+s.x+'" y="'+(s.y+r1(3.9))+'" text-anchor="middle">'+s.n+'</text>'
       + (s.short ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
       + '</g>';
-  }).join("") : "";
+  }).join("");
 
   const pins = Object.entries(VENUES).filter(e => !e[1].route).map(([key, v]) =>
       '<g class="pin'+(key===activeVenue?" on":"")+'" data-v="'+key+'" style="--c:'+venueColor(key,"var(--ink-3)")+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'">'
