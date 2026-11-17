@@ -657,8 +657,6 @@ const VENUES = {
              x:404, y:262, lx:397, ly:235, anchor:"end"},
   diner:    {name:"Peterborough Diner", short:"The Diner", sub:"10 Depot Street",
              x:427, y:376, lx:441, ly:372, anchor:"start"},
-  tria:     {name:"Tria Yoga", short:"Tria Yoga", sub:"36 Grove Street",
-             x:285, y:462, lx:300, ly:457, anchor:"start"},
   conval:   {name:"ConVal Regional High School", short:"ConVal", sub:"184 Hancock Road",
              x:1039, y:-3774, lx:1060, ly:-3770, anchor:"start"},
   maxt:     {name:"MAxT Makerspace", short:"MAxT", sub:"Noone Falls, 50 Jaffrey Road",
@@ -809,7 +807,8 @@ const POIS = [
   {g:"civic", n:"Peterborough Post Office", x:256, y:421},
   {g:"civic", n:"Bar Harbor Bank & Trust", x:482, y:316, tree:true},
   {g:"civic", n:"Peterborough Fire & Rescue", x:382, y:125, tree:true},
-  {g:"civic", n:"Performance Health & Fitness", x:-1022, y:3960, tree:true}
+  {g:"civic", n:"Performance Health & Fitness", x:-1022, y:3960, tree:true},
+  {g:"civic", n:"Tria Yoga", x:285, y:462, url:"https://www.triayoga.com/"}
 ];
 
 const LOTS = [[381,357],[451,423],[383,440],[397,433],[360,221],[283,245],[408,102],[375,582],
@@ -1007,7 +1006,7 @@ const EVENTS = [
   {
     id:"groundingyoga", title:"Grounding Yoga", cat:"wellness",
     start:"2026-12-06", time:"4 – 5:30 PM", sort:960,
-    place:"Tria Yoga", venue:"tria",
+    place:"Tria Yoga, 36 Grove Street", venue:"tria", poi:"Tria Yoga",
     badge:"90 minutes · Candlelit",
     desc:"As the seasons shift and the days grow shorter, fall invites us to turn inward. Join Jill for a 90-minute candlelit, Ayurvedic-inspired yoga class featuring a blend of yin, flow and restorative postures. Nurturing adjustments and essential oils will enhance your practice, offering a deeply nourishing and grounding experience.",
     note:"Space is limited — check the Tria Yoga workshops page to register.",
@@ -1085,6 +1084,7 @@ function passes(ev, state){
 function mapTargetFor(ev){
   if(ev.id === "stroll") return "stroll";
   if(ev.venue === "various") return "giving";
+  if(ev.poi && POIS.some(p => p.n === ev.poi)) return "poi";
   return VENUES[ev.venue] ? "venue" : null;
 }
 
@@ -1459,8 +1459,17 @@ function jumpToMap(id){
       layerState.on = new Set(DEFAULT_LAYERS);
       renderLayers();
     }
-    goHome();
-    setVenue(ev.venue);
+    if(target === "poi"){
+      const p = POIS.find(q => q.n === ev.poi);
+      if(!layerState.on.has(p.g)){ layerState.on.add(p.g); renderLayers(); }
+      activeVenue = null;
+      focusOn(p.x, p.y, HOME.w);
+      setNote('<span class="swatch"></span><span><b>'+esc(p.n)+'</b> &middot; '
+        + esc(POIGROUPS[p.g].label)+'</span>', POIGROUPS[p.g].c);
+    } else {
+      goHome();
+      setVenue(ev.venue);
+    }
   }
   document.getElementById("panel-map").scrollIntoView({block:"start", behavior:"smooth"});
 }
@@ -1574,7 +1583,7 @@ let DB = null, shops = [], shopsLoaded = false, canWrite = null, editingId = nul
    the hours and the offer on top. */
 const DIR_CAT   = {food:"Eat & drink", shop:"Shop", culture:"Arts & makers", civic:"Services"};
 const DIR_EXTRA = ["The Blue Fern Gallery","Bar Harbor Bank & Trust","Performance Health & Fitness",
-                   "Peterborough Art Academy"];
+                   "Peterborough Art Academy","Tria Yoga"];
 const SHOP_ADDR = {
   "Steele’s Stationers":"40 Main Street",
   "The Blue Fern Gallery":"40B Main Street",
@@ -1591,7 +1600,8 @@ const SHOP_ADDR = {
   "Underneath It All":"20-10 Depot Street",
   "The Apothecary":"20 Depot Street, Unit 40",
   "Hobbs Jewelers":"20-30 Depot Street",
-  "Peterborough Art Academy":"Depot Square"
+  "Peterborough Art Academy":"Depot Square",
+  "Tria Yoga":"36 Grove Street"
 };
 function slug(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
 
