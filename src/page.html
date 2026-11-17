@@ -772,7 +772,7 @@ const POIGROUPS = {
   food:    {label:"Eat & drink",    c:"var(--c-market)"},
   shop:    {label:"Shops",          c:"var(--c-shop)"},
   culture: {label:"Museums & arts", c:"var(--c-make)"},
-  civic:   {label:"Civic",          c:"var(--c-giving)"}
+  civic:   {label:"Civic & services", c:"var(--c-giving)"}
 };
 
 const POIS = [
@@ -788,6 +788,9 @@ const POIS = [
   {g:"food", n:"Coopershill Pub", x:348, y:392, tree:true},
   {g:"food", n:"Post & Beam Brewery", x:294, y:565},
   {g:"shop", n:"Hearth Magick", x:221, y:563},
+  {g:"shop", n:"Dollar General", x:-78, y:1470, tree:true},
+  /* Depot Square, beside Waterhouse - position approximate. */
+  {g:"shop", n:"European Esthetics", x:322, y:474, tree:true},
   {g:"shop", n:"Steele’s Stationers", x:364, y:302},
   {g:"shop", n:"Roy’s Market", x:419, y:312},
   {g:"shop", n:"The Toadstool Bookshop", x:419, y:442},
@@ -802,7 +805,8 @@ const POIS = [
   {g:"culture", n:"Aquarius No. 1 Fire Museum", x:394, y:166},
   {g:"civic", n:"Peterborough Post Office", x:256, y:421},
   {g:"civic", n:"Bar Harbor Bank & Trust", x:482, y:316, tree:true},
-  {g:"civic", n:"Peterborough Fire & Rescue", x:382, y:125, tree:true}
+  {g:"civic", n:"Peterborough Fire & Rescue", x:382, y:125, tree:true},
+  {g:"civic", n:"Performance Health & Fitness", x:-1022, y:3960, tree:true}
 ];
 
 const LOTS = [[381,357],[451,423],[383,440],[397,433],[360,221],[283,245],[408,102],[375,582],
@@ -842,8 +846,7 @@ const STROLL = [
 
 const OFFMAP = [
   {name:"Rosaly’s Farmstand", sub:"Route 123, south-east of town — three Sunday classes", map:true, ids:["centerpiece","wreath-nov29","wreath-dec6"]},
-  {name:"Stroll stops off this map", sub:"Latter-day Saints on Old Bennington Rd; Divine Mercy on Church St", ids:["stroll"]},
-  {name:"Giving Tree locations", sub:"Eight hosts — five of them are on the map under Giving Trees", ids:["givingtrees"]}
+  {name:"Giving Tree locations", sub:"All eight hosts are on the map — turn on the Giving Trees layer", ids:["givingtrees"]}
 ];
 
 const EVENTS = [
@@ -1335,7 +1338,7 @@ function buildMap(){
   mapBox.innerHTML =
     '<svg viewBox="'+view.x+' '+view.y+' '+view.w+' '+view.h+'" preserveAspectRatio="xMidYMid meet"'
     + ' role="img" aria-label="Map of Peterborough, New Hampshire, showing holiday event locations">'
-    + '<rect class="ground" x="-5200" y="-9800" width="13400" height="14000"></rect>'
+    + '<rect class="ground" x="-6200" y="-10200" width="15500" height="17500"></rect>'
     + water + greens + hwy + roads + routes + labels + lots + pois + stops + pins
     + '<g transform="translate('+sbx+','+sby+')">'
     +   '<path class="scalebar" d="M0 0h'+sb.u+'M0 '+r1(-4)+'v'+r1(8)+'M'+sb.u+' '+r1(-4)+'v'+r1(8)+'"></path>'
@@ -1349,10 +1352,11 @@ function buildMap(){
 }
 
 /* ---- zoom and pan ---- */
-const MIN_W = 170, MAX_W = 13000;
+const MIN_W = 170, MAX_W = 15000;
 /* Frames every marker: the Latter-day Saints meetinghouse up by Greenfield,
-   ConVal and Brady's north, Divine Mercy east, MAxT south-west at Noone. */
-const ALL_VIEW = {x:1354, y:-2741, w:11600};
+   ConVal and Brady's north, Divine Mercy east, and Jaffrey Road running
+   south-west past MAxT to Performance Health & Fitness. */
+const ALL_VIEW = {x:1184, y:-1970, w:13000};
 
 function applyView(){
   const svg = mapBox.querySelector("svg");
@@ -1442,7 +1446,7 @@ function jumpToMap(id){
     setNote('<span class="swatch"></span><span>'
       + (target === "stroll"
           ? '<b>Holiday Stroll</b> stops 2–6 are downtown. Press <b>ALL</b> for stop 1 up by Greenfield and stop 7 out on Wilton Road.'
-          : '<b>Giving Tree</b> hosts downtown. Press <b>ALL</b> to add Brady’s up Concord Street.')
+          : '<b>Giving Tree</b> hosts downtown. Press <b>ALL</b> for the other three — Brady’s north, Dollar General and Performance Health on Jaffrey Road.')
       + '</span>', POIGROUPS[target].c);
   } else {
     /* Leaving a solo layer on would hide every ordinary marker. */
