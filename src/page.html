@@ -725,7 +725,9 @@ const HIGHWAYS = [
   ["primary","M524 504L504 552L489 600L485 653L482 788L477 895L470 974L459 1094L460 1350"],
   ["tertiary","M735 1767L738 1700L728 1599L716 1535L690 1400L666 1283L651 1187L636 1076L623 924L617 853L596 771L576 702L542 606L526 512L524 504"],
   ["secondary","M236 1107L257 1069L320 951L330 894L324 791L291 634L273 552L260 485L261 478"],
-  ["tertiary","M11 128L-18 98L-60 67L-303 -75L-414 -141L-477 -167L-574 -196L-601 -204"]
+  ["tertiary","M11 128L-18 98L-60 67L-303 -75L-414 -141L-477 -167L-574 -196L-601 -204"],
+  /* Wilton Road / Route 101 running east, past Church Street. */
+  ["primary","M221 1129L234 1138L251 1149L272 1171L294 1187L329 1222L343 1240L361 1262L372 1279L380 1293L396 1330L406 1352L415 1376L422 1393L428 1407L446 1452L472 1516L484 1544L500 1575L512 1595L533 1625L548 1642L579 1676L628 1714L680 1744L735 1767L841 1786L961 1793L1128 1802L1254 1809L1339 1814L1446 1820L1558 1826L1719 1836"]
 ];
 
 const WATER = [
@@ -788,8 +790,7 @@ const POIS = [
   {g:"culture", n:"Aquarius No. 1 Fire Museum", x:394, y:166},
   {g:"civic", n:"Peterborough Post Office", x:256, y:421},
   {g:"civic", n:"Bar Harbor Bank & Trust", x:482, y:316, tree:true},
-  {g:"civic", n:"Peterborough Fire & Rescue", x:382, y:125, tree:true},
-  {g:"civic", n:"Community notice board", x:395, y:422}
+  {g:"civic", n:"Peterborough Fire & Rescue", x:382, y:125, tree:true}
 ];
 
 const LOTS = [[381,357],[451,423],[383,440],[397,433],[360,221],[283,245],[408,102],[375,582],
@@ -819,8 +820,10 @@ const STROLL = [
   {n:6, name:"Unitarian Universalist Church", short:"", addr:"25 Main Street",
    santa:"11:45", x:382, y:272, lx:370, ly:276, anchor:"end",
    blurb:"Free children’s paint party, cookie walk, balsam wreaths and holiday gifts; music and carolers all day"},
-  {n:7, name:"Divine Mercy Church", short:"Divine Mercy", addr:"12 Church Street, off Route 101",
-   santa:"12:30",
+  /* Church Street is not in OpenStreetMap, so stop 7 is placed from a map
+     screenshot: south side of Wilton Road (Route 101), east of downtown. */
+  {n:7, name:"Divine Mercy Church", short:"Divine Mercy", addr:"12 Church Street, off Wilton Road",
+   santa:"12:30", x:430, y:1430, lx:448, ly:1435, anchor:"start",
    blurb:"All-day café with scones, soups, sandwiches and quiche; cookies, handcrafted gifts, raffle baskets and advent candles"}
 ];
 
@@ -839,7 +842,7 @@ const EVENTS = [
     desc:"Festivities, food, fellowship and fun, hosted together by churches across Peterborough. Santa visits each location at the times below, and every stop flies red, green and white balloons. Free parking in the lot across from All Saints’ Church.",
     list: STROLL.map(s => s.n + ". " + s.name + " · " + s.addr
             + (s.santa ? " · Santa at " + s.santa : "") + " — " + s.blurb),
-    note:"Five of the seven are on the downtown map — open the map and pick “Holiday Stroll stops” to see just those. Questions, or want to take part next year? Call 603-563-8067, or write to:",
+    note:"Six of the seven are on the map — open it and pick “Holiday Stroll stops” to see just those. Questions, or want to take part next year? Call 603-563-8067, or write to:",
     email:"peterboroughholidaystroll@gmail.com",
     links:[{label:"Holiday Stroll on Facebook", href:"https://www.facebook.com/peterboroughholidaystroll/"}],
     flyer:{src:"stroll-flyer.jpg", alt:"Peterborough Holiday Stroll flyer — 32nd annual, Saturday November 21st, 9 AM to 2 PM. Carries a participant map and all seven locations with what each church is offering and when Santa visits."}
@@ -1275,12 +1278,12 @@ function buildMap(){
     + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="'+r1(13)+'"></circle>'
     + '<title>'+esc(p.n)+(p.tree ? " · Giving Tree host" : "")+'</title></g>').join("");
 
-  const stops = (detail && layerState.on.has("stroll")) ? STROLL.filter(s => s.x != null).map(s => {
+  const stops = layerState.on.has("stroll") ? STROLL.filter(s => s.x != null && show(s.x, s.y)).map(s => {
     const label = s.n + ". " + s.name + (s.santa ? " · Santa at " + s.santa : "");
     return '<g class="stop'+(activePoi==="stop"+s.n?" sel":"")+'" data-poi="stop'+s.n+'" data-label="'+esc(label)+'" data-group="stroll" role="button" tabindex="0">'
       + '<circle cx="'+s.x+'" cy="'+s.y+'" r="'+r1(10)+'"></circle>'
       + '<text class="num" x="'+s.x+'" y="'+(s.y+r1(3.9))+'" text-anchor="middle">'+s.n+'</text>'
-      + (s.short && detail ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
+      + (s.short ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
       + '<title>'+esc(label)+'</title></g>';
   }).join("") : "";
 
@@ -1319,7 +1322,7 @@ function buildMap(){
 }
 
 /* ---- zoom and pan ---- */
-const MIN_W = 170, MAX_W = 5200;
+const MIN_W = 170, MAX_W = 6200;
 
 function applyView(){
   const svg = mapBox.querySelector("svg");
@@ -1359,7 +1362,7 @@ document.getElementById("zin").addEventListener("click", () => zoomCentre(1/1.7)
 document.getElementById("zout").addEventListener("click", () => zoomCentre(1.7));
 document.getElementById("zhome").addEventListener("click", goHome);
 /* Frames downtown together with Brady's, ConVal and MAxT up the Hancock Road. */
-document.getElementById("ztown").addEventListener("click", () => focusOn(950, -1750, 4760));
+document.getElementById("ztown").addEventListener("click", () => focusOn(950, -1335, 6150));
 
 /* Ctrl/Cmd + wheel zooms; a plain wheel still scrolls the page past the map. */
 mapBox.addEventListener("wheel", e => {
