@@ -1585,45 +1585,98 @@ const shopSearch = document.getElementById("shop-search");
 
 let DB = null, shops = [], shopsLoaded = false, canWrite = null, editingId = null, slowTimer = null;
 
+/* ---- the directory is seeded from the map ----
+   Every business already pinned on the map appears here, so the tab is
+   complete before anyone types anything. A saved entry with the same id adds
+   the hours and the offer on top. */
+const DIR_CAT   = {food:"Eat & drink", shop:"Shop", culture:"Arts & makers", civic:"Services"};
+const DIR_EXTRA = ["The Blue Fern Gallery","Bar Harbor Bank & Trust","Performance Health & Fitness"];
+const SHOP_ADDR = {
+  "Steele’s Stationers":"40 Main Street",
+  "The Blue Fern Gallery":"40B Main Street",
+  "Harlow’s Pub":"3 School Street",
+  "Coopershill Pub":"School Street",
+  "Sweet Macarons":"28 Grove Street",
+  "Roy’s Market":"Depot Street, at Main",
+  "Brady’s American Grill":"225 Concord Street",
+  "Dollar General":"Monadnock Community Plaza, 1 Jaffrey Road",
+  "Performance Health & Fitness":"301 Jaffrey Road",
+  "The Toadstool Bookshop":"Depot Square",
+  "Aesop’s Tables":"Depot Square",
+  "European Esthetics":"Depot Square"
+};
+function slug(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+
+const BASE_SHOPS = POIS
+  .filter(p => p.g === "food" || p.g === "shop" || DIR_EXTRA.indexOf(p.n) !== -1)
+  .map(p => ({id:slug(p.n), name:p.n, category:DIR_CAT[p.g] || "Other",
+              address:SHOP_ADDR[p.n] || "", link:p.url || "", tree:!!p.tree,
+              x:p.x, y:p.y}))
+  .concat([
+    {id:slug(VENUES.diner.name), name:VENUES.diner.name, category:"Eat & drink",
+     address:VENUES.diner.sub, link:"https://www.facebook.com/PeterboroughDiner",
+     x:VENUES.diner.x, y:VENUES.diner.y},
+    {id:slug(VENUES.maxt.name), name:VENUES.maxt.name, category:"Arts & makers",
+     address:VENUES.maxt.sub, link:"https://maxtmakerspace.org/",
+     x:VENUES.maxt.x, y:VENUES.maxt.y}
+  ]);
+
+/* Saved entries win on any field they fill in. */
+function mergeShops(){
+  const by = {};
+  BASE_SHOPS.forEach(b => { by[b.id] = Object.assign({}, b); });
+  shops.forEach(s => {
+    const base = by[s.id] || {};
+    const merged = Object.assign({}, base);
+    Object.keys(s).forEach(k => { if(s[k] !== "" && s[k] != null) merged[k] = s[k]; });
+    by[s.id] = merged;
+  });
+  return Object.values(by).sort((a,b) => String(a.name||"").localeCompare(String(b.name||"")));
+}
+
 function shopCard(s){
   const rows = [];
   if(s.promo) rows.push('<div class="promo"><dt>Holiday offer</dt><dd>'+esc(s.promo)+'</dd></div>');
   if(s.hours) rows.push('<div><dt>Holiday hours</dt><dd>'+esc(s.hours)+'</dd></div>');
   if(s.address) rows.push('<div><dt>Where</dt><dd>'+esc(s.address)+'</dd></div>');
   const link = s.link ? '<a class="ilink" href="'+esc(s.link)+'" target="_blank" rel="noopener">Website ↗</a>' : "";
+  const jump = (s.x != null)
+    ? '<button type="button" class="ilink shopjump" data-x="'+s.x+'" data-y="'+s.y+'">On the map</button>' : "";
+  const tree = s.tree ? '<span class="ilink" style="border-color:var(--c-giving);color:var(--c-giving)">Giving Tree</span>' : "";
   const controls = canWrite === false ? "" :
     '<div class="srow"><button type="button" class="edit" data-id="'+esc(s.id)+'">Edit</button>'
     + '<button type="button" class="del" data-id="'+esc(s.id)+'">Remove</button></div>';
   return '<article class="shop">'
     + '<div><p class="scat">'+esc(s.category || "Business")+'</p><h4>'+esc(s.name)+'</h4></div>'
     + (rows.length ? '<dl>'+rows.join("")+'</dl>' : '<p class="where" style="font-size:13.5px;color:var(--ink-3)">No hours or offer listed yet.</p>')
-    + (link ? '<p class="links">'+link+'</p>' : "")
+    + ((jump || link || tree) ? '<p class="links">'+jump+link+tree+'</p>' : "")
     + controls + '</article>';
 }
 
+let merged = [];
 function renderShops(){
   if(!shopsLoaded) return;
+  merged = mergeShops();
   const q = shopSearch.value.trim().toLowerCase();
-  const list = shops
-    .filter(s => !q || [s.name, s.category, s.promo, s.hours, s.address].join(" ").toLowerCase().includes(q))
-    .sort((a,b) => String(a.name||"").localeCompare(String(b.name||"")));
-  if(!list.length){
-    shopGrid.innerHTML = '<div class="empty" style="grid-column:1/-1">'
-      + '<strong>' + (shops.length ? "No shops match that search" : "No businesses listed yet") + '</strong>'
-      + (shops.length ? "Clear the search to see the whole list."
-        : (canWrite === false
-            ? "Whoever runs this page adds shops, their holiday hours and their offers here."
-            : "Use &ldquo;Add a business&rdquo; to list a shop with its holiday hours and offer. Entries save for everyone who opens this page."))
-      + '</div>';
-    return;
-  }
-  shopGrid.innerHTML = list.map(shopCard).join("");
+  const list = merged.filter(s => !q ||
+    [s.name, s.category, s.promo, s.hours, s.address].join(" ").toLowerCase().includes(q));
+
+  const filled = merged.filter(s => s.promo || s.hours).length;
+  shopStatus.className = "status";
+  shopStatus.textContent = merged.length + " businesses from the map, "
+    + filled + " with holiday hours or an offer so far."
+    + (canWrite === false ? " This is a published snapshot, so it can’t be edited here." : "");
+
+  shopGrid.innerHTML = list.length
+    ? list.map(shopCard).join("")
+    : '<div class="empty" style="grid-column:1/-1"><strong>Nothing matches that search</strong>'
+      + 'Clear it to see the whole directory.</div>';
 }
 
 function closeEditor(){ editingId = null; shopEditor.hidden = true; shopEditor.innerHTML = ""; addBtn.hidden = (canWrite === false); }
 
 function openEditor(id){
-  const s = id ? shops.find(x => x.id === id) : null;
+  const s = id ? merged.find(x => x.id === id) : null;
   editingId = id || null;
   addBtn.hidden = true;
   shopEditor.hidden = false;
@@ -1714,12 +1767,9 @@ addBtn.addEventListener("click", () => openEditor(null));
         + " listed. This is a published snapshot, so it can’t be edited here.";
       renderShops();
     }catch(e){
+      /* No snapshot: still show the directory the map provides. */
       canWrite = false; shopsLoaded = true;
-      shopStatus.className = "status";
-      shopStatus.textContent = "";
-      shopGrid.innerHTML = '<div class="empty" style="grid-column:1/-1">'
-        + '<strong>Shop list unavailable here</strong>'
-        + 'Holiday hours and offers are kept on the live version of this page.</div>';
+      renderShops();
     }
     return;
   }
@@ -1749,9 +1799,9 @@ addBtn.addEventListener("click", () => openEditor(null));
   }, err => {
     if(slowTimer){ clearTimeout(slowTimer); slowTimer = null; }
     shopsLoaded = true;
-    shopStatus.className = "status warn";
-    shopStatus.textContent = "The saved shop list can't be reached right now.";
     renderShops();
+    shopStatus.className = "status warn";
+    shopStatus.textContent = "Showing the map's businesses — saved hours and offers can’t be reached right now.";
   });
 })();
 
@@ -1786,6 +1836,17 @@ document.addEventListener("click", e => {
   if(e.target === lb || e.target.closest(".lbclose")){ closeLb(); return; }
   const jump = e.target.closest("button.mapjump");
   if(jump){ jumpToMap(jump.dataset.ev); return; }
+  const sj = e.target.closest("button.shopjump");
+  if(sj){
+    show("map", true);
+    if(SOLO_LAYERS.some(l => layerState.on.has(l))){
+      layerState.on = new Set(DEFAULT_LAYERS); renderLayers();
+    }
+    activeVenue = null;
+    focusOn(+sj.dataset.x, +sj.dataset.y, HOME.w);
+    document.getElementById("panel-map").scrollIntoView({block:"start", behavior:"smooth"});
+    return;
+  }
   const cp = e.target.closest("button.copy");
   if(cp){
     const label = cp.textContent;
