@@ -25,9 +25,17 @@ x = (lon + 71.9540) * 88014
 y = (42.8800 - lat) * 120000
 ```
 
-One unit is about 0.93 m, so the drawing is to scale and carries a 100 m scale
-bar. Six venue pins, two highlighted event routes, and 25 points of interest in
-five toggleable layers.
+One unit is about 0.93 m, so the drawing is to scale and carries a scale bar
+that steps up as you zoom out. Eight venue pins, two highlighted event routes,
+and 28 points of interest across seven toggleable layers — two of which
+(Holiday Stroll stops, Giving Trees) solo themselves and hide the rest.
+
+It pans by dragging and zooms with the `+` / `−` buttons or ctrl-wheel. The
+house button returns to downtown; **ALL** frames the whole town, out to ConVal
+and MAxT on the Hancock Road. Downtown detail — minor streets, street labels,
+parking, and the downtown markers — drops away past 2.2× so the wide view stays
+readable. The out-of-town road network is a separate, harder-thinned set
+(`HIGHWAYS`) drawn at every zoom.
 
 **Shops & offers** — holiday hours and promotions. See *Where the shop data
 lives* below.

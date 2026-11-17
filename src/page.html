@@ -339,11 +339,24 @@ section[role="tabpanel"]{animation:fade .25s ease both}
    page sideways instead of scrolling inside its own box. */
 .maplayout > *{min-width:0}
 @media (min-width:900px){.maplayout{grid-template-columns:1.45fr 1fr;align-items:start}}
+.mapwrap{position:relative}
 .mapbox{
   background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
-  padding:8px;overflow-x:auto;
+  padding:8px;overflow:hidden;touch-action:none;
 }
-.mapbox svg{display:block;width:100%;min-width:430px;max-width:100%;height:auto}
+.mapbox svg{display:block;width:100%;max-width:100%;height:auto;cursor:grab}
+.mapbox svg.dragging{cursor:grabbing}
+.mapzoom{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;gap:5px;z-index:2}
+.mapzoom button{
+  width:34px;height:34px;border-radius:9px;cursor:pointer;
+  border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  font-size:17px;font-weight:700;line-height:1;display:grid;place-items:center;
+  box-shadow:0 1px 5px var(--shade);
+}
+.mapzoom button.wide{font-size:9px;letter-spacing:.06em}
+.mapzoom button:hover{border-color:var(--ink-3)}
+.hwy{stroke:var(--line);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.hwyfill{stroke:var(--paper);fill:none;stroke-linecap:round;stroke-linejoin:round}
 .maplayers{margin-bottom:10px}
 .mapnote{
   margin-top:10px;font-size:13px;color:var(--ink-2);min-height:20px;
@@ -366,37 +379,40 @@ section[role="tabpanel"]{animation:fade .25s ease both}
 .route{fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
 .routehit{fill:none;stroke:transparent;stroke-width:22;cursor:pointer}
 .routehit:hover + .route, .route.on{opacity:1}
+/* --k is the zoom factor: text and marker strokes are multiplied by it so they
+   stay the same size on screen however far the map is zoomed out. */
 .slabel{
-  font-family:var(--body);font-size:10px;font-weight:700;letter-spacing:.13em;
-  fill:var(--ink-3);paint-order:stroke;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round;
+  font-family:var(--body);font-weight:700;letter-spacing:.13em;fill:var(--ink-3);
+  font-size:calc(10px * var(--k,1));
+  paint-order:stroke;stroke:var(--paper);stroke-width:calc(3.5px * var(--k,1));stroke-linejoin:round;
 }
 .wlabel{fill:var(--c-music);fill-opacity:.85}
 .lot,.poi{cursor:pointer}
-.lot rect{fill:var(--c-music);fill-opacity:.16;stroke:var(--c-music);stroke-opacity:.5;stroke-width:1}
-.lot text{font-family:var(--body);font-size:9px;font-weight:700;fill:var(--c-music)}
+.lot rect{fill:var(--c-music);fill-opacity:.16;stroke:var(--c-music);stroke-opacity:.5;stroke-width:calc(1px * var(--k,1))}
+.lot text{font-family:var(--body);font-weight:700;fill:var(--c-music);font-size:calc(9px * var(--k,1))}
 .lot:hover rect,.lot.sel rect{fill-opacity:.4}
-.poi .tree{fill:none;stroke:var(--c-giving);stroke-width:2;opacity:.85}
-.poi .d{fill:var(--paper);stroke:var(--pc);stroke-width:2.6}
+.poi .tree{fill:none;stroke:var(--c-giving);stroke-width:calc(2px * var(--k,1));opacity:.85}
+.poi .d{fill:var(--paper);stroke:var(--pc);stroke-width:calc(2.6px * var(--k,1))}
 .poi:hover .d,.poi.sel .d{fill:var(--pc)}
 .hit{fill:transparent;stroke:none}
 .stop{cursor:pointer}
-.stop circle{fill:var(--cranberry);stroke:var(--paper);stroke-width:2}
-.stop:hover circle,.stop.sel circle{stroke:var(--ink);stroke-width:2.5}
-.stop .num{font-family:var(--body);font-size:11.5px;font-weight:800;fill:var(--paper)}
+.stop circle{fill:var(--cranberry);stroke:var(--paper);stroke-width:calc(2px * var(--k,1))}
+.stop:hover circle,.stop.sel circle{stroke:var(--ink);stroke-width:calc(2.5px * var(--k,1))}
+.stop .num{font-family:var(--body);font-weight:800;fill:var(--paper);font-size:calc(11.5px * var(--k,1))}
 .stop .cap{
-  font-family:var(--body);font-size:11.5px;font-weight:700;fill:var(--ink);
-  paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round;
+  font-family:var(--body);font-weight:700;fill:var(--ink);font-size:calc(11.5px * var(--k,1));
+  paint-order:stroke;stroke:var(--paper);stroke-width:calc(4px * var(--k,1));stroke-linejoin:round;
 }
 .pin{cursor:pointer}
-.pin .body{fill:var(--c);stroke:var(--paper);stroke-width:1.5}
+.pin .body{fill:var(--c);stroke:var(--paper);stroke-width:calc(1.5px * var(--k,1))}
 .pin .head{fill:var(--paper)}
-.pin.on .body{stroke:var(--ink);stroke-width:2}
+.pin.on .body{stroke:var(--ink);stroke-width:calc(2px * var(--k,1))}
 .pin text{
-  font-family:var(--body);font-size:12.5px;font-weight:700;fill:var(--ink);
-  paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round;
+  font-family:var(--body);font-weight:700;fill:var(--ink);font-size:calc(12.5px * var(--k,1));
+  paint-order:stroke;stroke:var(--paper);stroke-width:calc(4px * var(--k,1));stroke-linejoin:round;
 }
-.scalebar{stroke:var(--ink-3);stroke-width:1.4}
-.scaletext{font-family:var(--body);font-size:9.5px;font-weight:700;fill:var(--ink-3);letter-spacing:.08em}
+.scalebar{stroke:var(--ink-3);stroke-width:calc(1.4px * var(--k,1))}
+.scaletext{font-family:var(--body);font-weight:700;fill:var(--ink-3);letter-spacing:.08em;font-size:calc(9.5px * var(--k,1))}
 .venuelist{display:grid;gap:10px}
 .venue{
   width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);
@@ -551,7 +567,15 @@ footer p + p{margin-top:7px}
     <div class="maplayout">
       <div>
         <div class="chips maplayers" id="maplayers"></div>
-        <div class="mapbox" id="mapbox"></div>
+        <div class="mapwrap">
+          <div class="mapbox" id="mapbox"></div>
+          <div class="mapzoom">
+            <button type="button" id="zin" aria-label="Zoom in">+</button>
+            <button type="button" id="zout" aria-label="Zoom out">&minus;</button>
+            <button type="button" id="zhome" aria-label="Back to downtown" title="Back to downtown">&#8962;</button>
+            <button type="button" class="wide" id="ztown" aria-label="Show the whole town">ALL</button>
+          </div>
+        </div>
         <p class="mapnote" id="mapnote"></p>
         <p class="maplegend">
           <span style="color:var(--cranberry)">&ndash; &ndash; Lantern Parade route, up Grove Street</span>
@@ -562,7 +586,7 @@ footer p + p{margin-top:7px}
       <div>
         <div class="venuelist" id="venuelist"></div>
         <div class="offmap">
-          <h3>Beyond downtown</h3>
+          <h3>Elsewhere in town</h3>
           <div class="venuelist" id="offmaplist"></div>
         </div>
       </div>
@@ -614,7 +638,10 @@ const CATS = {
    Geometry traced from OpenStreetMap (ODbL), projected equirectangular about
    42.877 N: x = (lon + 71.9540) * 88014, y = (42.8800 - lat) * 120000.
    One unit is about 0.93 m, so the drawing is to scale. */
-const MAP_VIEW = "40 -110 700 750";
+/* HOME is the downtown view. Zooming and panning move `view`; HOME resets it. */
+const HOME = {x:40, y:-110, w:700, h:750};
+const ASPECT = HOME.h / HOME.w;
+const view = {x:HOME.x, y:HOME.y, w:HOME.w, h:HOME.h};
 
 const VENUES = {
   putnam:   {name:"Putnam Park", short:"Putnam Park", sub:"Grove Street",
@@ -628,7 +655,11 @@ const VENUES = {
   diner:    {name:"Peterborough Diner", short:"The Diner", sub:"10 Depot Street",
              x:427, y:376, lx:441, ly:372, anchor:"start"},
   tria:     {name:"Tria Yoga", short:"Tria Yoga", sub:"36 Grove Street",
-             x:279, y:524, lx:294, ly:541, anchor:"start"},
+             x:285, y:462, lx:300, ly:457, anchor:"start"},
+  conval:   {name:"ConVal Regional High School", short:"ConVal", sub:"184 Hancock Road",
+             x:1039, y:-3774, lx:1060, ly:-3770, anchor:"start"},
+  maxt:     {name:"MAxT Makerspace", short:"MAxT", sub:"49 Vose Farm Road",
+             x:1832, y:-4078, lx:1853, ly:-4074, anchor:"start"},
   mainst:   {name:"Shops on Main, Depot & School Streets",
              sub:"Main between Grove and Pine, plus Depot and School",
              rc:"var(--c-shop)", w:9,
@@ -672,6 +703,31 @@ const ROADS = [
   ["Veteran's Way",0,"M465 352L468 311L469 304"]
 ];
 
+/* The main roads out of town, so zooming out shows real geography rather than
+   empty canvas. Same projection; thinned harder because they are only ever
+   drawn small. [class, path] */
+const HIGHWAYS = [
+  ["primary","M534 300L543 254L549 231L564 181L587 102L611 25L617 5L630 -38L643 -82L665 -150L672 -173L678 -196L683 -229L684 -262L683 -295L678 -391L672 -487L671 -512L672 -545L675 -567L678 -593L683 -620L689 -663L691 -691L692 -720L692 -742"],
+  ["primary","M692 -742L692 -770L689 -883L689 -935L691 -968L700 -1018L710 -1051L723 -1082L738 -1112L762 -1157L780 -1189L831 -1280L854 -1322L869 -1347L880 -1369L888 -1386L904 -1417L921 -1459"],
+  ["primary","M921 -1459L929 -1479L936 -1499L947 -1532L953 -1557"],
+  ["primary","M953 -1557L960 -1590L965 -1623L971 -1665L972 -1691L973 -1716L972 -1903L973 -1928L975 -1953L980 -1987L986 -2012L995 -2044L1004 -2068L1019 -2099L1034 -2120L1048 -2137L1062 -2151L1076 -2162L1113 -2184L1136 -2195L1200 -2218L1231 -2231L1260 -2247L1286 -2266L1307 -2282L1323 -2297"],
+  ["primary","M1323 -2297L1329 -2303L1343 -2317L1359 -2336L1367 -2347"],
+  ["primary","M1367 -2347L1381 -2371L1393 -2396L1411 -2446L1440 -2524L1466 -2592L1484 -2638L1496 -2675L1508 -2711L1513 -2731L1519 -2764L1522 -2789L1523 -2814L1523 -2844L1521 -2878L1516 -2920L1509 -2971L1505 -3001L1494 -3067L1488 -3108L1484 -3141"],
+  ["primary","M1484 -3141L1468 -3247L1436 -3466L1431 -3504L1415 -3607L1411 -3629L1398 -3699L1377 -3800"],
+  ["primary","M1398 -3699L1403 -3727L1409 -3750L1417 -3778L1410 -3799L1377 -3800"],
+  ["primary","M1377 -3800L1368 -3839L1360 -3876L1351 -3914L1331 -4000L1322 -4042L1298 -4153L1284 -4227L1264 -4335L1250 -4413L1233 -4509"],
+  ["secondary","M1323 -2297L1350 -2285L1393 -2297L1423 -2307L1470 -2324L1532 -2345L1594 -2368L1622 -2380L1664 -2404L1690 -2419L1721 -2446L1749 -2472L1778 -2497L1795 -2516L1818 -2553L1857 -2629L1910 -2734L1944 -2807L1972 -2864L2022 -2976L2042 -3007L2065 -3041L2108 -3100L2152 -3152L2211 -3226L2287 -3324L2359 -3417L2398 -3471L2503 -3606L2549 -3667L2610 -3750L2746 -3934L2829 -4048L2869 -4089L2923 -4132"],
+  ["tertiary","M552 -1182L569 -1230L598 -1295L627 -1362L638 -1446L651 -1547L656 -1615L649 -1724L639 -1791L621 -1856L617 -1940L626 -2084L618 -2152L603 -2182L580 -2218L535 -2280L483 -2322L433 -2331L341 -2323L255 -2314L164 -2307L98 -2310L53 -2335"],
+  ["tertiary","M416 300L420 256L413 197L413 159L424 99L446 42L471 -16L496 -103L518 -186L538 -263L553 -314L551 -385L547 -470L544 -622L540 -798L538 -911L534 -1030L534 -1080L541 -1132L552 -1182"],
+  ["tertiary","M53 -2335L31 -2375L-88 -2577L-113 -2622L-135 -2683L-144 -2765L-152 -2817L-177 -2889L-189 -2939L-208 -3020L-235 -3103L-266 -3191L-277 -3258L-280 -3285L-271 -3373L-263 -3430L-256 -3525L-259 -3551L-312 -3686L-339 -3739L-397 -3800L-450 -3841L-520 -3888L-569 -3935L-602 -3973L-648 -4033L-667 -4096L-676 -4172L-690 -4271L-713 -4328L-741 -4384L-757 -4435L-776 -4536L-797 -4618L-840 -4727L-877 -4776L-916 -4833L-925 -4919L-928 -5072L-942 -5155L-980 -5212L-1013 -5250L-1062 -5297L-1107 -5320L-1161 -5341"],
+  ["trunk","M-613 593L-532 623L-463 655L-405 688L-321 745L-90 911L-40 947L60 1018L152 1085"],
+  ["primary","M524 504L538 469L551 416L553 380L541 321L534 300"],
+  ["primary","M524 504L504 552L489 600L485 653L482 788L477 895L470 974L459 1094L460 1350"],
+  ["tertiary","M735 1767L738 1700L728 1599L716 1535L690 1400L666 1283L651 1187L636 1076L623 924L617 853L596 771L576 702L542 606L526 512L524 504"],
+  ["secondary","M236 1107L257 1069L320 951L330 894L324 791L291 634L273 552L260 485L261 478"],
+  ["tertiary","M11 128L-18 98L-60 67L-303 -75L-414 -141L-477 -167L-574 -196L-601 -204"]
+];
+
 const WATER = [
   ["M-72 110L-59 131L-42 162L-31 181L20 240L40 247L52 285L70 345L76 355L93 360L114 368L148 384L181 406L247 459L269 474L299 490L352 506L396 526L422 531L453 542", 7],
   ["M401 771L413 710L430 621L439 587L453 542L490 479L503 445L513 391L509 331L506 321L499 308L492 296L487 281L471 226L462 212L452 201L440 168L435 143L438 110L449 73L462 45L481 13L501 -18L573 -121", 11]
@@ -708,6 +764,7 @@ const POIGROUPS = {
 const POIS = [
   {g:"food", n:"Aesop’s Tables", x:416, y:426, tree:true},
   {g:"food", n:"Sweet Macarons", x:294, y:415, url:"https://sweetmacaronnh.com/"},
+  {g:"food", n:"Brady’s American Grill", x:923, y:-1339, tree:true, url:"https://bradysgrill.com/"},
   {g:"food", n:"Twelve Pine", x:375, y:446},
   {g:"food", n:"Waterhouse", x:331, y:485},
   {g:"food", n:"Baker’s Station", x:348, y:487},
@@ -768,13 +825,9 @@ const STROLL = [
 ];
 
 const OFFMAP = [
-  {name:"ConVal High School", sub:"Hancock Rd, north of downtown", map:true, ids:["craftfair"]},
-  {name:"Rosaly’s Farmstand", sub:"Three Sunday classes, 11 AM", map:true, ids:["centerpiece","wreath-nov29","wreath-dec6"]},
-  {name:"MAxT Makerspace", sub:"Open house, and host of the Night Market", map:true, ids:["maxt-openhouse"]},
+  {name:"Rosaly’s Farmstand", sub:"Route 123, south-east of town — three Sunday classes", map:true, ids:["centerpiece","wreath-nov29","wreath-dec6"]},
   {name:"Stroll stops off this map", sub:"Latter-day Saints on Old Bennington Rd; Divine Mercy on Church St", ids:["stroll"]},
-  {name:"Brady’s American Grill", sub:"225 Concord Street — restaurant and Giving Tree host",
-   map:true, link:"https://bradysgrill.com/", ids:["givingtrees"]},
-  {name:"Giving Tree locations", sub:"Eight hosts — four of them are on the map under Giving Trees", ids:["givingtrees"]}
+  {name:"Giving Tree locations", sub:"Eight hosts — five of them are on the map under Giving Trees", ids:["givingtrees"]}
 ];
 
 const EVENTS = [
@@ -1181,9 +1234,21 @@ function venueColor(key, fallback){
 }
 
 function buildMap(){
-  const roads =
+  const k = view.w / HOME.w;              /* 1 at the downtown view, larger zoomed out */
+  const r1 = n => +(n * k).toFixed(2);    /* keep markers a constant size on screen */
+  const detail = k <= 2.2;                /* downtown streets and labels at close zoom */
+  /* Zoomed out, the downtown markers collapse into an unreadable blob, so only
+     the out-of-town ones stay drawn and labelled. */
+  const nearHome = (x,y) => x > HOME.x && x < HOME.x+HOME.w && y > HOME.y && y < HOME.y+HOME.h;
+  const show = (x,y) => detail || !nearHome(x,y);
+
+  const hwy =
+      HIGHWAYS.map(h => '<path class="hwy" stroke-width="'+r1(h[0]==="trunk"?9:h[0]==="primary"?8:6)+'" d="'+h[1]+'"></path>').join("")
+    + HIGHWAYS.map(h => '<path class="hwyfill" stroke-width="'+r1(h[0]==="trunk"?6:h[0]==="primary"?5:3.5)+'" d="'+h[1]+'"></path>').join("");
+
+  const roads = detail ? (
       ROADS.map(r => '<path class="casing" stroke-width="'+(r[1]?17:12)+'" d="'+r[2]+'"></path>').join("")
-    + ROADS.map(r => '<path class="tarmac" stroke-width="'+(r[1]?12.5:8)+'" d="'+r[2]+'"></path>').join("");
+    + ROADS.map(r => '<path class="tarmac" stroke-width="'+(r[1]?12.5:8)+'" d="'+r[2]+'"></path>').join("")) : "";
   const water  = WATER.map(w => '<path class="water" stroke-width="'+w[1]+'" d="'+w[0]+'"></path>').join("");
   const greens = GREENS.map(d => '<path class="greens" d="'+d+'"></path>').join("");
 
@@ -1192,67 +1257,152 @@ function buildMap(){
     + '<path class="route'+(key===activeVenue?" on":"")+'" d="'+v.route+'" stroke="'+v.rc+'" stroke-width="'+v.w+'"'
     + (v.dash ? ' stroke-dasharray="'+v.dash+'"' : "") + '></path>').join("");
 
-  const lots = layerState.on.has("parking") ? LOTGROUPS.map((g,i) => {
+  const lots = (detail && layerState.on.has("parking")) ? LOTGROUPS.map((g,i) => {
     const label = g.n > 1 ? g.n+" parking lots" : "Parking";
     return '<g class="lot'+(activePoi==="lot"+i?" sel":"")+'" data-poi="lot'+i+'" data-label="'+label+'" data-group="parking" role="button" tabindex="0">'
-      + '<rect x="'+(g.x-7)+'" y="'+(g.y-7)+'" width="14" height="14" rx="3"></rect>'
-      + '<text x="'+g.x+'" y="'+(g.y+3.4)+'" text-anchor="middle">P</text>'
+      + '<rect x="'+(g.x-r1(7))+'" y="'+(g.y-r1(7))+'" width="'+r1(14)+'" height="'+r1(14)+'" rx="'+r1(3)+'"></rect>'
+      + '<text x="'+g.x+'" y="'+(g.y+r1(3.4))+'" text-anchor="middle">P</text>'
       + '<title>'+label+'</title></g>';
   }).join("") : "";
 
   const showTrees = layerState.on.has("giving");
-  const pois = POIS.filter(p => layerState.on.has(p.g) || (p.tree && showTrees)).map(p =>
+  const pois = POIS.filter(p => (layerState.on.has(p.g) || (p.tree && showTrees)) && show(p.x, p.y)).map(p =>
       '<g class="poi'+(activePoi==="poi"+p.n?" sel":"")+'" data-poi="poi'+esc(p.n)+'" data-label="'+esc(p.n)+'"'
     + ' data-group="'+p.g+'"'+(p.url ? ' data-url="'+esc(p.url)+'"' : "")+(p.tree ? ' data-tree="1"' : "")
     + ' style="--pc:'+POIGROUPS[p.g].c+'" role="button" tabindex="0">'
-    + (p.tree && showTrees ? '<circle class="tree" cx="'+p.x+'" cy="'+p.y+'" r="9.5"></circle>' : "")
-    + '<circle class="d" cx="'+p.x+'" cy="'+p.y+'" r="5.2"></circle>'
-    + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="13"></circle>'
+    + (p.tree && showTrees ? '<circle class="tree" cx="'+p.x+'" cy="'+p.y+'" r="'+r1(9.5)+'"></circle>' : "")
+    + '<circle class="d" cx="'+p.x+'" cy="'+p.y+'" r="'+r1(5.2)+'"></circle>'
+    + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="'+r1(13)+'"></circle>'
     + '<title>'+esc(p.n)+(p.tree ? " · Giving Tree host" : "")+'</title></g>').join("");
 
-  const stops = layerState.on.has("stroll") ? STROLL.filter(s => s.x != null).map(s => {
+  const stops = (detail && layerState.on.has("stroll")) ? STROLL.filter(s => s.x != null).map(s => {
     const label = s.n + ". " + s.name + (s.santa ? " · Santa at " + s.santa : "");
     return '<g class="stop'+(activePoi==="stop"+s.n?" sel":"")+'" data-poi="stop'+s.n+'" data-label="'+esc(label)+'" data-group="stroll" role="button" tabindex="0">'
-      + '<circle cx="'+s.x+'" cy="'+s.y+'" r="10"></circle>'
-      + '<text class="num" x="'+s.x+'" y="'+(s.y+3.9)+'" text-anchor="middle">'+s.n+'</text>'
-      + (s.short ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
+      + '<circle cx="'+s.x+'" cy="'+s.y+'" r="'+r1(10)+'"></circle>'
+      + '<text class="num" x="'+s.x+'" y="'+(s.y+r1(3.9))+'" text-anchor="middle">'+s.n+'</text>'
+      + (s.short && detail ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
       + '<title>'+esc(label)+'</title></g>';
   }).join("") : "";
 
   const pins = Object.entries(VENUES).filter(e => !e[1].route).map(([key, v]) =>
       '<g class="pin'+(key===activeVenue?" on":"")+'" data-v="'+key+'" style="--c:'+venueColor(key,"var(--ink-3)")+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'">'
-    + '<circle class="hit" cx="'+v.x+'" cy="'+v.y+'" r="22"></circle>'
-    + '<path class="body" d="M'+v.x+' '+(v.y+4)+' l-8.5 -14 a10 10 0 1 1 17 0 Z"></path>'
-    + '<circle class="head" cx="'+v.x+'" cy="'+(v.y-14)+'" r="3.8"></circle>'
-    + '<text x="'+v.lx+'" y="'+v.ly+'" text-anchor="'+v.anchor+'">'+esc(v.short)+'</text>'
+    + '<circle class="hit" cx="'+v.x+'" cy="'+v.y+'" r="'+r1(22)+'"></circle>'
+    + '<path class="body" d="M'+v.x+' '+(v.y+r1(4))+' l'+r1(-8.5)+' '+r1(-14)+' a'+r1(10)+' '+r1(10)+' 0 1 1 '+r1(17)+' 0 Z"></path>'
+    + '<circle class="head" cx="'+v.x+'" cy="'+(v.y-r1(14))+'" r="'+r1(3.8)+'"></circle>'
+    + (show(v.x, v.y) ? '<text x="'+(v.x + (v.lx - v.x) * k)+'" y="'+(v.y + (v.ly - v.y) * k)+'" text-anchor="'+v.anchor+'">'+esc(v.short)+'</text>' : "")
     + '</g>').join("");
 
-  const labels =
+  const labels = detail ? (
       STREETLABELS.map(l => '<text class="slabel" transform="translate('+l[1]+','+l[2]+') rotate('+l[3]+')">'+l[0]+'</text>').join("")
-    + WATERLABELS.map(l => '<text class="slabel wlabel" transform="translate('+l[1]+','+l[2]+') rotate('+l[3]+')">'+l[0]+'</text>').join("");
+    + WATERLABELS.map(l => '<text class="slabel wlabel" transform="translate('+l[1]+','+l[2]+') rotate('+l[3]+')">'+l[0]+'</text>').join("")) : "";
 
+  /* 108 units is 100 m at this projection; step the bar up as we zoom out. */
+  const sb  = k <= 1.5 ? {u:108, t:"100 m"} : k <= 4 ? {u:539, t:"500 m"} : {u:1078, t:"1 km"};
+  const sbx = view.x + view.w * 0.05, sby = view.y + view.h * 0.965;
+  const nx  = view.x + view.w * 0.95, ny  = view.y + view.h * 0.93;
+
+  mapBox.style.setProperty("--k", k);
   mapBox.innerHTML =
-    '<svg viewBox="'+MAP_VIEW+'" role="img" aria-label="Map of downtown Peterborough, New Hampshire, showing holiday event locations">'
-    + '<rect class="ground" x="40" y="-110" width="700" height="750" rx="8"></rect>'
-    + water + greens + roads + routes + labels + lots + pois + stops + pins
-    /* 108 units is 100 metres at this projection */
-    + '<g transform="translate(560,614)">'
-    +   '<path class="scalebar" d="M0 0h108M0 -4v8M108 -4v8"></path>'
-    +   '<text class="scaletext" x="54" y="-9" text-anchor="middle">100 m</text>'
+    '<svg viewBox="'+view.x+' '+view.y+' '+view.w+' '+view.h+'" preserveAspectRatio="xMidYMid meet"'
+    + ' role="img" aria-label="Map of Peterborough, New Hampshire, showing holiday event locations">'
+    + '<rect class="ground" x="-1600" y="-5900" width="5200" height="8100"></rect>'
+    + water + greens + hwy + roads + routes + labels + lots + pois + stops + pins
+    + '<g transform="translate('+sbx+','+sby+')">'
+    +   '<path class="scalebar" d="M0 0h'+sb.u+'M0 '+r1(-4)+'v'+r1(8)+'M'+sb.u+' '+r1(-4)+'v'+r1(8)+'"></path>'
+    +   '<text class="scaletext" x="'+(sb.u/2)+'" y="'+r1(-9)+'" text-anchor="middle">'+sb.t+'</text>'
     + '</g>'
-    + '<g transform="translate(706,598)">'
-    +   '<path d="M0 -20 L6 7 L0 1 L-6 7 Z" fill="var(--ink-3)"></path>'
-    +   '<text class="scaletext" x="0" y="22" text-anchor="middle">N</text>'
+    + '<g transform="translate('+nx+','+ny+')">'
+    +   '<path d="M0 '+r1(-20)+' L'+r1(6)+' '+r1(7)+' L0 '+r1(1)+' L'+r1(-6)+' '+r1(7)+' Z" fill="var(--ink-3)"></path>'
+    +   '<text class="scaletext" x="0" y="'+r1(22)+'" text-anchor="middle">N</text>'
     + '</g>'
     + '</svg>';
 }
+
+/* ---- zoom and pan ---- */
+const MIN_W = 170, MAX_W = 5200;
+
+function applyView(){
+  const svg = mapBox.querySelector("svg");
+  if(svg) svg.setAttribute("viewBox", view.x+" "+view.y+" "+view.w+" "+view.h);
+}
+function zoomAbout(factor, cx, cy){
+  const nw = Math.min(Math.max(view.w * factor, MIN_W), MAX_W);
+  const f  = nw / view.w;
+  view.x = cx - (cx - view.x) * f;
+  view.y = cy - (cy - view.y) * f;
+  view.w = nw; view.h = nw * ASPECT;
+  buildMap();
+}
+function zoomCentre(factor){ zoomAbout(factor, view.x + view.w/2, view.y + view.h/2); }
+function goHome(){ view.x = HOME.x; view.y = HOME.y; view.w = HOME.w; view.h = HOME.h; buildMap(); }
+function focusOn(x, y, w){
+  view.w = Math.min(Math.max(w || 950, MIN_W), MAX_W);
+  view.h = view.w * ASPECT;
+  view.x = x - view.w/2;
+  view.y = y - view.h/2;
+  buildMap();
+}
+function inView(x, y){
+  return x > view.x && x < view.x + view.w && y > view.y && y < view.y + view.h;
+}
+/* Client coords -> map units, honouring the letterboxing of xMidYMid meet. */
+function mapPoint(e){
+  const svg = mapBox.querySelector("svg");
+  const r = svg.getBoundingClientRect();
+  const s = Math.min(r.width / view.w, r.height / view.h);
+  const ox = (r.width  - view.w * s) / 2;
+  const oy = (r.height - view.h * s) / 2;
+  return {x: view.x + (e.clientX - r.left - ox)/s, y: view.y + (e.clientY - r.top - oy)/s};
+}
+
+document.getElementById("zin").addEventListener("click", () => zoomCentre(1/1.7));
+document.getElementById("zout").addEventListener("click", () => zoomCentre(1.7));
+document.getElementById("zhome").addEventListener("click", goHome);
+/* Frames downtown together with Brady's, ConVal and MAxT up the Hancock Road. */
+document.getElementById("ztown").addEventListener("click", () => focusOn(950, -1750, 4760));
+
+/* Ctrl/Cmd + wheel zooms; a plain wheel still scrolls the page past the map. */
+mapBox.addEventListener("wheel", e => {
+  if(!(e.ctrlKey || e.metaKey)) return;
+  e.preventDefault();
+  const p = mapPoint(e);
+  zoomAbout(e.deltaY > 0 ? 1.2 : 1/1.2, p.x, p.y);
+}, {passive:false});
+
+let drag = null;
+mapBox.addEventListener("pointerdown", e => {
+  if(e.target.closest(".pin, .poi, .lot, .stop, .routehit")) return;
+  const svg = mapBox.querySelector("svg"); if(!svg) return;
+  const r = svg.getBoundingClientRect();
+  drag = {sx:e.clientX, sy:e.clientY, vx:view.x, vy:view.y,
+          s: Math.min(r.width/view.w, r.height/view.h), moved:false};
+  svg.classList.add("dragging");
+  try{ mapBox.setPointerCapture(e.pointerId); }catch(err){}
+});
+mapBox.addEventListener("pointermove", e => {
+  if(!drag) return;
+  const dx = (e.clientX - drag.sx)/drag.s, dy = (e.clientY - drag.sy)/drag.s;
+  if(Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+  view.x = drag.vx - dx; view.y = drag.vy - dy;
+  applyView();
+});
+function endDrag(){
+  if(!drag) return;
+  const svg = mapBox.querySelector("svg");
+  if(svg) svg.classList.remove("dragging");
+  const moved = drag.moved; drag = null;
+  if(moved) buildMap();
+}
+mapBox.addEventListener("pointerup", endDrag);
+mapBox.addEventListener("pointercancel", endDrag);
 
 function setNote(html, color){
   mapNote.innerHTML = html;
   mapNote.style.setProperty("--sw", color || "var(--ink-3)");
 }
 function clearNote(){
-  setNote('<span class="swatch"></span><span>Tap a pin, a dot or a <b>P</b> to identify it.</span>');
+  setNote('<span class="swatch"></span><span>Tap a pin, a dot or a <b>P</b> to identify it. '
+    + 'Drag to pan; <b>ALL</b> zooms out to ConVal, MAxT and Brady’s.</span>');
 }
 
 function renderLayers(){
@@ -1299,8 +1449,10 @@ function renderVenues(){
 
 function setVenue(key){
   activeVenue = key; activePoi = null;
-  buildMap(); renderVenues();
   const v = VENUES[key];
+  if(v.x != null && !inView(v.x, v.y)) focusOn(v.x, v.y, Math.max(view.w, 950));
+  else buildMap();
+  renderVenues();
   const evs = SORTED.filter(e => e.venue === key);
   setNote('<span class="swatch"></span><span><b>'+esc(v.name)+'</b> &middot; '+esc(v.sub)
     + (evs.length ? ' &middot; '+evs.length+' event'+(evs.length===1?"":"s")+' here' : "")+'</span>',
