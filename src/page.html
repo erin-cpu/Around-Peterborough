@@ -1,0 +1,1492 @@
+<title>Peterborough Holiday Happenings</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+/* Layout: sticky masthead + segmented view switcher; one column that opens to a two-column
+   card grid past 760px. Palette is snow-grey ground, spruce ink, cranberry accent, brass for lights. */
+:root{
+  --snow:#F2F5F3;
+  --paper:#FFFFFF;
+  --ink:#14302A;
+  --ink-2:#44605A;
+  --ink-3:#6D837E;
+  --line:#D8E0DC;
+  --line-2:#E8EDEA;
+  --spruce:#1B5541;
+  --cranberry:#A81F2B;
+  --brass:#8C5F19;
+  --shade:rgba(20,48,42,.07);
+
+  /* masthead + switcher band: one committed dark treatment in both themes */
+  --mast-bg:#102B22;
+  --mast-ink:#F1F5F1;
+  --mast-ink-2:#A6C2B2;
+  --mast-line:rgba(255,255,255,.17);
+  --mast-accent:#F0909A;
+
+  --c-market:#A81F2B;
+  --c-make:#B8541A;
+  --c-wellness:#5B4B8A;
+  --c-lights:#8C5F19;
+  --c-music:#2C5A89;
+  --c-family:#226B4E;
+  --c-shop:#6D3268;
+  --c-giving:#1C6668;
+
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  --r:10px;
+  --wrap:1120px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --snow:#0D1715;
+    --paper:#15211E;
+    --ink:#E3EDE7;
+    --ink-2:#A9BDB6;
+    --ink-3:#869A94;
+    --line:#2A3A36;
+    --line-2:#1F2D29;
+    --spruce:#6FC39B;
+    --cranberry:#EC8089;
+    --brass:#D8A54A;
+    --shade:rgba(0,0,0,.35);
+
+    --c-market:#EC8089;
+    --c-make:#F0A268;
+    --c-wellness:#B3A4E0;
+    --c-lights:#D8A54A;
+    --c-music:#82B6E0;
+    --c-family:#6FC39B;
+    --c-shop:#CB92C6;
+    --c-giving:#6AC3C4;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --snow:#0D1715;
+  --paper:#15211E;
+  --ink:#E3EDE7;
+  --ink-2:#A9BDB6;
+  --ink-3:#869A94;
+  --line:#2A3A36;
+  --line-2:#1F2D29;
+  --spruce:#6FC39B;
+  --cranberry:#EC8089;
+  --brass:#D8A54A;
+  --shade:rgba(0,0,0,.35);
+
+  --c-market:#EC8089;
+  --c-make:#F0A268;
+  --c-wellness:#B3A4E0;
+  --c-lights:#D8A54A;
+  --c-music:#82B6E0;
+  --c-family:#6FC39B;
+  --c-shop:#CB92C6;
+  --c-giving:#6AC3C4;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--snow);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);
+  z-index:40;background:var(--mast-bg);
+}
+.wrap{
+  max-width:var(--wrap);margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance;line-height:1.15}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cranberry);outline-offset:2px;border-radius:4px}
+
+/* ---------- masthead ---------- */
+.mast{background:var(--mast-bg);color:var(--mast-ink);position:relative;overflow:hidden}
+.mast::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(115% 85% at 80% -22%, rgba(216,165,74,.22), transparent 60%),
+    radial-gradient(95% 75% at 4% 118%, rgba(111,195,155,.15), transparent 58%);
+}
+.mast .wrap{position:relative;z-index:1;padding-block:34px 0}
+@media (min-width:760px){.mast .wrap{padding-block:56px 0}}
+.eyebrow{
+  font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mast-accent);
+}
+.mast h1{
+  font-size:clamp(38px,9vw,76px);line-height:1.02;letter-spacing:-.026em;
+  margin-top:12px;max-width:13ch;
+}
+.mast h1 em{font-style:italic;font-weight:400;color:var(--mast-ink-2);display:block}
+.mast .sub{
+  color:var(--mast-ink-2);font-size:clamp(15px,2.1vw,18.5px);line-height:1.5;
+  margin-top:18px;max-width:52ch;
+}
+.mast .facts{
+  display:flex;flex-wrap:wrap;margin-top:20px;
+  font-size:11.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--mast-ink);
+}
+.mast .facts span{padding-right:14px;margin-right:14px;border-right:1px solid var(--mast-line)}
+.mast .facts span:last-child{border-right:0;margin-right:0;padding-right:0}
+
+/* string of lights along the bottom of the masthead */
+.lights{display:block;width:100%;height:34px;margin-top:26px}
+.lights .wire{fill:none;stroke:var(--mast-line);stroke-width:1.5}
+.lights .bulb{animation:glow 4.5s ease-in-out infinite}
+.lights .bulb circle{filter:drop-shadow(0 0 3.5px currentColor)}
+@keyframes glow{0%,100%{opacity:.45}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.lights .bulb{animation:none;opacity:.92}}
+
+/* view switcher */
+nav.views{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:30;
+  background:var(--mast-bg);
+  box-shadow:0 1px 0 var(--mast-line), 0 10px 22px -16px rgba(0,0,0,.75);
+}
+nav.views .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:11px}
+nav.views .wrap::-webkit-scrollbar{display:none}
+.tab{
+  appearance:none;cursor:pointer;white-space:nowrap;
+  border:1px solid var(--mast-line);border-radius:999px;
+  background:rgba(255,255,255,.06);color:var(--mast-ink-2);
+  padding:9px 17px;font-size:13.5px;font-weight:700;letter-spacing:.02em;
+  transition:background .15s ease,color .15s ease;
+}
+.tab:hover{background:rgba(255,255,255,.15);color:var(--mast-ink)}
+.tab[aria-selected="true"]{
+  background:var(--mast-ink);color:var(--mast-bg);border-color:var(--mast-ink);
+  box-shadow:0 3px 12px -5px rgba(0,0,0,.6);
+}
+@media (prefers-reduced-motion:reduce){.tab{transition:none}}
+@media (min-width:640px){.tab{font-size:14.5px;padding:10px 20px}}
+
+main{padding-block:26px 56px}
+section[role="tabpanel"]{animation:fade .25s ease both}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){section[role="tabpanel"]{animation:none}}
+
+.sect-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:14px}
+.sect-head h2{font-size:22px}
+.sect-head .note{font-size:13px;color:var(--ink-3)}
+
+/* ---------- category chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.chip{
+  appearance:none;cursor:pointer;background:var(--paper);
+  border:1px solid var(--line);border-radius:999px;
+  padding:5px 12px 5px 9px;font-size:12.5px;font-weight:600;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.chip:hover{border-color:var(--ink-3)}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--cat,var(--ink-3));flex:none}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip.all[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* ---------- calendar ---------- */
+.months{display:grid;gap:22px;grid-template-columns:1fr}
+.months > *{min-width:0}
+@media (min-width:720px){.months{grid-template-columns:1fr 1fr}}
+.month{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 12px 12px}
+.month h3{font-size:17px;text-align:center;margin-bottom:10px;letter-spacing:.01em}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px}
+.dow span{
+  text-align:center;font-size:10px;font-weight:700;letter-spacing:.1em;
+  color:var(--ink-3);text-transform:uppercase;
+}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cell{
+  aspect-ratio:1/1;min-width:0;border:0;background:none;cursor:default;
+  border-radius:7px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;padding:2px;position:relative;
+  font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-3);
+}
+.cell.pad{visibility:hidden}
+.cell.span{background:color-mix(in srgb,var(--c-giving) 12%,transparent)}
+.cell.has{cursor:pointer;color:var(--ink);font-weight:600}
+.cell.has:hover{background:var(--shade)}
+.cell.today .num{box-shadow:0 0 0 1.5px var(--cranberry);border-radius:50%}
+.cell .num{min-width:22px;height:22px;display:grid;place-items:center}
+.cell[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cell[aria-pressed="true"] .num{color:var(--paper)}
+.dots{display:flex;gap:2.5px;height:6px;align-items:center}
+.dots i{width:5px;height:5px;border-radius:50%;background:var(--c)}
+
+.daypanel{
+  margin-top:20px;background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--r);padding:16px;
+}
+.daypanel h3{font-size:19px}
+.daypanel .dp-sub{font-size:13px;color:var(--ink-3);margin-top:2px}
+.daylist{display:grid;gap:12px;margin-top:14px}
+
+/* ---------- event cards ---------- */
+.daygroup{margin-bottom:26px}
+.daygroup > h3{
+  font-size:15px;font-family:var(--body);font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2);
+  padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:12px;
+}
+.cards{display:grid;gap:12px}
+@media (min-width:760px){.cards{grid-template-columns:1fr 1fr}}
+.card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:14px 15px;border-left:3px solid var(--c,var(--line));min-width:0;
+}
+.card .kicker{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c)
+}
+.card h4{font-size:18px;margin:6px 0 2px;letter-spacing:-.005em}
+.card .when{
+  font-size:13.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;
+}
+.card .where{font-size:13.5px;color:var(--ink-2)}
+.card .desc{font-size:14px;color:var(--ink-2);margin-top:8px}
+.card ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--ink-2);display:grid;gap:1px}
+.card .links{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.ilink{
+  font-size:12.5px;font-weight:600;text-decoration:none;
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--ink-2);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.ilink:hover{border-color:var(--ink-3);color:var(--ink)}
+.flag{
+  margin-top:10px;font-size:12.5px;line-height:1.5;color:var(--ink-2);
+  background:color-mix(in srgb,var(--brass) 11%,transparent);
+  border-left:2px solid var(--brass);padding:7px 10px;border-radius:0 6px 6px 0;
+}
+.flag b{color:var(--ink);font-weight:700}
+
+.alsocat{color:var(--c2);display:inline-flex;align-items:center;gap:9px}
+.alsocat::before{content:"\00B7";color:var(--ink-3)}
+.badge{
+  background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c);
+  border-radius:999px;padding:2.5px 9px;letter-spacing:.08em;
+}
+.evnote{margin-top:10px;font-size:13.5px;color:var(--ink-2)}
+.evmail{margin-top:7px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.evmail code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;
+  background:var(--snow);border:1px solid var(--line);border-radius:6px;
+  padding:3px 8px;color:var(--ink);word-break:break-all;
+}
+.evmail .copy{
+  appearance:none;background:none;border:0;cursor:pointer;padding:0;
+  font-size:12.5px;font-weight:600;color:var(--ink-3);
+  text-decoration:underline;text-underline-offset:3px;
+}
+.evmail .copy:hover{color:var(--ink)}
+.flyerthumb{
+  appearance:none;cursor:pointer;background:none;border:0;padding:0;margin-top:12px;
+  display:flex;align-items:center;gap:12px;text-align:left;width:100%;
+}
+.flyerthumb img{
+  width:84px;height:110px;flex:none;object-fit:cover;object-position:top;
+  border:1px solid var(--line);border-radius:6px;background:var(--snow);
+}
+.flyerthumb span{
+  font-size:13px;font-weight:600;color:var(--ink-2);
+  text-decoration:underline;text-underline-offset:3px;
+}
+.flyerthumb:hover span{color:var(--ink)}
+.flyerthumb:hover img{border-color:var(--ink-3)}
+
+.lightbox{
+  position:fixed;inset:0;z-index:60;background:rgba(7,17,14,.93);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:max(18px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px))
+          max(18px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+}
+.lightbox img{max-width:100%;max-height:calc(100% - 58px);object-fit:contain;border-radius:6px}
+.lightbox .lbclose{
+  appearance:none;cursor:pointer;border:1px solid rgba(255,255,255,.32);
+  background:rgba(255,255,255,.12);color:#F1F5F1;border-radius:999px;
+  padding:8px 20px;font-size:13.5px;font-weight:700;flex:none;
+}
+.lightbox .lbclose:hover{background:rgba(255,255,255,.22)}
+
+.search{
+  width:100%;max-width:340px;background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:8px 14px;font-size:14px;color:var(--ink);margin-bottom:14px;
+}
+.search::placeholder{color:var(--ink-3)}
+.empty{
+  border:1px dashed var(--line);border-radius:var(--r);padding:28px 18px;text-align:center;
+  color:var(--ink-3);font-size:14px;background:var(--paper);
+}
+.empty strong{display:block;font-family:var(--display);font-size:19px;color:var(--ink);font-weight:600;margin-bottom:6px}
+
+/* ---------- map ---------- */
+.maplayout{display:grid;gap:16px;grid-template-columns:1fr}
+/* Grid items default to min-width:auto, which would let the wide map push the
+   page sideways instead of scrolling inside its own box. */
+.maplayout > *{min-width:0}
+@media (min-width:900px){.maplayout{grid-template-columns:1.45fr 1fr;align-items:start}}
+.mapbox{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:8px;overflow-x:auto;
+}
+.mapbox svg{display:block;width:100%;min-width:430px;max-width:100%;height:auto}
+.maplayers{margin-bottom:10px}
+.mapnote{
+  margin-top:10px;font-size:13px;color:var(--ink-2);min-height:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.mapnote .swatch{width:9px;height:9px;border-radius:50%;background:var(--sw,var(--ink-3));flex:none}
+.mapnote b{color:var(--ink);font-weight:600}
+.maplegend{
+  font-size:11.5px;color:var(--ink-3);padding:10px 2px 0;margin-top:8px;
+  border-top:1px solid var(--line-2);display:flex;flex-wrap:wrap;gap:4px 16px;
+}
+.maplegend a{color:var(--ink-2)}
+
+/* map ink */
+.ground{fill:var(--snow)}
+.water{fill:none;stroke:var(--c-music);stroke-opacity:.34;stroke-linecap:round;stroke-linejoin:round}
+.greens{fill:var(--c-family);fill-opacity:.17;stroke:var(--c-family);stroke-opacity:.38;stroke-width:1}
+.casing{stroke:var(--line);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tarmac{stroke:var(--paper);fill:none;stroke-linecap:round;stroke-linejoin:round}
+.route{fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
+.routehit{fill:none;stroke:transparent;stroke-width:22;cursor:pointer}
+.routehit:hover + .route, .route.on{opacity:1}
+.slabel{
+  font-family:var(--body);font-size:10px;font-weight:700;letter-spacing:.13em;
+  fill:var(--ink-3);paint-order:stroke;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round;
+}
+.wlabel{fill:var(--c-music);fill-opacity:.85}
+.lot,.poi{cursor:pointer}
+.lot rect{fill:var(--c-music);fill-opacity:.16;stroke:var(--c-music);stroke-opacity:.5;stroke-width:1}
+.lot text{font-family:var(--body);font-size:9px;font-weight:700;fill:var(--c-music)}
+.lot:hover rect,.lot.sel rect{fill-opacity:.4}
+.poi .d{fill:var(--paper);stroke:var(--pc);stroke-width:2.6}
+.poi:hover .d,.poi.sel .d{fill:var(--pc)}
+.hit{fill:transparent;stroke:none}
+.pin{cursor:pointer}
+.pin .body{fill:var(--c);stroke:var(--paper);stroke-width:1.5}
+.pin .head{fill:var(--paper)}
+.pin.on .body{stroke:var(--ink);stroke-width:2}
+.pin text{
+  font-family:var(--body);font-size:12.5px;font-weight:700;fill:var(--ink);
+  paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round;
+}
+.scalebar{stroke:var(--ink-3);stroke-width:1.4}
+.scaletext{font-family:var(--body);font-size:9.5px;font-weight:700;fill:var(--ink-3);letter-spacing:.08em}
+.venuelist{display:grid;gap:10px}
+.venue{
+  width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);
+  border-left:3px solid var(--c,var(--line));border-radius:var(--r);padding:11px 13px;cursor:pointer;
+}
+.venue:hover{border-color:var(--ink-3)}
+.venue[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink) inset}
+.venue h4{font-size:16px}
+.venue .vsub{font-size:12.5px;color:var(--ink-3);margin-top:1px}
+.venue .vev{font-size:13px;color:var(--ink-2);margin-top:7px;display:grid;gap:3px}
+.venue .vev span{display:block}
+.venue .vev b{font-weight:600;color:var(--ink)}
+.offmap{margin-top:18px}
+.offmap h3{font-size:15px;font-family:var(--body);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:9px}
+
+/* ---------- shops ---------- */
+.shopbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.btn{
+  appearance:none;cursor:pointer;border-radius:999px;padding:8px 16px;
+  font-size:13.5px;font-weight:600;border:1px solid var(--ink);
+  background:var(--ink);color:var(--paper);
+}
+.btn:hover{opacity:.88}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink-3);opacity:1}
+.btn.danger{background:transparent;color:var(--cranberry);border-color:var(--line)}
+.shopgrid{display:grid;gap:12px}
+@media (min-width:700px){.shopgrid{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.shopgrid{grid-template-columns:repeat(3,1fr)}}
+.shop{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:14px 15px;display:flex;flex-direction:column;gap:8px;min-width:0;
+}
+.shop h4{font-size:17px}
+.shop .scat{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.shop dl{margin:0;display:grid;gap:7px}
+.shop dt{
+  font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);
+}
+.shop dd{margin:1px 0 0;font-size:13.5px;color:var(--ink-2);white-space:pre-line}
+.shop .promo dd{color:var(--ink);font-weight:500}
+.shop .srow{margin-top:auto;padding-top:4px;display:flex;flex-wrap:wrap;gap:7px}
+.shop .srow button{
+  appearance:none;background:none;border:0;cursor:pointer;padding:0;
+  font-size:12.5px;font-weight:600;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px;
+}
+.shop .srow button:hover{color:var(--ink)}
+.shop .srow button.del:hover{color:var(--cranberry)}
+
+.editor{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px;margin-bottom:16px;
+}
+.editor h3{font-size:18px;margin-bottom:12px}
+.fields{display:grid;gap:12px;grid-template-columns:1fr}
+@media (min-width:640px){.fields{grid-template-columns:1fr 1fr}}
+.field{display:grid;gap:4px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--snow);border:1px solid var(--line);border-radius:7px;
+  padding:8px 10px;font-family:var(--body);font-size:14px;color:var(--ink);
+}
+.field textarea{min-height:66px;resize:vertical;line-height:1.5}
+.editor .erow{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px;align-items:center}
+.editor .err{font-size:13px;color:var(--cranberry);font-weight:600}
+
+.status{font-size:13px;color:var(--ink-3);margin-bottom:12px}
+.status.warn{color:var(--brass);font-weight:600}
+
+footer{border-top:1px solid var(--line);margin-top:10px;padding-block:22px 10px}
+footer p{font-size:12.5px;color:var(--ink-3);max-width:70ch}
+footer p + p{margin-top:7px}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <p class="eyebrow">Peterborough, New Hampshire &middot; Winter 2026</p>
+    <h1>Holiday Happenings <em>in Peterborough</em></h1>
+    <p class="sub">Cocoa at the diner counter, seventy-odd makers filling the Town House, carols under the tree in Putnam Park, and a river of paper lanterns up Grove Street. Everything the town is doing this season, gathered in one place.</p>
+    <p class="facts"><span id="fact-count">18 events</span><span>Nov 21 &ndash; Dec 15</span><span>Downtown &amp; around town</span></p>
+    <svg class="lights" id="lights" viewBox="0 0 1200 34" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  </div>
+</header>
+<script>
+/* garland: 12 swags, five bulbs hanging from each */
+(function(){
+  var svg = document.getElementById("lights");
+  if(!svg) return;
+  var COLORS = ["#E8B65A","#EC8089","#7FD3AC","#8FC2EC","#F2D08A","#F09FD0"];
+  var SW = 100, N = 12, TOP = 4, CTRL = 32, PER = 5;
+  var d = "M0 " + TOP, bulbs = "", n = 0, i, j, t, x, y, c;
+  for(i = 0; i < N; i++){
+    d += " Q " + (i*SW + SW/2) + " " + CTRL + " " + ((i+1)*SW) + " " + TOP;
+  }
+  for(i = 0; i < N; i++){
+    for(j = 1; j <= PER; j++){
+      t = j / (PER + 1);
+      x = (i*SW + SW*t).toFixed(1);
+      y = ((1-t)*(1-t)*TOP + 2*(1-t)*t*CTRL + t*t*TOP);
+      c = COLORS[n % COLORS.length];
+      bulbs += '<g class="bulb" style="color:' + c + ';animation-delay:' + (n * 0.16).toFixed(2) + 's">'
+        + '<path d="M' + x + ' ' + y.toFixed(1) + 'v3.2" stroke="var(--mast-line)" stroke-width="1.2"></path>'
+        + '<circle cx="' + x + '" cy="' + (y + 6.3).toFixed(1) + '" r="3" fill="currentColor"></circle>'
+        + '</g>';
+      n++;
+    }
+  }
+  svg.innerHTML = '<path class="wire" d="' + d + '"></path>' + bulbs;
+})();
+</script>
+
+<nav class="views" aria-label="Views">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="tab-list" aria-controls="panel-list" aria-selected="true" data-view="list">All events</button>
+    <button class="tab" role="tab" id="tab-calendar" aria-controls="panel-calendar" aria-selected="false" data-view="calendar">Calendar</button>
+    <button class="tab" role="tab" id="tab-map" aria-controls="panel-map" aria-selected="false" data-view="map">Downtown map</button>
+    <button class="tab" role="tab" id="tab-shops" aria-controls="panel-shops" aria-selected="false" data-view="shops">Shops &amp; offers</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ CALENDAR ============ -->
+  <section id="panel-calendar" role="tabpanel" aria-labelledby="tab-calendar" hidden>
+    <div class="sect-head">
+      <h2>November &amp; December</h2>
+      <p class="note">Pick a day to see what&rsquo;s on. Tinted days are inside the Giving Trees window.</p>
+    </div>
+    <div class="chips" id="cal-chips"></div>
+    <div class="months" id="months"></div>
+    <div class="daypanel" id="daypanel"></div>
+  </section>
+
+  <!-- ============ LIST ============ -->
+  <section id="panel-list" role="tabpanel" aria-labelledby="tab-list">
+    <div class="sect-head">
+      <h2>Every event, in order</h2>
+      <p class="note" id="list-count"></p>
+    </div>
+    <input class="search" id="search" type="search" placeholder="Search events, places, people&hellip;" aria-label="Search events">
+    <div class="chips" id="list-chips"></div>
+    <div id="listout"></div>
+  </section>
+
+  <!-- ============ MAP ============ -->
+  <section id="panel-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+    <div class="sect-head">
+      <h2>Where it all happens</h2>
+      <p class="note">Drawn to scale from OpenStreetMap data. Tap a pin for that spot&rsquo;s events, or any dot to see what it is.</p>
+    </div>
+    <div class="maplayout">
+      <div>
+        <div class="chips maplayers" id="maplayers"></div>
+        <div class="mapbox" id="mapbox"></div>
+        <p class="mapnote" id="mapnote"></p>
+        <p class="maplegend">
+          <span style="color:var(--cranberry)">&ndash; &ndash; Lantern Parade route, up Grove Street</span>
+          <span style="color:var(--c-shop)">&mdash; Shop local: Main St between Grove and Pine, plus Depot and School</span>
+          <span>Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</span>
+        </p>
+      </div>
+      <div>
+        <div class="venuelist" id="venuelist"></div>
+        <div class="offmap">
+          <h3>Beyond downtown</h3>
+          <div class="venuelist" id="offmaplist"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SHOPS ============ -->
+  <section id="panel-shops" role="tabpanel" aria-labelledby="tab-shops" hidden>
+    <div class="sect-head">
+      <h2>Shops, holiday hours &amp; offers</h2>
+      <p class="note">Plaid Friday (Nov 27) and First Friday (Dec 4) are the big shop-local days.</p>
+    </div>
+    <p class="status" id="shop-status">Loading the shop list&hellip;</p>
+    <div class="shopbar">
+      <button class="btn" id="add-shop" hidden>Add a business</button>
+      <input class="search" id="shop-search" type="search" placeholder="Search shops and offers&hellip;" aria-label="Search shops" style="margin-bottom:0">
+    </div>
+    <div id="shop-editor" hidden></div>
+    <div class="shopgrid" id="shopgrid"></div>
+  </section>
+
+  <footer>
+    <p>Built from the printed <em>Holiday Happenings</em> flyer. Times and dates change &mdash; confirm with each host before you go.</p>
+    <p id="foot-note"></p>
+  </footer>
+</main>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Event flyer">
+  <img id="lbimg" alt="">
+  <button type="button" class="lbclose">Close</button>
+</div>
+
+<script>
+"use strict";
+
+/* ---------------- data ---------------- */
+const CATS = {
+  shop:   {label:"Shop local", c:"var(--c-shop)"},
+  market: {label:"Markets & fairs", c:"var(--c-market)"},
+  make:   {label:"Workshops & crafts", c:"var(--c-make)"},
+  wellness:{label:"Wellness", c:"var(--c-wellness)"},
+  lights: {label:"Lights & lanterns", c:"var(--c-lights)"},
+  music:  {label:"Music", c:"var(--c-music)"},
+  family: {label:"Family & food", c:"var(--c-family)"},
+  giving: {label:"Giving", c:"var(--c-giving)"}
+};
+
+/* ---- downtown map ----
+   Geometry traced from OpenStreetMap (ODbL), projected equirectangular about
+   42.877 N: x = (lon + 71.9540) * 88014, y = (42.8800 - lat) * 120000.
+   One unit is about 0.93 m, so the drawing is to scale. */
+const MAP_VIEW = "40 60 700 580";
+
+const VENUES = {
+  putnam:   {name:"Putnam Park", short:"Putnam Park", sub:"Grove Street",
+             x:186, y:450, lx:183, ly:496, anchor:"middle"},
+  townhall: {name:"Peterborough Town House", short:"Town House", sub:"1 Grove Street",
+             x:287, y:301, lx:272, ly:306, anchor:"end"},
+  library:  {name:"Peterborough Town Library", short:"Town Library", sub:"Concord Street",
+             x:517, y:257, lx:531, ly:253, anchor:"start"},
+  uu:       {name:"Peterborough Unitarian Universalist Church", short:"UU Church", sub:"25 Main Street",
+             x:404, y:262, lx:397, ly:235, anchor:"end"},
+  diner:    {name:"Peterborough Diner", short:"The Diner", sub:"10 Depot Street",
+             x:427, y:376, lx:441, ly:372, anchor:"start"},
+  tria:     {name:"Tria Yoga", short:"Tria Yoga", sub:"36 Grove Street",
+             x:279, y:524, lx:294, ly:541, anchor:"start"},
+  mainst:   {name:"Shops on Main, Depot & School Streets",
+             sub:"Main between Grove and Pine, plus Depot and School",
+             rc:"var(--c-shop)", w:9,
+             route:"M323 283L365 291L381 294L408 299L435 303L456 304L484 304L509 302L534 300"
+                 + "M408 299L408 335L409 355L408 392L407 399"
+                 + "M289 390L331 402L363 411L394 418L401 415L407 403L407 399"},
+  grove:    {name:"Grove Street parade route", sub:"Putnam Park up to Main Street",
+             rc:"var(--cranberry)", w:5, dash:"10 8",
+             route:"M261 478L266 459L273 438L282 410L286 398L288 393L290 386L295 375L299 359L320 292L323 283"}
+};
+
+/* [name, major?, path] */
+const ROADS = [
+  ["Main Street",1,"M323 283L329 285L365 291L371 292L381 294L408 299L416 300L435 303L447 304L456 304L469 304L484 304"],
+  ["Main Street",1,"M534 300L524 300L509 302L484 304"],
+  ["Main Street",1,"M323 283L316 282L292 278L270 275L258 273L167 257L153 254L143 251L127 245L112 237L105 233L91 223L79 212L67 199L33 156L11 128"],
+  ["Grove Street",1,"M261 478L266 459L273 438L282 410L286 398L288 393L290 386L295 375L299 359L320 292L323 283"],
+  ["Grove Street",1,"M314 742L291 634L282 589L278 574L273 552L270 542L263 510L260 492L260 485L261 478"],
+  ["Concord Street",1,"M534 300L535 289L536 280L543 254L549 231L564 181L587 102L611 25L617 5L630 -38L635 -53L643 -82"],
+  ["Summer Street",1,"M416 300L417 291L418 281L420 256L420 246L418 223L413 197L412 184L412 174L413 159L415 142L419 122L421 110L423 103L426 92L429 83L436 64L446 42L454 27L463 8L467 -2L471 -16L481 -49L496 -103"],
+  ["Depot Street",1,"M407 399L408 392L409 355L409 345L408 335L408 311L408 299"],
+  ["Pine Street",1,"M584 726L576 702L542 606L538 590L534 574L530 540L529 529L528 520L526 512L524 504"],
+  ["Pine Street",1,"M524 504L538 469L542 455L546 440L551 416L552 398L553 380L553 368L553 356L550 344L546 332L541 321L537 312L534 300"],
+  ["Granite Street",1,"M524 504L517 521L513 529L504 552L496 571L492 584L489 600L487 623L485 653L483 711L482 788"],
+  ["High Street",1,"M33 156L33 136L33 122L29 100L20 68L10 44L3 29L-23 -14L-39 -38L-52 -55L-82 -97"],
+  ["Union Street",1,"M11 128L7 123L-2 114L-9 106L-18 98L-29 89L-44 78L-60 67L-303 -75"],
+  ["Elm Street",1,"M-74 166L-58 155L-40 146L-34 144L-3 131L5 129L11 128"],
+  ["School Street",0,"M289 390L331 402L363 411L388 417L394 418L401 415L405 408L407 403L407 399"],
+  ["Vine Street",0,"M247 87L252 107L260 138L262 147L263 154L262 163L260 167L257 170L251 172L233 175L215 177L207 177L200 174L195 171L191 167L188 160L185 153L178 126L170 93L169 88"],
+  ["Vine Street",0,"M169 88L111 102L66 113L36 122L11 128"],
+  ["Off Vine Street",0,"M169 88L220 76L231 74L237 75L241 78L245 81L247 87"],
+  ["River Street",0,"M-34 144L-31 147L-15 163L-4 173L21 195L36 203L52 207L67 215L74 221L83 227L92 232L105 233"],
+  ["Central Street",0,"M127 724L126 713L124 704L123 695L120 673L116 645L105 573"],
+  ["Vale Street",0,"M-29 597L37 585L77 578L105 573L119 570L126 569L164 562L263 543L270 542"],
+  ["Scott Street",0,"M193 736L180 660L164 562"],
+  ["Winter Street",0,"M-30 722L-30 704L-30 691L-30 672L-30 656L-30 630L-29 597L-29 538L-30 521L-33 504L-39 489L-113 323"],
+  ["Phoenix Mill Lane",0,"M199 362L181 358L172 357L167 358L165 362L164 370L168 375L179 382L190 388L196 391L202 394L207 395L220 394L225 393L230 394L244 398L276 408L282 410"],
+  ["Phoenix Mill Lane",0,"M288 393L268 386L244 377L220 369L199 362"],
+  ["Nubanusit Lane",0,"M-97 193L-45 292L-22 334"],
+  ["Factory Street",0,"M-110 321L-45 292"],
+  ["Veteran's Way",0,"M465 352L468 311L469 304"]
+];
+
+const WATER = [
+  ["M-72 110L-59 131L-42 162L-31 181L20 240L40 247L52 285L70 345L76 355L93 360L114 368L148 384L181 406L247 459L269 474L299 490L352 506L396 526L422 531L453 542", 7],
+  ["M401 771L413 710L430 621L439 587L453 542L490 479L503 445L513 391L509 331L506 321L499 308L492 296L487 281L471 226L462 212L452 201L440 168L435 143L438 110L449 73L462 45L481 13L501 -18L573 -121", 11]
+];
+
+const GREENS = [
+  "M136 398L137 391L144 396L156 404L162 407L167 410L172 414L224 452L232 458L255 472L252 481L251 491L252 501L254 508L208 504L164 513L117 503L117 474L128 428L136 398Z",
+  "M400 494L397 498L394 515L412 519L428 521L443 516L450 511L461 493L473 474L475 462L482 448L483 424L467 424L463 472L461 477L458 480L449 485L440 485L427 484L409 483L404 489L400 494Z",
+  "M249 435L265 438L259 456L248 443L249 435Z",
+  "M269 481L297 497L299 508L271 514L267 490L267 484L269 481Z"
+];
+
+/* [text, x, y, rotation] */
+const STREETLABELS = [
+  ["MAIN ST",205,264,14],["MAIN ST",455,313,3],["GROVE ST",310,340,-72],
+  ["DEPOT ST",398,396,-90],["CONCORD ST",580,170,-74],["SUMMER ST",436,200,-83],
+  ["SCHOOL ST",340,401,13],["PINE ST",548,432,-77],["GRANITE ST",499,582,-79],
+  ["VINE ST",130,110,10],["RIVER ST",55,212,27],["VALE ST",122,574,-10],
+  ["SCOTT ST",174,604,-80],["CENTRAL ST",110,628,-85]
+];
+const WATERLABELS = [["NUBANUSIT BROOK",118,372,24],["CONTOOCOOK RIVER",478,514,-60]];
+
+const POIGROUPS = {
+  parking: {label:"Parking",        c:"var(--c-music)"},
+  food:    {label:"Eat & drink",    c:"var(--c-market)"},
+  shop:    {label:"Shops",          c:"var(--c-shop)"},
+  culture: {label:"Museums & arts", c:"var(--c-make)"},
+  civic:   {label:"Civic",          c:"var(--c-giving)"}
+};
+
+const POIS = [
+  {g:"food", n:"Aesop’s Tables", x:416, y:426},
+  {g:"food", n:"Twelve Pine", x:375, y:446},
+  {g:"food", n:"Waterhouse", x:331, y:485},
+  {g:"food", n:"Baker’s Station", x:348, y:487},
+  {g:"food", n:"Thai Cafe", x:232, y:568},
+  {g:"food", n:"Monadnock Eats", x:430, y:274},
+  {g:"food", n:"Harlow’s Pub", x:302, y:399},
+  {g:"food", n:"Coopershill Pub", x:348, y:392},
+  {g:"shop", n:"Hearth Magick", x:221, y:563},
+  {g:"shop", n:"Steele’s Stationers", x:364, y:302},
+  {g:"shop", n:"Roy’s Market", x:419, y:312},
+  {g:"shop", n:"The Toadstool Bookshop", x:419, y:442},
+  {g:"shop", n:"The Apothecary", x:341, y:452},
+  {g:"shop", n:"Anytime Apparel", x:359, y:493},
+  {g:"shop", n:"Knitty Gritty Yarn Shop", x:365, y:497},
+  {g:"shop", n:"Tribals Rugs by Hand", x:373, y:500},
+  {g:"shop", n:"Bowerbird & Friends", x:385, y:503},
+  {g:"culture", n:"The Blue Fern Gallery", x:376, y:306},
+  {g:"culture", n:"Mariposa Museum", x:391, y:319},
+  {g:"culture", n:"Peterborough Historical Society", x:276, y:374},
+  {g:"culture", n:"Aquarius No. 1 Fire Museum", x:394, y:166},
+  {g:"culture", n:"Grove Corner", x:320, y:282},
+  {g:"civic", n:"Peterborough Post Office", x:256, y:421},
+  {g:"civic", n:"M&T Bank", x:354, y:252},
+  {g:"civic", n:"Community notice board", x:395, y:422}
+];
+
+const LOTS = [[381,357],[451,423],[383,440],[397,433],[360,221],[283,245],[408,102],[375,582],
+  [133,317],[214,384],[513,210],[491,178],[480,192],[649,125],[657,76],[439,283],[433,310],
+  [436,296],[386,303],[349,295],[398,290],[222,271],[314,333],[299,345],[284,418],[274,449],
+  [259,476],[358,459],[401,205],[388,261]];
+
+const OFFMAP = [
+  {name:"ConVal High School", sub:"Hancock Rd, north of downtown", map:true, ids:["craftfair"]},
+  {name:"Rosaly’s Farmstand", sub:"Three Sunday classes, 11 AM", map:true, ids:["centerpiece","wreath-nov29","wreath-dec6"]},
+  {name:"MAxT Makerspace", sub:"Open house, and host of the Night Market", map:true, ids:["maxt-openhouse"]},
+  {name:"Churches across town", sub:"Seven stops on the Holiday Stroll", ids:["stroll"]},
+  {name:"Giving Tree locations", sub:"Eight hosts around town — listed on the event", ids:["givingtrees"]}
+];
+
+const EVENTS = [
+  {
+    id:"stroll", title:"Peterborough Holiday Stroll", cat:"family",
+    start:"2026-11-21", time:"9 AM – 2 PM", sort:540,
+    place:"Participating churches around town", venue:"churches",
+    desc:"Festivities, food, fellowship and fun, hosted together by churches across Peterborough.",
+    list:["The Church of Jesus Christ of Latter-day Saints","All Saints’ Church","Peterborough United Methodist Church","Union Congregational Church","Christian Science Church","Unitarian Universalist Church","Divine Mercy Church"]
+  },
+  {
+    id:"craftfair", title:"ConVal High School Holiday Craft Fair", cat:"market", also:["shop"],
+    start:"2026-11-21", time:"9 AM – 2 PM", sort:540,
+    place:"ConVal Regional High School", venue:"conval",
+    desc:"Free admission. Proceeds benefit the Class of 2026."
+  },
+  {
+    id:"givingtrees", title:"Peterborough Sunshine Fund Giving Trees", cat:"giving",
+    start:"2026-11-21", end:"2026-12-15", time:"Nov 21 – Dec 15", sort:-1,
+    place:"Eight locations around town", venue:"various",
+    desc:"Purchase and donate gifts for children in the Greater Peterborough area. Trees are up at these hosts:",
+    list:[
+      "Aesop’s Tables & Events, at The Toadstool Bookshop",
+      "Bar Harbor Bank & Trust",
+      "Brady’s American Grill",
+      "Coopershill",
+      "Dollar General",
+      "European Esthetics",
+      "Peterborough Fire & Rescue",
+      "Performance Health and Fitness"
+    ],
+    links:[{label:"Sunshine Fund NH", href:"https://www.facebook.com/SunshineFundNH"}]
+  },
+  {
+    id:"centerpiece", title:"Holiday Centerpiece Class", cat:"make",
+    start:"2026-11-22", time:"11 AM – 12 PM", sort:660,
+    place:"Rosaly’s Farmstand", venue:"rosalys",
+    desc:"Build a holiday centerpiece in an hour at Rosaly’s. The first of three Sunday classes there this season.",
+    note:"Classes fill up — book your spot ahead of time.",
+    links:[{label:"Book the centerpiece class", href:"https://rosalysgarden.com/product/holiday-centerpiece-class/"}]
+  },
+  {
+    id:"plaidfriday", title:"Plaid Friday", cat:"shop",
+    start:"2026-11-27", time:"All day", sort:-1,
+    place:"Independent businesses across Peterborough", venue:"mainst",
+    desc:"Celebrate independent businesses and shop local for holiday gifts. Hours and offers vary by shop — see the Shops tab."
+  },
+  {
+    id:"santa", title:"Santa’s Stop at the Peterborough Diner", cat:"family",
+    start:"2026-11-27", time:"4 – 6 PM", sort:960,
+    place:"Peterborough Diner, Depot St", venue:"diner",
+    desc:"Cocoa, cookies and visits with Santa and Mrs. Claus, plus the lighting of the historic diner car at 4:00 PM.",
+    links:[{label:"Peterborough Diner", href:"https://www.facebook.com/PeterboroughDiner"}]
+  },
+  {
+    id:"nightmarket", title:"MAxT Holiday Night Market & Winter Shop & Stroll", cat:"market", also:["shop"],
+    start:"2026-11-28", time:"2 – 7 PM", sort:840,
+    place:"Peterborough Town House and around town", venue:"townhall",
+    desc:"Browse local makers and vendors in a festive evening market.",
+    list:["70+ vendors, indoors and outdoors","Special local business promotions","Outdoor bar and food trucks","Outdoor warming stands","Campfire with free s’mores"]
+  },
+  {
+    id:"treelighting", title:"Peterborough Town Tree Lighting", cat:"lights",
+    start:"2026-11-28", time:"6:15 PM", sort:1095,
+    place:"Putnam Park", venue:"putnam",
+    desc:"A countdown and Christmas carols under the town tree."
+  },
+  {
+    id:"wreath-nov29", title:"Holiday Wreath Class", cat:"make",
+    start:"2026-11-29", time:"11 AM – 12:30 PM", sort:660,
+    place:"Rosaly’s Farmstand", venue:"rosalys",
+    desc:"Build your own winter wreath at Rosaly’s. The class runs twice — the other date is Sunday, December 6.",
+    note:"Classes fill up — book your spot ahead of time.",
+    links:[{label:"Book the wreath class", href:"https://rosalysgarden.com/product/winter-wreath-class/"}]
+  },
+  {
+    id:"irishchristmas", title:"An Irish Christmas", cat:"music",
+    start:"2026-11-29", time:"4 PM", sort:960,
+    place:"Peterborough Unitarian Universalist Church, 25 Main Street", venue:"uu",
+    desc:"A Christmas concert in the Irish tradition."
+  },
+  {
+    id:"holidaytrees", title:"Holiday Trees in Peterborough", cat:"lights",
+    start:"2026-12-04", days:["2026-12-04","2026-12-05","2026-12-07"],
+    time:"Friday, Saturday & Monday", sort:-1,
+    place:"Peterborough Town Library", venue:"library",
+    desc:"Decorated trees on view at the library on Friday and Saturday of the Aglow weekend, then again on Monday. Closed Sunday.",
+    links:[{label:"childrenandthearts.org", href:"https://www.childrenandthearts.org/"}]
+  },
+  {
+    id:"lanterninstall", title:"Lantern Installation", cat:"lights",
+    start:"2026-12-04", end:"2026-12-06", time:"6 – 8 PM Friday, on view Fri – Sun", sort:1080,
+    place:"Putnam Park", venue:"putnam",
+    desc:"Lanterns installed in the park, lit Friday evening and up through the weekend.",
+    links:[{label:"childrenandthearts.org", href:"https://www.childrenandthearts.org/"}]
+  },
+  {
+    id:"firstfriday", title:"First Friday", cat:"shop",
+    start:"2026-12-04", time:"5 – 7 PM", sort:1020,
+    place:"Independent businesses across Peterborough", venue:"mainst",
+    desc:"Evening shopping at independent businesses downtown. Hours and offers vary by shop — see the Shops tab."
+  },
+  {
+    id:"messiah", title:"Handel’s Messiah — Christmas Section", cat:"music",
+    start:"2026-12-05", time:"4:00 PM", sort:960,
+    place:"Peterborough Unitarian Universalist Church, 25 Main Street", venue:"uu",
+    badge:"Free · Donations welcome",
+    desc:"The community chorus and soloists perform the Christmas section of Handel’s Messiah, led by conductor James Sharrock with the Apple Hill String Quartet. Trumpeter Sheldon Ross performs the aria “The Trumpet Shall Sound” with bass Nick Tocci, and the program closes with the Hallelujah chorus — the audience is welcome to join in.",
+    list:[
+      "James Sharrock, conductor",
+      "Apple Hill String Quartet",
+      "Brittney Redler, soprano — Dublin",
+      "Grace Christensen, alto — ConVal class of 2020",
+      "Kirk Bobkowski, tenor",
+      "Nick Tocci, bass",
+      "Sheldon Ross, trumpet",
+      "Peter Sykes, historic organ",
+      "Community chorus"
+    ],
+    note:"Community singers can still take part, with a rehearsal that afternoon. Write to the Friends of Messiah for details:",
+    email:"friendsofmessiahptbo@gmail.com",
+    links:[{label:"MessiahPbro on Facebook", href:"https://www.facebook.com/MessiahPbro"}],
+    flyer:{src:"messiah-flyer.jpg", alt:"Concert flyer: Messiah by George Frideric Handel, Saturday December 5th at 4:00pm, Peterborough Unitarian Universalist Church, 25 Main Street. Free concert, donations welcome."}
+  },
+  {
+    id:"lanternparade", title:"Lantern Parade: Let It Snow!", cat:"lights",
+    start:"2026-12-05", time:"6:00 PM", sort:1080,
+    place:"Grove Street", venue:"grove",
+    desc:"Lanterns carried up Grove Street.",
+    note:"Rain date: Sunday, December 6 at 6:00 PM.",
+    links:[{label:"childrenandthearts.org", href:"https://www.childrenandthearts.org/"}]
+  },
+  {
+    id:"campfire", title:"Campfire & Hot Cocoa", cat:"family",
+    start:"2026-12-05", time:"6:30 – 7:30 PM", sort:1110,
+    place:"Peterborough Town Library terrace", venue:"library",
+    desc:"An outdoor fire on the library terrace after the parade."
+  },
+  {
+    id:"wreath-dec6", title:"Holiday Wreath Class", cat:"make",
+    start:"2026-12-06", time:"11 AM – 12:30 PM", sort:660,
+    place:"Rosaly’s Farmstand", venue:"rosalys",
+    desc:"Build your own winter wreath at Rosaly’s. The same class also runs on Sunday, November 29.",
+    note:"Classes fill up — book your spot ahead of time.",
+    links:[{label:"Book the wreath class", href:"https://rosalysgarden.com/product/winter-wreath-class/"}]
+  },
+  {
+    id:"groundingyoga", title:"Grounding Yoga", cat:"wellness",
+    start:"2026-12-06", time:"4 – 5:30 PM", sort:960,
+    place:"Tria Yoga", venue:"tria",
+    badge:"90 minutes · Candlelit",
+    desc:"As the seasons shift and the days grow shorter, fall invites us to turn inward. Join Jill for a 90-minute candlelit, Ayurvedic-inspired yoga class featuring a blend of yin, flow and restorative postures. Nurturing adjustments and essential oils will enhance your practice, offering a deeply nourishing and grounding experience.",
+    note:"Space is limited — check the Tria Yoga workshops page to register.",
+    links:[{label:"Register at triayoga.com", href:"https://www.triayoga.com/workshops"}]
+  },
+  {
+    id:"maxt-openhouse", title:"MAxT Holiday Open House", cat:"make",
+    start:"2026-12-04", time:"6 – 9 PM", sort:1080,
+    place:"MAxT Makerspace", venue:"maxt",
+    desc:"An evening open house at the makerspace, the same night as First Friday downtown and the lantern installation in Putnam Park.",
+    links:[{label:"maxtmakerspace.org", href:"https://maxtmakerspace.org/events/view/holiday-open-house"}]
+  }
+];
+
+/* ---------------- date helpers ---------------- */
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const DOWFULL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+function parseD(s){ const p = s.split("-").map(Number); return new Date(p[0], p[1]-1, p[2]); }
+function keyOf(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function fmtLong(s){ const d = parseD(s); return DOWFULL[d.getDay()]+", "+MONTHS[d.getMonth()]+" "+d.getDate(); }
+function fmtShort(s){ const d = parseD(s); return DOW[d.getDay()]+" "+MONTHS[d.getMonth()].slice(0,3)+" "+d.getDate(); }
+function inRange(ev, k){
+  if(ev.days) return ev.days.indexOf(k) !== -1;
+  if(!ev.end) return ev.start === k;
+  return k >= ev.start && k <= ev.end;
+}
+/* Heading for an event that runs on separate days, across a range, or once. */
+function dateSpan(ev, long){
+  if(ev.days){
+    const p = ev.days.map(fmtShort);
+    return p.length > 1 ? p.slice(0,-1).join(", ") + " & " + p[p.length-1] : p[0];
+  }
+  if(ev.end) return fmtShort(ev.start) + " – " + fmtShort(ev.end);
+  return long ? fmtLong(ev.start) : fmtShort(ev.start);
+}
+function isMultiDay(ev){ return !!(ev.end || ev.days); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function mapsHref(name){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(name + ", Peterborough, NH"); }
+
+const SORTED = EVENTS.slice().sort((a,b) => a.start === b.start ? a.sort - b.sort : (a.start < b.start ? -1 : 1));
+const TODAY_KEY = keyOf(new Date());
+
+/* ---------------- shared bits ---------------- */
+function catChips(container, state, onChange){
+  const keys = Object.keys(CATS);
+  container.innerHTML =
+    '<button class="chip all" type="button" data-cat="">All</button>' +
+    keys.map(k => '<button class="chip" type="button" data-cat="'+k+'" style="--cat:'+CATS[k].c+'"><span class="dot"></span>'+esc(CATS[k].label)+'</button>').join("");
+  function paint(){
+    container.querySelectorAll(".chip").forEach(b => {
+      const k = b.dataset.cat;
+      b.setAttribute("aria-pressed", k === "" ? (state.active.size === 0) : state.active.has(k));
+    });
+  }
+  container.addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if(!b) return;
+    const k = b.dataset.cat;
+    if(k === "") state.active.clear();
+    else if(state.active.has(k)) state.active.delete(k);
+    else state.active.add(k);
+    paint(); onChange();
+  });
+  paint();
+}
+/* An event shows under its own category and any listed in `also`. */
+function catsOf(ev){ return [ev.cat].concat(ev.also || []); }
+function passes(ev, state){
+  return state.active.size === 0 || catsOf(ev).some(k => state.active.has(k));
+}
+
+function eventCard(ev){
+  const c = CATS[ev.cat].c;
+  const links = (ev.links || []).map(l =>
+    '<a class="ilink" href="'+esc(l.href)+'" target="_blank" rel="noopener">'+esc(l.label)+' ↗</a>').join("");
+  const venueName = VENUES[ev.venue] ? VENUES[ev.venue].name : ev.place;
+  const maps = '<a class="ilink" href="'+esc(mapsHref(venueName))+'" target="_blank" rel="noopener">Directions ↗</a>';
+  return '<article class="card" style="--c:'+c+'">'
+    + '<p class="kicker"><span>'+esc(CATS[ev.cat].label)+'</span>'
+      + (ev.also || []).map(k => '<span class="alsocat" style="--c2:'+CATS[k].c+'">'+esc(CATS[k].label)+'</span>').join("")
+      + (ev.badge ? '<span class="badge">'+esc(ev.badge)+'</span>' : "")+'</p>'
+    + '<h4>'+esc(ev.title)+'</h4>'
+    + '<p class="when">'+esc(ev.time)+'</p>'
+    + '<p class="where">'+esc(ev.place)+'</p>'
+    + '<p class="desc">'+esc(ev.desc)+'</p>'
+    + (ev.list ? '<ul>'+ev.list.map(i => '<li>'+esc(i)+'</li>').join("")+'</ul>' : "")
+    + (ev.note ? '<p class="evnote">'+esc(ev.note)+'</p>' : "")
+    + (ev.email ? '<p class="evmail"><code>'+esc(ev.email)+'</code>'
+        + '<button type="button" class="copy" data-copy="'+esc(ev.email)+'">Copy</button></p>' : "")
+    + (ev.flyer ? '<button type="button" class="flyerthumb" data-src="'+esc(ev.flyer.src)+'" data-alt="'+esc(ev.flyer.alt)+'">'
+        + '<img src="'+esc(ev.flyer.src)+'" alt="'+esc(ev.flyer.alt)+'" loading="lazy">'
+        + '<span>View the full flyer</span></button>' : "")
+    + (ev.flag ? '<p class="flag"><b>Check this:</b> '+esc(ev.flag)+'</p>' : "")
+    + '<p class="links">'+links+maps+'</p>'
+    + '</article>';
+}
+
+/* ---------------- tabs ---------------- */
+const tabs = Array.from(document.querySelectorAll(".tab"));
+const panels = {
+  list: document.getElementById("panel-list"),
+  calendar: document.getElementById("panel-calendar"),
+  map: document.getElementById("panel-map"),
+  shops: document.getElementById("panel-shops")
+};
+const VALID = Object.keys(panels);
+function show(view, push){
+  if(!VALID.includes(view)) view = "list";
+  tabs.forEach(t => t.setAttribute("aria-selected", String(t.dataset.view === view)));
+  VALID.forEach(v => { panels[v].hidden = (v !== view); });
+  if(push){ try{ location.hash = view; }catch(e){} }
+}
+tabs.forEach(t => t.addEventListener("click", () => show(t.dataset.view, true)));
+window.addEventListener("hashchange", () => show(location.hash.replace("#",""), false));
+
+/* ---------------- calendar ---------------- */
+const calState = {active:new Set(), day:null};
+const monthsEl = document.getElementById("months");
+const dayPanel = document.getElementById("daypanel");
+
+function eventsOn(k){ return SORTED.filter(ev => inRange(ev, k) && passes(ev, calState)); }
+
+function renderMonths(){
+  const spec = [[2026,10],[2026,11]];
+  monthsEl.innerHTML = spec.map(([y,m]) => {
+    const first = new Date(y,m,1), days = new Date(y,m+1,0).getDate();
+    let cells = "";
+    for(let i=0;i<first.getDay();i++) cells += '<div class="cell pad"></div>';
+    for(let d=1; d<=days; d++){
+      const k = keyOf(new Date(y,m,d));
+      const evs = eventsOn(k);
+      const dated = evs.filter(e => !isMultiDay(e));
+      const spans = evs.filter(isMultiDay);
+      const cls = ["cell"];
+      if(spans.length) cls.push("span");
+      if(evs.length) cls.push("has");
+      if(k === TODAY_KEY) cls.push("today");
+      const dots = evs.slice(0,4).map(e => '<i style="--c:'+CATS[e.cat].c+'"></i>').join("");
+      const label = esc(fmtLong(k)) + (evs.length ? " — " + evs.length + " event" + (evs.length>1?"s":"") : " — nothing listed");
+      cells += evs.length
+        ? '<button type="button" class="'+cls.join(" ")+'" data-k="'+k+'" aria-pressed="'+(calState.day===k)+'" aria-label="'+label+'"><span class="num">'+d+'</span><span class="dots">'+dots+'</span></button>'
+        : '<div class="'+cls.join(" ")+'"><span class="num">'+d+'</span><span class="dots"></span></div>';
+      void dated;
+    }
+    return '<div class="month"><h3>'+MONTHS[m]+' '+y+'</h3>'
+      + '<div class="dow">'+DOW.map(d => '<span>'+d[0]+'</span>').join("")+'</div>'
+      + '<div class="grid">'+cells+'</div></div>';
+  }).join("");
+}
+
+function renderDay(){
+  const k = calState.day;
+  if(!k){
+    dayPanel.innerHTML = '<div class="empty"><strong>Nothing matches those filters</strong>Turn a category back on to see the calendar fill in again.</div>';
+    return;
+  }
+  const evs = eventsOn(k);
+  dayPanel.innerHTML = '<h3>'+esc(fmtLong(k))+'</h3>'
+    + '<p class="dp-sub">'+evs.length+' event'+(evs.length===1?"":"s")+' listed</p>'
+    + '<div class="daylist cards">'+evs.map(eventCard).join("")+'</div>';
+}
+
+function pickDefaultDay(){
+  const withEvents = [];
+  [[2026,10],[2026,11]].forEach(([y,m]) => {
+    const days = new Date(y,m+1,0).getDate();
+    for(let d=1; d<=days; d++){
+      const k = keyOf(new Date(y,m,d));
+      if(eventsOn(k).length) withEvents.push(k);
+    }
+  });
+  if(!withEvents.length) return null;
+  return withEvents.find(k => k >= TODAY_KEY) || withEvents[withEvents.length-1];
+}
+
+function refreshCalendar(keepDay){
+  if(!keepDay || !calState.day || !eventsOn(calState.day).length) calState.day = pickDefaultDay();
+  renderMonths(); renderDay();
+}
+monthsEl.addEventListener("click", e => {
+  const b = e.target.closest(".cell.has"); if(!b || !b.dataset.k) return;
+  calState.day = b.dataset.k;
+  renderMonths(); renderDay();
+});
+catChips(document.getElementById("cal-chips"), calState, () => refreshCalendar(true));
+refreshCalendar(false);
+
+/* ---------------- list ---------------- */
+const listState = {active:new Set()};
+const listOut = document.getElementById("listout");
+const listCount = document.getElementById("list-count");
+const searchEl = document.getElementById("search");
+
+function renderList(){
+  const q = searchEl.value.trim().toLowerCase();
+  const matched = SORTED.filter(ev => {
+    if(!passes(ev, listState)) return false;
+    if(!q) return true;
+    const hay = [ev.title, ev.place, ev.desc, ev.time, (ev.list||[]).join(" ")].join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+  listCount.textContent = matched.length + " of " + EVENTS.length + " events";
+  if(!matched.length){
+    listOut.innerHTML = '<div class="empty"><strong>No events match</strong>Try a different word, or clear the category filters.</div>';
+    return;
+  }
+  const groups = [];
+  matched.forEach(ev => {
+    const head = dateSpan(ev, true);
+    let g = groups.find(x => x.head === head);
+    if(!g){ g = {head, key:ev.start, items:[]}; groups.push(g); }
+    g.items.push(ev);
+  });
+  listOut.innerHTML = groups.map(g =>
+    '<div class="daygroup"><h3>'+esc(g.head)+'</h3><div class="cards">'+g.items.map(eventCard).join("")+'</div></div>'
+  ).join("");
+}
+catChips(document.getElementById("list-chips"), listState, renderList);
+searchEl.addEventListener("input", renderList);
+renderList();
+
+/* ---------------- map ---------------- */
+const mapBox = document.getElementById("mapbox");
+const venueList = document.getElementById("venuelist");
+const mapNote = document.getElementById("mapnote");
+const layerState = {on:new Set(Object.keys(POIGROUPS))};
+let activeVenue = "putnam";
+let activePoi = null;
+
+/* Parking lots sit in tight clusters; merge any within 24 units into one marker. */
+const LOTGROUPS = (function(){
+  const out = [];
+  LOTS.forEach(p => {
+    const near = out.find(g => Math.abs(g.x-p[0]) < 24 && Math.abs(g.y-p[1]) < 24);
+    if(near){ near.n++; near.x = Math.round((near.x*(near.n-1)+p[0])/near.n); near.y = Math.round((near.y*(near.n-1)+p[1])/near.n); }
+    else out.push({x:p[0], y:p[1], n:1});
+  });
+  return out;
+})();
+
+function venueColor(key, fallback){
+  const evs = SORTED.filter(e => e.venue === key);
+  return evs.length ? CATS[evs[0].cat].c : fallback;
+}
+
+function buildMap(){
+  const roads =
+      ROADS.map(r => '<path class="casing" stroke-width="'+(r[1]?17:12)+'" d="'+r[2]+'"></path>').join("")
+    + ROADS.map(r => '<path class="tarmac" stroke-width="'+(r[1]?12.5:8)+'" d="'+r[2]+'"></path>').join("");
+  const water  = WATER.map(w => '<path class="water" stroke-width="'+w[1]+'" d="'+w[0]+'"></path>').join("");
+  const greens = GREENS.map(d => '<path class="greens" d="'+d+'"></path>').join("");
+
+  const routes = Object.entries(VENUES).filter(e => e[1].route).map(([key, v]) =>
+      '<path class="routehit" data-v="'+key+'" d="'+v.route+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'"></path>'
+    + '<path class="route'+(key===activeVenue?" on":"")+'" d="'+v.route+'" stroke="'+v.rc+'" stroke-width="'+v.w+'"'
+    + (v.dash ? ' stroke-dasharray="'+v.dash+'"' : "") + '></path>').join("");
+
+  const lots = layerState.on.has("parking") ? LOTGROUPS.map((g,i) => {
+    const label = g.n > 1 ? g.n+" parking lots" : "Parking";
+    return '<g class="lot'+(activePoi==="lot"+i?" sel":"")+'" data-poi="lot'+i+'" data-label="'+label+'" data-group="parking" role="button" tabindex="0">'
+      + '<rect x="'+(g.x-7)+'" y="'+(g.y-7)+'" width="14" height="14" rx="3"></rect>'
+      + '<text x="'+g.x+'" y="'+(g.y+3.4)+'" text-anchor="middle">P</text>'
+      + '<title>'+label+'</title></g>';
+  }).join("") : "";
+
+  const pois = POIS.filter(p => layerState.on.has(p.g)).map(p =>
+      '<g class="poi'+(activePoi==="poi"+p.n?" sel":"")+'" data-poi="poi'+esc(p.n)+'" data-label="'+esc(p.n)+'" data-group="'+p.g+'" style="--pc:'+POIGROUPS[p.g].c+'" role="button" tabindex="0">'
+    + '<circle class="d" cx="'+p.x+'" cy="'+p.y+'" r="5.2"></circle>'
+    + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="13"></circle>'
+    + '<title>'+esc(p.n)+'</title></g>').join("");
+
+  const pins = Object.entries(VENUES).filter(e => !e[1].route).map(([key, v]) =>
+      '<g class="pin'+(key===activeVenue?" on":"")+'" data-v="'+key+'" style="--c:'+venueColor(key,"var(--ink-3)")+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'">'
+    + '<circle class="hit" cx="'+v.x+'" cy="'+v.y+'" r="22"></circle>'
+    + '<path class="body" d="M'+v.x+' '+(v.y+4)+' l-8.5 -14 a10 10 0 1 1 17 0 Z"></path>'
+    + '<circle class="head" cx="'+v.x+'" cy="'+(v.y-14)+'" r="3.8"></circle>'
+    + '<text x="'+v.lx+'" y="'+v.ly+'" text-anchor="'+v.anchor+'">'+esc(v.short)+'</text>'
+    + '</g>').join("");
+
+  const labels =
+      STREETLABELS.map(l => '<text class="slabel" transform="translate('+l[1]+','+l[2]+') rotate('+l[3]+')">'+l[0]+'</text>').join("")
+    + WATERLABELS.map(l => '<text class="slabel wlabel" transform="translate('+l[1]+','+l[2]+') rotate('+l[3]+')">'+l[0]+'</text>').join("");
+
+  mapBox.innerHTML =
+    '<svg viewBox="'+MAP_VIEW+'" role="img" aria-label="Map of downtown Peterborough, New Hampshire, showing holiday event locations">'
+    + '<rect class="ground" x="40" y="60" width="700" height="580" rx="8"></rect>'
+    + water + greens + roads + routes + labels + lots + pois + pins
+    /* 108 units is 100 metres at this projection */
+    + '<g transform="translate(560,614)">'
+    +   '<path class="scalebar" d="M0 0h108M0 -4v8M108 -4v8"></path>'
+    +   '<text class="scaletext" x="54" y="-9" text-anchor="middle">100 m</text>'
+    + '</g>'
+    + '<g transform="translate(706,598)">'
+    +   '<path d="M0 -20 L6 7 L0 1 L-6 7 Z" fill="var(--ink-3)"></path>'
+    +   '<text class="scaletext" x="0" y="22" text-anchor="middle">N</text>'
+    + '</g>'
+    + '</svg>';
+}
+
+function setNote(html, color){
+  mapNote.innerHTML = html;
+  mapNote.style.setProperty("--sw", color || "var(--ink-3)");
+}
+function clearNote(){
+  setNote('<span class="swatch"></span><span>Tap a pin, a dot or a <b>P</b> to identify it.</span>');
+}
+
+function renderLayers(){
+  document.getElementById("maplayers").innerHTML = Object.keys(POIGROUPS).map(k =>
+    '<button class="chip" type="button" data-layer="'+k+'" style="--cat:'+POIGROUPS[k].c+'" aria-pressed="'+layerState.on.has(k)+'">'
+    + '<span class="dot"></span>'+esc(POIGROUPS[k].label)+'</button>').join("");
+}
+
+function setPoi(el){
+  activePoi = el.dataset.poi;
+  buildMap();
+  setNote('<span class="swatch"></span><span><b>'+esc(el.dataset.label)+'</b> &middot; '
+    + esc(POIGROUPS[el.dataset.group].label)+'</span>', POIGROUPS[el.dataset.group].c);
+}
+
+function renderVenues(){
+  venueList.innerHTML = Object.entries(VENUES).map(([key, v]) => {
+    const evs = SORTED.filter(e => e.venue === key);
+    const c = venueColor(key, "var(--line)");
+    return '<button type="button" class="venue" data-v="'+key+'" style="--c:'+c+'" aria-pressed="'+(key===activeVenue)+'">'
+      + '<h4>'+esc(v.name)+'</h4><p class="vsub">'+esc(v.sub)+'</p>'
+      + '<div class="vev">'+evs.map(e => '<span><b>'+esc(e.title)+'</b> &middot; '+esc(dateSpan(e, false))+', '+esc(e.time)+'</span>').join("")+'</div>'
+      + '</button>';
+  }).join("");
+
+  document.getElementById("offmaplist").innerHTML = OFFMAP.map(o => {
+    const evs = o.ids.map(id => SORTED.find(e => e.id === id)).filter(Boolean);
+    const c = evs.length ? CATS[evs[0].cat].c : "var(--line)";
+    return '<div class="venue" style="--c:'+c+';cursor:default">'
+      + '<h4>'+esc(o.name)+'</h4><p class="vsub">'+esc(o.sub)+'</p>'
+      + '<div class="vev">'+evs.map(e => '<span><b>'+esc(e.title)+'</b> &middot; '+esc(dateSpan(e, false))+', '+esc(e.time)+'</span>').join("")+'</div>'
+      + (o.map ? '<p class="links" style="margin-top:10px"><a class="ilink" href="'+esc(mapsHref(o.name))+'" target="_blank" rel="noopener">Directions ↗</a></p>' : "")
+      + '</div>';
+  }).join("");
+}
+
+function setVenue(key){
+  activeVenue = key; activePoi = null;
+  buildMap(); renderVenues();
+  const v = VENUES[key];
+  const evs = SORTED.filter(e => e.venue === key);
+  setNote('<span class="swatch"></span><span><b>'+esc(v.name)+'</b> &middot; '+esc(v.sub)
+    + (evs.length ? ' &middot; '+evs.length+' event'+(evs.length===1?"":"s")+' here' : "")+'</span>',
+    venueColor(key, "var(--ink-3)"));
+  const btn = venueList.querySelector('[data-v="'+key+'"]');
+  if(btn) btn.scrollIntoView({block:"nearest", behavior:"smooth"});
+}
+
+function mapHit(target){
+  const v = target.closest(".pin, .routehit");
+  if(v){ setVenue(v.dataset.v); return true; }
+  const p = target.closest(".poi, .lot");
+  if(p){ setPoi(p); return true; }
+  return false;
+}
+mapBox.addEventListener("click", e => { mapHit(e.target); });
+mapBox.addEventListener("keydown", e => {
+  if(e.key !== "Enter" && e.key !== " ") return;
+  if(mapHit(e.target)) e.preventDefault();
+});
+document.getElementById("maplayers").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if(!b) return;
+  const k = b.dataset.layer;
+  if(layerState.on.has(k)) layerState.on.delete(k); else layerState.on.add(k);
+  activePoi = null; renderLayers(); buildMap();
+});
+venueList.addEventListener("click", e => {
+  const b = e.target.closest(".venue"); if(b && b.dataset.v) setVenue(b.dataset.v);
+});
+renderLayers(); buildMap(); renderVenues(); clearNote();
+
+/* ---------------- shops (db-backed) ---------------- */
+const SHOP_CATS = ["Shop","Eat & drink","Arts & makers","Services","Lodging","Other"];
+const shopGrid = document.getElementById("shopgrid");
+const shopStatus = document.getElementById("shop-status");
+const shopEditor = document.getElementById("shop-editor");
+const addBtn = document.getElementById("add-shop");
+const shopSearch = document.getElementById("shop-search");
+
+let DB = null, shops = [], shopsLoaded = false, canWrite = null, editingId = null, slowTimer = null;
+
+function shopCard(s){
+  const rows = [];
+  if(s.promo) rows.push('<div class="promo"><dt>Holiday offer</dt><dd>'+esc(s.promo)+'</dd></div>');
+  if(s.hours) rows.push('<div><dt>Holiday hours</dt><dd>'+esc(s.hours)+'</dd></div>');
+  if(s.address) rows.push('<div><dt>Where</dt><dd>'+esc(s.address)+'</dd></div>');
+  const link = s.link ? '<a class="ilink" href="'+esc(s.link)+'" target="_blank" rel="noopener">Website ↗</a>' : "";
+  const controls = canWrite === false ? "" :
+    '<div class="srow"><button type="button" class="edit" data-id="'+esc(s.id)+'">Edit</button>'
+    + '<button type="button" class="del" data-id="'+esc(s.id)+'">Remove</button></div>';
+  return '<article class="shop">'
+    + '<div><p class="scat">'+esc(s.category || "Business")+'</p><h4>'+esc(s.name)+'</h4></div>'
+    + (rows.length ? '<dl>'+rows.join("")+'</dl>' : '<p class="where" style="font-size:13.5px;color:var(--ink-3)">No hours or offer listed yet.</p>')
+    + (link ? '<p class="links">'+link+'</p>' : "")
+    + controls + '</article>';
+}
+
+function renderShops(){
+  if(!shopsLoaded) return;
+  const q = shopSearch.value.trim().toLowerCase();
+  const list = shops
+    .filter(s => !q || [s.name, s.category, s.promo, s.hours, s.address].join(" ").toLowerCase().includes(q))
+    .sort((a,b) => String(a.name||"").localeCompare(String(b.name||"")));
+  if(!list.length){
+    shopGrid.innerHTML = '<div class="empty" style="grid-column:1/-1">'
+      + '<strong>' + (shops.length ? "No shops match that search" : "No businesses listed yet") + '</strong>'
+      + (shops.length ? "Clear the search to see the whole list."
+        : (canWrite === false
+            ? "Whoever runs this page adds shops, their holiday hours and their offers here."
+            : "Use &ldquo;Add a business&rdquo; to list a shop with its holiday hours and offer. Entries save for everyone who opens this page."))
+      + '</div>';
+    return;
+  }
+  shopGrid.innerHTML = list.map(shopCard).join("");
+}
+
+function closeEditor(){ editingId = null; shopEditor.hidden = true; shopEditor.innerHTML = ""; addBtn.hidden = (canWrite === false); }
+
+function openEditor(id){
+  const s = id ? shops.find(x => x.id === id) : null;
+  editingId = id || null;
+  addBtn.hidden = true;
+  shopEditor.hidden = false;
+  shopEditor.innerHTML = '<div class="editor">'
+    + '<h3>'+(s ? "Edit "+esc(s.name) : "Add a business")+'</h3>'
+    + '<div class="fields">'
+    + '<div class="field"><label for="f-name">Business name</label><input id="f-name" value="'+esc(s?s.name||"":"")+'" autocomplete="off"></div>'
+    + '<div class="field"><label for="f-cat">Kind</label><select id="f-cat">'
+      + SHOP_CATS.map(c => '<option'+(s && s.category===c ? " selected":"")+'>'+esc(c)+'</option>').join("")
+      + '</select></div>'
+    + '<div class="field wide"><label for="f-promo">Holiday promotion</label><textarea id="f-promo" placeholder="20% off all ornaments on Plaid Friday">'+esc(s?s.promo||"":"")+'</textarea></div>'
+    + '<div class="field wide"><label for="f-hours">Holiday hours</label><textarea id="f-hours" placeholder="Nov 27: 9 AM – 8 PM&#10;Nov 28: 10 AM – 7 PM">'+esc(s?s.hours||"":"")+'</textarea></div>'
+    + '<div class="field"><label for="f-addr">Street address</label><input id="f-addr" value="'+esc(s?s.address||"":"")+'" autocomplete="off"></div>'
+    + '<div class="field"><label for="f-link">Website</label><input id="f-link" type="url" placeholder="https://" value="'+esc(s?s.link||"":"")+'" autocomplete="off"></div>'
+    + '</div>'
+    + '<div class="erow"><button class="btn" type="button" id="f-save">'+(s?"Save changes":"Add business")+'</button>'
+    + '<button class="btn ghost" type="button" id="f-cancel">Cancel</button>'
+    + '<span class="err" id="f-err"></span></div></div>';
+  document.getElementById("f-cancel").addEventListener("click", closeEditor);
+  document.getElementById("f-save").addEventListener("click", saveShop);
+  document.getElementById("f-name").focus();
+}
+
+async function saveShop(){
+  const err = document.getElementById("f-err");
+  const btn = document.getElementById("f-save");
+  const name = document.getElementById("f-name").value.trim();
+  if(!name){ err.textContent = "Give the business a name."; return; }
+  if(!DB){ err.textContent = "Can't reach the saved list right now."; return; }
+  const body = {
+    name,
+    category: document.getElementById("f-cat").value,
+    promo: document.getElementById("f-promo").value.trim(),
+    hours: document.getElementById("f-hours").value.trim(),
+    address: document.getElementById("f-addr").value.trim(),
+    link: document.getElementById("f-link").value.trim(),
+    updated: new Date().toISOString()
+  };
+  err.textContent = ""; btn.disabled = true; btn.textContent = "Saving…";
+  try{
+    const ref = editingId ? DB.collection("businesses").doc(editingId) : DB.collection("businesses").doc();
+    await ref.set(body);
+    closeEditor();
+  }catch(e){
+    btn.disabled = false; btn.textContent = editingId ? "Save changes" : "Add business";
+    if(e && e.code === "invalid_argument"){
+      canWrite = false; closeEditor(); renderShops();
+      shopStatus.className = "status warn";
+      shopStatus.textContent = "You can read this list but not change it. Ask whoever shared the page for Contributor access.";
+    }else if(e && e.code === "quota_exceeded"){
+      err.textContent = "The saved list is full. Remove an entry first.";
+    }else{
+      err.textContent = "That didn't save. Try again in a moment.";
+    }
+  }
+}
+
+shopGrid.addEventListener("click", async e => {
+  const ed = e.target.closest("button.edit");
+  if(ed){ openEditor(ed.dataset.id); return; }
+  const del = e.target.closest("button.del");
+  if(del){
+    const s = shops.find(x => x.id === del.dataset.id); if(!s || !DB) return;
+    if(del.dataset.armed !== "1"){
+      del.dataset.armed = "1"; del.textContent = "Remove — tap again";
+      setTimeout(() => { if(del.isConnected){ del.dataset.armed = ""; del.textContent = "Remove"; } }, 4000);
+      return;
+    }
+    try{ await DB.collection("businesses").doc(s.id).delete(); }
+    catch(err){ shopStatus.className = "status warn"; shopStatus.textContent = "That entry couldn't be removed."; }
+  }
+});
+shopSearch.addEventListener("input", renderShops);
+addBtn.addEventListener("click", () => openEditor(null));
+
+(async function initShops(){
+  let db = null;
+  try{ db = await window.claude?.use("db"); }catch(e){ db = null; }
+  if(!db){
+    /* Standalone build (e.g. GitHub Pages): fall back to the published snapshot. */
+    try{
+      const r = await fetch("data/businesses.json", {cache:"no-cache"});
+      if(!r.ok) throw new Error("no snapshot");
+      shops = await r.json();
+      canWrite = false; shopsLoaded = true;
+      shopStatus.className = "status";
+      shopStatus.textContent = shops.length + " business" + (shops.length===1?"":"es")
+        + " listed. This is a published snapshot, so it can’t be edited here.";
+      renderShops();
+    }catch(e){
+      canWrite = false; shopsLoaded = true;
+      shopStatus.className = "status";
+      shopStatus.textContent = "";
+      shopGrid.innerHTML = '<div class="empty" style="grid-column:1/-1">'
+        + '<strong>Shop list unavailable here</strong>'
+        + 'Holiday hours and offers are kept on the live version of this page.</div>';
+    }
+    return;
+  }
+  DB = db;
+  try{
+    const user = await window.claude?.use("user");
+    canWrite = user ? await user.can("data.write") : null;
+  }catch(e){ canWrite = null; }
+  addBtn.hidden = (canWrite === false);
+
+  slowTimer = setTimeout(() => {
+    shopStatus.className = "status warn";
+    shopStatus.textContent = "Still reaching the saved shop list — what's shown may be out of date.";
+  }, 10000);
+
+  DB.collection("businesses").onSnapshot(snap => {
+    if(!snap.metadata.fromCache && slowTimer){ clearTimeout(slowTimer); slowTimer = null; }
+    shops = snap.docs.map(d => Object.assign({id:d.id}, d.data()));
+    shopsLoaded = true;
+    if(!slowTimer || !snap.metadata.fromCache){
+      shopStatus.className = "status";
+      shopStatus.textContent = canWrite === false
+        ? shops.length + " business" + (shops.length===1?"":"es") + " listed. You can read this list but not change it."
+        : shops.length + " business" + (shops.length===1?"":"es") + " listed. Anything you add here saves for everyone who opens the page.";
+    }
+    renderShops();
+  }, err => {
+    if(slowTimer){ clearTimeout(slowTimer); slowTimer = null; }
+    shopsLoaded = true;
+    shopStatus.className = "status warn";
+    shopStatus.textContent = "The saved shop list can't be reached right now.";
+    renderShops();
+  });
+})();
+
+/* ---------------- flyer lightbox + copy ---------------- */
+const lb = document.getElementById("lightbox");
+const lbImg = document.getElementById("lbimg");
+const lbClose = lb.querySelector(".lbclose");
+let lastFocus = null;
+
+function openLb(src, alt){
+  lastFocus = document.activeElement;
+  lbImg.src = src; lbImg.alt = alt || "";
+  lb.hidden = false; lbClose.focus();
+}
+function closeLb(){
+  lb.hidden = true; lbImg.removeAttribute("src");
+  if(lastFocus && lastFocus.isConnected) lastFocus.focus();
+}
+function selectEmail(btn){
+  const code = btn.parentElement && btn.parentElement.querySelector("code");
+  if(!code) return;
+  try{
+    const r = document.createRange(); r.selectNodeContents(code);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = "Selected — copy it";
+  }catch(e){ btn.textContent = "Select it above"; }
+}
+
+document.addEventListener("click", e => {
+  const thumb = e.target.closest(".flyerthumb");
+  if(thumb){ openLb(thumb.dataset.src, thumb.dataset.alt); return; }
+  if(e.target === lb || e.target.closest(".lbclose")){ closeLb(); return; }
+  const cp = e.target.closest("button.copy");
+  if(cp){
+    const label = cp.textContent;
+    const restore = () => setTimeout(() => { if(cp.isConnected) cp.textContent = label; }, 1800);
+    try{
+      navigator.clipboard.writeText(cp.dataset.copy).then(
+        () => { cp.textContent = "Copied"; restore(); },
+        () => { selectEmail(cp); restore(); }
+      );
+    }catch(err){ selectEmail(cp); restore(); }
+  }
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && !lb.hidden) closeLb();
+});
+
+/* ---------------- boot ---------------- */
+document.getElementById("fact-count").textContent = EVENTS.length + " events";
+document.getElementById("foot-note").textContent =
+  "Shop holiday hours and offers live on the Shops tab, where they can be added or edited at any time.";
+show(location.hash.replace("#","") || "list", false);
+</script>

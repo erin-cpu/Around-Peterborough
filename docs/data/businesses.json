@@ -1,0 +1,20 @@
+[
+  {
+    "id": "peterborough-diner",
+    "name": "Peterborough Diner",
+    "category": "Eat & drink",
+    "promo": "Santa's Stop, Friday Nov 27, 4–6 PM: cocoa, cookies and visits with Santa and Mrs. Claus. The historic diner car is lit at 4:00 PM.",
+    "hours": "",
+    "address": "10 Depot Street",
+    "link": "https://www.facebook.com/PeterboroughDiner"
+  },
+  {
+    "id": "maxt-makerspace",
+    "name": "MAxT Makerspace",
+    "category": "Arts & makers",
+    "promo": "Hosts the Holiday Night Market & Winter Shop & Stroll, Saturday Nov 28, 2–7 PM at the Peterborough Town House — 70+ vendors indoors and out, outdoor bar, food trucks, warming stands and a campfire with free s'mores.",
+    "hours": "",
+    "address": "49 Vose Farm Road. Market is at the Town House, Grove Street.",
+    "link": "https://maxtmakerspace.org/"
+  }
+]
