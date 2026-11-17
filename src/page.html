@@ -267,6 +267,9 @@ section[role="tabpanel"]{animation:fade .25s ease both}
   display:inline-flex;align-items:center;gap:5px;
 }
 .ilink:hover{border-color:var(--ink-3);color:var(--ink)}
+button.ilink{background:none;cursor:pointer;font-family:var(--body)}
+button.ilink.mapjump{border-color:var(--c,var(--line));color:var(--c,var(--ink-2))}
+button.ilink.mapjump:hover{background:color-mix(in srgb,var(--c) 12%,transparent)}
 .flag{
   margin-top:10px;font-size:12.5px;line-height:1.5;color:var(--ink-2);
   background:color-mix(in srgb,var(--brass) 11%,transparent);
@@ -726,6 +729,12 @@ const HIGHWAYS = [
   ["tertiary","M735 1767L738 1700L728 1599L716 1535L690 1400L666 1283L651 1187L636 1076L623 924L617 853L596 771L576 702L542 606L526 512L524 504"],
   ["secondary","M236 1107L257 1069L320 951L330 894L324 791L291 634L273 552L260 485L261 478"],
   ["tertiary","M11 128L-18 98L-60 67L-303 -75L-414 -141L-477 -167L-574 -196L-601 -204"],
+  /* North-west to Greenfield: Hancock Road, then Concord Road. */
+  ["primary","M1233 -4509L1197 -4712L1171 -4792L1144 -4861L1111 -4937L1062 -5039L1004 -5131L965 -5184L921 -5238L854 -5330L751 -5455L655 -5552L605 -5598L505 -5691L460 -5731L419 -5764L351 -5814L153 -5956L98 -5995L40 -6029L-21 -6057L-85 -6078L-151 -6093L-216 -6112L-278 -6134L-326 -6156L-383 -6187L-439 -6224L-473 -6251L-541 -6313L-580 -6358L-612 -6399L-646 -6452L-706 -6557L-775 -6673L-801 -6713L-826 -6761L-847 -6820"],
+  ["primary","M-847 -6820L-862 -6893L-875 -7008L-879 -7051L-895 -7239L-909 -7302L-947 -7610L-969 -7779L-975 -7863L-968 -8032L-956 -8116L-939 -8200L-916 -8282L-784 -8647L-698 -8879L-632 -9036L-553 -9186L-461 -9328L-405 -9403"],
+  /* North-east to Greenfield village, and Forest Road across the top. */
+  ["secondary","M2933 -4139L3043 -4212L3139 -4277L3223 -4344L3294 -4455L3329 -4554L3326 -4655L3297 -4815L3263 -5026L3234 -5215L3205 -5388L3182 -5516L3160 -5657L3160 -5732L3205 -5837L3275 -5914L3355 -5995L3427 -6070L3536 -6199L3638 -6385L3716 -6528L3762 -6632L3821 -6735L3890 -6815L3990 -6879L4086 -6913L4251 -6956L4472 -7007L4619 -7048L4710 -7106L4849 -7249L5032 -7425L5107 -7504L5210 -7625L5297 -7728L5346 -7817L5388 -7908L5437 -8013L5523 -8188L5584 -8283L5658 -8333L5785 -8361L5921 -8381"],
+  ["tertiary","M1696 -9199L1777 -9130L1862 -9075L1963 -9011L2070 -8944L2162 -8904L2273 -8875L2406 -8876L2572 -8880L2769 -8884L2980 -8888L3402 -8894L3570 -8896L3835 -8899L4059 -8901L4332 -8906L4463 -8905L4650 -8872L4797 -8846L4999 -8836L5150 -8836L5257 -8815L5353 -8761L5499 -8676L5646 -8593L5768 -8528L5931 -8460L6027 -8422"],
   /* Grove Street south out of downtown, then Jaffrey Road down to Noone. */
   ["secondary","M236 1107L221 1129L216 1137L211 1146L195 1173L184 1192L163 1228L132 1279L113 1311L104 1327L76 1374L65 1389L44 1416L25 1436L-10 1474"],
   ["primary","M-10 1474L-37 1501L-62 1527L-96 1562L-139 1607L-164 1634L-264 1742L-320 1805L-349 1835L-428 1923L-454 1956L-480 1990L-547 2088L-590 2150L-604 2172L-630 2223L-644 2257L-663 2293L-696 2346L-708 2365L-720 2387L-733 2413L-760 2470L-771 2494L-800 2562L-807 2586L-814 2636L-820 2711L-826 2809L-831 2888L-838 2938L-849 2996L-857 3028L-869 3061L-881 3092L-896 3123L-919 3169L-930 3191L-954 3245L-963 3268L-982 3333L-988 3366L-995 3424L-998 3458L-998 3492L-996 3534L-984 3668L-972 3798"],
@@ -807,6 +816,7 @@ const LOTS = [[381,357],[451,423],[383,440],[397,433],[360,221],[283,245],[408,1
 const STROLL = [
   {n:1, name:"The Church of Jesus Christ of Latter-day Saints", short:"Latter-day Saints",
    addr:"65 Old Bennington Road",
+   x:3390, y:-7900, lx:3360, ly:-7895, anchor:"end",
    blurb:"Free pancake breakfast 8–10 AM; Nativity Walk, children’s crafts, music and hot cocoa until noon"},
   {n:2, name:"All Saints’ Church", short:"All Saints’", addr:"52 Concord Street",
    x:698, y:-70, lx:686, ly:-66, anchor:"end",
@@ -1062,10 +1072,20 @@ function passes(ev, state){
   return state.active.size === 0 || catsOf(ev).some(k => state.active.has(k));
 }
 
+/* What the card's "On the map" button should do, or null if we cannot place
+   the event (Rosaly's has no confirmed position). */
+function mapTargetFor(ev){
+  if(ev.id === "stroll") return "stroll";
+  if(ev.venue === "various") return "giving";
+  return VENUES[ev.venue] ? "venue" : null;
+}
+
 function eventCard(ev){
   const c = CATS[ev.cat].c;
   const links = (ev.links || []).map(l =>
     '<a class="ilink" href="'+esc(l.href)+'" target="_blank" rel="noopener">'+esc(l.label)+' ↗</a>').join("");
+  const onMap = mapTargetFor(ev)
+    ? '<button type="button" class="ilink mapjump" data-ev="'+esc(ev.id)+'">On the map</button>' : "";
   const venueName = VENUES[ev.venue] ? VENUES[ev.venue].name : ev.place;
   const maps = '<a class="ilink" href="'+esc(mapsHref(venueName))+'" target="_blank" rel="noopener">Directions ↗</a>';
   return '<article class="card" style="--c:'+c+'">'
@@ -1084,7 +1104,7 @@ function eventCard(ev){
         + '<img src="'+esc(ev.flyer.src)+'" alt="'+esc(ev.flyer.alt)+'" loading="lazy">'
         + '<span>View the full flyer</span></button>' : "")
     + (ev.flag ? '<p class="flag"><b>Check this:</b> '+esc(ev.flag)+'</p>' : "")
-    + '<p class="links">'+links+maps+'</p>'
+    + '<p class="links">'+onMap+links+maps+'</p>'
     + '</article>';
 }
 
@@ -1290,7 +1310,7 @@ function buildMap(){
     return '<g class="stop'+(activePoi==="stop"+s.n?" sel":"")+'" data-poi="stop'+s.n+'" data-label="'+esc(label)+'" data-group="stroll" role="button" tabindex="0">'
       + '<circle cx="'+s.x+'" cy="'+s.y+'" r="'+r1(10)+'"></circle>'
       + '<text class="num" x="'+s.x+'" y="'+(s.y+r1(3.9))+'" text-anchor="middle">'+s.n+'</text>'
-      + (s.short ? '<text class="cap" x="'+s.lx+'" y="'+s.ly+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
+      + (s.short ? '<text class="cap" x="'+(s.x + (s.lx - s.x) * k)+'" y="'+(s.y + (s.ly - s.y) * k)+'" text-anchor="'+s.anchor+'">'+esc(s.short)+'</text>' : "")
       + '<title>'+esc(label)+'</title></g>';
   }).join("");
 
@@ -1315,7 +1335,7 @@ function buildMap(){
   mapBox.innerHTML =
     '<svg viewBox="'+view.x+' '+view.y+' '+view.w+' '+view.h+'" preserveAspectRatio="xMidYMid meet"'
     + ' role="img" aria-label="Map of Peterborough, New Hampshire, showing holiday event locations">'
-    + '<rect class="ground" x="-2200" y="-5900" width="6200" height="10400"></rect>'
+    + '<rect class="ground" x="-5200" y="-9800" width="13400" height="14000"></rect>'
     + water + greens + hwy + roads + routes + labels + lots + pois + stops + pins
     + '<g transform="translate('+sbx+','+sby+')">'
     +   '<path class="scalebar" d="M0 0h'+sb.u+'M0 '+r1(-4)+'v'+r1(8)+'M'+sb.u+' '+r1(-4)+'v'+r1(8)+'"></path>'
@@ -1329,7 +1349,10 @@ function buildMap(){
 }
 
 /* ---- zoom and pan ---- */
-const MIN_W = 170, MAX_W = 7600;
+const MIN_W = 170, MAX_W = 13000;
+/* Frames every marker: the Latter-day Saints meetinghouse up by Greenfield,
+   ConVal and Brady's north, Divine Mercy east, MAxT south-west at Noone. */
+const ALL_VIEW = {x:1354, y:-2741, w:11600};
 
 function applyView(){
   const svg = mapBox.querySelector("svg");
@@ -1368,9 +1391,7 @@ function mapPoint(e){
 document.getElementById("zin").addEventListener("click", () => zoomCentre(1/1.7));
 document.getElementById("zout").addEventListener("click", () => zoomCentre(1.7));
 document.getElementById("zhome").addEventListener("click", goHome);
-/* Frames downtown with ConVal and Brady's to the north, Divine Mercy east and
-   MAxT south-west at Noone Falls. */
-document.getElementById("ztown").addEventListener("click", () => focusOn(178, -678, 6700));
+document.getElementById("ztown").addEventListener("click", () => focusOn(ALL_VIEW.x, ALL_VIEW.y, ALL_VIEW.w));
 
 /* Ctrl/Cmd + wheel zooms; a plain wheel still scrolls the page past the map. */
 mapBox.addEventListener("wheel", e => {
@@ -1406,6 +1427,34 @@ function endDrag(){
 }
 mapBox.addEventListener("pointerup", endDrag);
 mapBox.addEventListener("pointercancel", endDrag);
+
+/* "On the map" on an event card: switch to the map tab and frame that event. */
+function jumpToMap(id){
+  const ev = EVENTS.find(e => e.id === id);
+  if(!ev) return;
+  show("map", true);
+  const target = mapTargetFor(ev);
+  if(target === "stroll" || target === "giving"){
+    layerState.on = new Set([target]);
+    activePoi = null;
+    renderLayers();
+    goHome();
+    setNote('<span class="swatch"></span><span>'
+      + (target === "stroll"
+          ? '<b>Holiday Stroll</b> stops 2–6 are downtown. Press <b>ALL</b> for stop 1 up by Greenfield and stop 7 out on Wilton Road.'
+          : '<b>Giving Tree</b> hosts downtown. Press <b>ALL</b> to add Brady’s up Concord Street.')
+      + '</span>', POIGROUPS[target].c);
+  } else {
+    /* Leaving a solo layer on would hide every ordinary marker. */
+    if(SOLO_LAYERS.some(s => layerState.on.has(s))){
+      layerState.on = new Set(DEFAULT_LAYERS);
+      renderLayers();
+    }
+    goHome();
+    setVenue(ev.venue);
+  }
+  document.getElementById("panel-map").scrollIntoView({block:"start", behavior:"smooth"});
+}
 
 function setNote(html, color){
   mapNote.innerHTML = html;
@@ -1709,6 +1758,8 @@ document.addEventListener("click", e => {
   const thumb = e.target.closest(".flyerthumb");
   if(thumb){ openLb(thumb.dataset.src, thumb.dataset.alt); return; }
   if(e.target === lb || e.target.closest(".lbclose")){ closeLb(); return; }
+  const jump = e.target.closest("button.mapjump");
+  if(jump){ jumpToMap(jump.dataset.ev); return; }
   const cp = e.target.closest("button.copy");
   if(cp){
     const label = cp.textContent;
