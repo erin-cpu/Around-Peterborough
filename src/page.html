@@ -375,6 +375,7 @@ section[role="tabpanel"]{animation:fade .25s ease both}
 .lot rect{fill:var(--c-music);fill-opacity:.16;stroke:var(--c-music);stroke-opacity:.5;stroke-width:1}
 .lot text{font-family:var(--body);font-size:9px;font-weight:700;fill:var(--c-music)}
 .lot:hover rect,.lot.sel rect{fill-opacity:.4}
+.poi .tree{fill:none;stroke:var(--c-giving);stroke-width:2;opacity:.85}
 .poi .d{fill:var(--paper);stroke:var(--pc);stroke-width:2.6}
 .poi:hover .d,.poi.sel .d{fill:var(--pc)}
 .hit{fill:transparent;stroke:none}
@@ -696,6 +697,7 @@ const WATERLABELS = [["NUBANUSIT BROOK",118,372,24],["CONTOOCOOK RIVER",478,514,
 
 const POIGROUPS = {
   stroll:  {label:"Holiday Stroll stops", c:"var(--cranberry)"},
+  giving:  {label:"Giving Trees",   c:"var(--c-giving)"},
   parking: {label:"Parking",        c:"var(--c-music)"},
   food:    {label:"Eat & drink",    c:"var(--c-market)"},
   shop:    {label:"Shops",          c:"var(--c-shop)"},
@@ -704,14 +706,15 @@ const POIGROUPS = {
 };
 
 const POIS = [
-  {g:"food", n:"Aesop’s Tables", x:416, y:426},
+  {g:"food", n:"Aesop’s Tables", x:416, y:426, tree:true},
+  {g:"food", n:"Sweet Macarons", x:294, y:415, url:"https://sweetmacaronnh.com/"},
   {g:"food", n:"Twelve Pine", x:375, y:446},
   {g:"food", n:"Waterhouse", x:331, y:485},
   {g:"food", n:"Baker’s Station", x:348, y:487},
   {g:"food", n:"Thai Cafe", x:232, y:568},
   {g:"food", n:"Monadnock Eats", x:430, y:274},
   {g:"food", n:"Harlow’s Pub", x:302, y:399},
-  {g:"food", n:"Coopershill Pub", x:348, y:392},
+  {g:"food", n:"Coopershill Pub", x:348, y:392, tree:true},
   {g:"food", n:"Post & Beam Brewery", x:294, y:565},
   {g:"shop", n:"Hearth Magick", x:221, y:563},
   {g:"shop", n:"Steele’s Stationers", x:364, y:302},
@@ -727,7 +730,8 @@ const POIS = [
   {g:"culture", n:"Peterborough Historical Society", x:276, y:374},
   {g:"culture", n:"Aquarius No. 1 Fire Museum", x:394, y:166},
   {g:"civic", n:"Peterborough Post Office", x:256, y:421},
-  {g:"civic", n:"Bar Harbor Bank & Trust", x:482, y:316},
+  {g:"civic", n:"Bar Harbor Bank & Trust", x:482, y:316, tree:true},
+  {g:"civic", n:"Peterborough Fire & Rescue", x:382, y:125, tree:true},
   {g:"civic", n:"Community notice board", x:395, y:422}
 ];
 
@@ -768,7 +772,9 @@ const OFFMAP = [
   {name:"Rosaly’s Farmstand", sub:"Three Sunday classes, 11 AM", map:true, ids:["centerpiece","wreath-nov29","wreath-dec6"]},
   {name:"MAxT Makerspace", sub:"Open house, and host of the Night Market", map:true, ids:["maxt-openhouse"]},
   {name:"Stroll stops off this map", sub:"Latter-day Saints on Old Bennington Rd; Divine Mercy on Church St", ids:["stroll"]},
-  {name:"Giving Tree locations", sub:"Eight hosts around town — listed on the event", ids:["givingtrees"]}
+  {name:"Brady’s American Grill", sub:"225 Concord Street — restaurant and Giving Tree host",
+   map:true, link:"https://bradysgrill.com/", ids:["givingtrees"]},
+  {name:"Giving Tree locations", sub:"Eight hosts — four of them are on the map under Giving Trees", ids:["givingtrees"]}
 ];
 
 const EVENTS = [
@@ -1151,8 +1157,9 @@ renderList();
 const mapBox = document.getElementById("mapbox");
 const venueList = document.getElementById("venuelist");
 const mapNote = document.getElementById("mapnote");
-/* The Stroll layer is a solo: turning it on hides the rest, and vice versa. */
+/* Event layers are solos: turning one on hides the rest, and vice versa. */
 const DEFAULT_LAYERS = ["parking","food","shop","culture","civic"];
+const SOLO_LAYERS = ["stroll","giving"];
 const layerState = {on:new Set(DEFAULT_LAYERS)};
 let activeVenue = "putnam";
 let activePoi = null;
@@ -1193,11 +1200,15 @@ function buildMap(){
       + '<title>'+label+'</title></g>';
   }).join("") : "";
 
-  const pois = POIS.filter(p => layerState.on.has(p.g)).map(p =>
-      '<g class="poi'+(activePoi==="poi"+p.n?" sel":"")+'" data-poi="poi'+esc(p.n)+'" data-label="'+esc(p.n)+'" data-group="'+p.g+'" style="--pc:'+POIGROUPS[p.g].c+'" role="button" tabindex="0">'
+  const showTrees = layerState.on.has("giving");
+  const pois = POIS.filter(p => layerState.on.has(p.g) || (p.tree && showTrees)).map(p =>
+      '<g class="poi'+(activePoi==="poi"+p.n?" sel":"")+'" data-poi="poi'+esc(p.n)+'" data-label="'+esc(p.n)+'"'
+    + ' data-group="'+p.g+'"'+(p.url ? ' data-url="'+esc(p.url)+'"' : "")+(p.tree ? ' data-tree="1"' : "")
+    + ' style="--pc:'+POIGROUPS[p.g].c+'" role="button" tabindex="0">'
+    + (p.tree && showTrees ? '<circle class="tree" cx="'+p.x+'" cy="'+p.y+'" r="9.5"></circle>' : "")
     + '<circle class="d" cx="'+p.x+'" cy="'+p.y+'" r="5.2"></circle>'
     + '<circle class="hit" cx="'+p.x+'" cy="'+p.y+'" r="13"></circle>'
-    + '<title>'+esc(p.n)+'</title></g>').join("");
+    + '<title>'+esc(p.n)+(p.tree ? " · Giving Tree host" : "")+'</title></g>').join("");
 
   const stops = layerState.on.has("stroll") ? STROLL.filter(s => s.x != null).map(s => {
     const label = s.n + ". " + s.name + (s.santa ? " · Santa at " + s.santa : "");
@@ -1251,10 +1262,15 @@ function renderLayers(){
 }
 
 function setPoi(el){
-  activePoi = el.dataset.poi;
+  const d = {poi:el.dataset.poi, label:el.dataset.label, group:el.dataset.group,
+             url:el.dataset.url, tree:el.dataset.tree === "1"};
+  activePoi = d.poi;
   buildMap();
-  setNote('<span class="swatch"></span><span><b>'+esc(el.dataset.label)+'</b> &middot; '
-    + esc(POIGROUPS[el.dataset.group].label)+'</span>', POIGROUPS[el.dataset.group].c);
+  setNote('<span class="swatch"></span><span><b>'+esc(d.label)+'</b> &middot; '
+    + esc(POIGROUPS[d.group].label)
+    + (d.tree ? ' &middot; Giving Tree host' : "")
+    + (d.url ? ' &middot; <a href="'+esc(d.url)+'" target="_blank" rel="noopener">website ↗</a>' : "")
+    + '</span>', POIGROUPS[d.group].c);
 }
 
 function renderVenues(){
@@ -1273,7 +1289,10 @@ function renderVenues(){
     return '<div class="venue" style="--c:'+c+';cursor:default">'
       + '<h4>'+esc(o.name)+'</h4><p class="vsub">'+esc(o.sub)+'</p>'
       + '<div class="vev">'+evs.map(e => '<span><b>'+esc(e.title)+'</b> &middot; '+esc(dateSpan(e, false))+', '+esc(e.time)+'</span>').join("")+'</div>'
-      + (o.map ? '<p class="links" style="margin-top:10px"><a class="ilink" href="'+esc(mapsHref(o.name))+'" target="_blank" rel="noopener">Directions ↗</a></p>' : "")
+      + ((o.map || o.link) ? '<p class="links" style="margin-top:10px">'
+          + (o.map ? '<a class="ilink" href="'+esc(mapsHref(o.name))+'" target="_blank" rel="noopener">Directions ↗</a>' : "")
+          + (o.link ? '<a class="ilink" href="'+esc(o.link)+'" target="_blank" rel="noopener">Website ↗</a>' : "")
+          + '</p>' : "")
       + '</div>';
   }).join("");
 }
@@ -1305,10 +1324,10 @@ mapBox.addEventListener("keydown", e => {
 document.getElementById("maplayers").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if(!b) return;
   const k = b.dataset.layer;
-  if(k === "stroll"){
-    layerState.on = layerState.on.has("stroll") ? new Set(DEFAULT_LAYERS) : new Set(["stroll"]);
+  if(SOLO_LAYERS.includes(k)){
+    layerState.on = layerState.on.has(k) ? new Set(DEFAULT_LAYERS) : new Set([k]);
   } else {
-    layerState.on.delete("stroll");
+    SOLO_LAYERS.forEach(s => layerState.on.delete(s));
     if(layerState.on.has(k)) layerState.on.delete(k); else layerState.on.add(k);
   }
   activePoi = null; renderLayers(); buildMap();
