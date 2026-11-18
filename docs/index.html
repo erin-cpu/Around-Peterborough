@@ -942,11 +942,18 @@ const EVENTS = [
     links:[{label:"Peterborough Diner", href:"https://www.facebook.com/PeterboroughDiner"}]
   },
   {
-    id:"nightmarket", title:"MAxT Holiday Night Market & Winter Shop & Stroll", cat:"market", also:["shop"],
+    id:"nightmarket", title:"MAxT Holiday Night Market", cat:"market", also:["shop"],
     start:"2026-11-28", time:"2 – 7 PM", sort:840,
-    place:"Peterborough Town House and around town", venue:"townhall",
-    desc:"Browse local makers and vendors in a festive evening market.",
-    list:["70+ vendors, indoors and outdoors","Special local business promotions","Outdoor bar and food trucks","Outdoor warming stands","Campfire with free s’mores"]
+    place:"Peterborough Town House, Grove Street", venue:"townhall",
+    desc:"Local makers and vendors fill the Town House and the ground around it for a festive evening market, run by MAxT.",
+    list:["70+ vendors, indoors and outdoors","Outdoor bar and food trucks","Outdoor warming stands","Campfire with free s’mores"],
+    links:[{label:"maxtmakerspace.org", href:"https://maxtmakerspace.org/"}]
+  },
+  {
+    id:"shopstroll", title:"Winter Shop & Stroll", cat:"shop",
+    start:"2026-11-28", time:"2 – 7 PM", sort:841,
+    place:"Independent businesses across Peterborough", venue:"mainst",
+    desc:"Independent shops across town stay open into the evening alongside the Night Market, with special local business promotions. Hours and offers vary by shop — see the Shops tab."
   },
   {
     id:"treelighting", title:"Peterborough Town Tree Lighting", cat:"lights",
@@ -1301,8 +1308,11 @@ function venueColor(key, fallback){
 /* Hover text for a pin or route: what is happening there, since the pin's
    own label already carries the name. */
 function venueTitle(key, v){
-  const evs = SORTED.filter(e => e.venue === key);
-  return evs.length ? evs.map(e => e.title).join(" & ") : v.name;
+  const evs = SORTED.filter(e => e.venue === key).map(e => e.title);
+  if(!evs.length) return v.name;
+  /* "&" reads well for a pair; past that it collides with titles that
+     already contain one, so switch to a dot. */
+  return evs.join(evs.length === 2 ? " & " : " · ");
 }
 
 function buildMap(){
