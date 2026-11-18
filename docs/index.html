@@ -803,7 +803,7 @@ const POIS = [
   {g:"food", n:"Twelve Pine", x:375, y:446},
   {g:"food", n:"Waterhouse", x:331, y:485},
   {g:"food", n:"Baker’s Station", x:342, y:486},
-  {g:"food", n:"Thai Cafe", x:232, y:568},
+  {g:"food", n:"Thai Café", x:232, y:568},
   {g:"food", n:"Monadnock Eats", x:430, y:274},
   {g:"shop", n:"Remarkable", x:448, y:270},
   {g:"food", n:"Harlow’s Pub", x:302, y:399},
@@ -1624,7 +1624,7 @@ const shopEditor = document.getElementById("shop-editor");
 const addBtn = document.getElementById("add-shop");
 const shopSearch = document.getElementById("shop-search");
 
-let DB = null, shops = [], shopsLoaded = false, canWrite = null, editingId = null, slowTimer = null;
+let DB = null, shops = [], dbShops = [], shopsLoaded = false, canWrite = null, editingId = null, slowTimer = null;
 
 /* ---- the directory is seeded from the map ----
    Every business already pinned on the map appears here, so the tab is
@@ -1657,7 +1657,11 @@ const SHOP_ADDR = {
   "Sonder":"107 Wilton Road",
   "Twin Elm Farm":"133 Wilton Road"
 };
-function slug(s){ return String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+/* Accents are folded first, so "Thai Café" and "Thai Cafe" slug the same way. */
+function slug(s){
+  return String(s).normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+}
 
 const BASE_SHOPS = POIS
   .filter(p => p.g === "food" || p.g === "shop" || DIR_EXTRA.indexOf(p.n) !== -1)
@@ -1673,16 +1677,16 @@ const BASE_SHOPS = POIS
      x:VENUES.maxt.x, y:VENUES.maxt.y}
   ]);
 
-/* Saved entries win on any field they fill in. */
+/* Three layers, each filling in over the last: what the map knows, then the
+   published snapshot, then anything saved live. Blank fields never overwrite. */
 function mergeShops(){
   const by = {};
   BASE_SHOPS.forEach(b => { by[b.id] = Object.assign({}, b); });
-  shops.forEach(s => {
-    const base = by[s.id] || {};
-    const merged = Object.assign({}, base);
+  [shops, dbShops].forEach(layer => layer.forEach(s => {
+    const merged = Object.assign({}, by[s.id] || {});
     Object.keys(s).forEach(k => { if(s[k] !== "" && s[k] != null) merged[k] = s[k]; });
     by[s.id] = merged;
-  });
+  }));
   return Object.values(by).sort((a,b) => String(a.name||"").localeCompare(String(b.name||"")));
 }
 
@@ -1805,26 +1809,19 @@ shopSearch.addEventListener("input", renderShops);
 addBtn.addEventListener("click", () => openEditor(null));
 
 (async function initShops(){
+  /* data/businesses.json is the base layer in BOTH builds: it holds the hours
+     imported from the spreadsheet, which would otherwise have to be duplicated
+     into the database. Saved entries then override it field by field. */
+  try{
+    const r = await fetch("data/businesses.json", {cache:"no-cache"});
+    if(r.ok) shops = await r.json();
+  }catch(e){ /* no snapshot; the map still supplies the directory */ }
+  shopsLoaded = true;
+  renderShops();
+
   let db = null;
   try{ db = await window.claude?.use("db"); }catch(e){ db = null; }
-  if(!db){
-    /* Standalone build (e.g. GitHub Pages): fall back to the published snapshot. */
-    try{
-      const r = await fetch("data/businesses.json", {cache:"no-cache"});
-      if(!r.ok) throw new Error("no snapshot");
-      shops = await r.json();
-      canWrite = false; shopsLoaded = true;
-      shopStatus.className = "status";
-      shopStatus.textContent = shops.length + " business" + (shops.length===1?"":"es")
-        + " listed. This is a published snapshot, so it can’t be edited here.";
-      renderShops();
-    }catch(e){
-      /* No snapshot: still show the directory the map provides. */
-      canWrite = false; shopsLoaded = true;
-      renderShops();
-    }
-    return;
-  }
+  if(!db){ canWrite = false; renderShops(); return; }
   DB = db;
   try{
     const user = await window.claude?.use("user");
@@ -1839,14 +1836,8 @@ addBtn.addEventListener("click", () => openEditor(null));
 
   DB.collection("businesses").onSnapshot(snap => {
     if(!snap.metadata.fromCache && slowTimer){ clearTimeout(slowTimer); slowTimer = null; }
-    shops = snap.docs.map(d => Object.assign({id:d.id}, d.data()));
+    dbShops = snap.docs.map(d => Object.assign({id:d.id}, d.data()));
     shopsLoaded = true;
-    if(!slowTimer || !snap.metadata.fromCache){
-      shopStatus.className = "status";
-      shopStatus.textContent = canWrite === false
-        ? shops.length + " business" + (shops.length===1?"":"es") + " listed. You can read this list but not change it."
-        : shops.length + " business" + (shops.length===1?"":"es") + " listed. Anything you add here saves for everyone who opens the page.";
-    }
     renderShops();
   }, err => {
     if(slowTimer){ clearTimeout(slowTimer); slowTimer = null; }

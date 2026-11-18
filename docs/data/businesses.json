@@ -1,20 +1,187 @@
 [
-  {
-    "id": "peterborough-diner",
-    "name": "Peterborough Diner",
-    "category": "Eat & drink",
-    "promo": "Santa's Stop, Friday Nov 27, 4–6 PM: cocoa, cookies and visits with Santa and Mrs. Claus. The historic diner car is lit at 4:00 PM.",
-    "hours": "",
-    "address": "10 Depot Street",
-    "link": "https://www.facebook.com/PeterboroughDiner"
-  },
-  {
-    "id": "maxt-makerspace",
-    "name": "MAxT Makerspace",
-    "category": "Arts & makers",
-    "promo": "Runs the Holiday Night Market, Saturday Nov 28, 2–7 PM at the Peterborough Town House — 70+ vendors indoors and out, outdoor bar, food trucks, warming stands and a campfire with free s'mores.",
-    "hours": "",
-    "address": "Noone Falls, 50 Jaffrey Road. Market is at the Town House, Grove Street.",
-    "link": "https://maxtmakerspace.org/"
-  }
+    {
+        "id":  "aesop-s-tables",
+        "name":  "Aesop\u0027s Tables",
+        "hours":  "Mon 7:30 AM-4:00 PM\nTue 7:30 AM-4:00 PM\nWed 7:30 AM-4:00 PM\nThu 7:30 AM-4:00 PM\nFri 7:30 AM-4:00 PM\nSat 7:30 AM-4:00 PM\nSun Closed"
+    },
+    {
+        "id":  "anytime-apparel",
+        "name":  "Anytime Apparel",
+        "hours":  "Tue - Fri 11:00 am - 5:00 pm\nSat 11:00 am - 4:00 pm\nMon Closed"
+    },
+    {
+        "id":  "ava-marie-s-chocolates",
+        "name":  "Ava Marie\u0027s Chocolates",
+        "hours":  "Mon 10:00 AM-7:00 PM\nTue 10:00 AM-7:00 PM\nWed 10:00 AM-7:00 PM\nThu 10:00 AM-8:00 PM\nFri 10:00 AM-8:00 PM\nSat 10:00 AM-8:00 PM\nSun 11:00 AM-6:00 PM"
+    },
+    {
+        "id":  "baker-s-station",
+        "name":  "Baker\u0027s Station",
+        "hours":  "Mon Closed\nTue Closed\nWed 8:00 AM-2:30 PM\nThu 8:00 AM-2:30 PM\nFri 8:00 AM-2:30 PM\nSat 8:00 AM-2:30 PM\nSun 8:00 AM-2:30 PM"
+    },
+    {
+        "id":  "bar-harbor-bank-trust",
+        "name":  "Bar Harbor Bank \u0026 Trust",
+        "hours":  "Monday - Friday: 9:00 am-5:00 pm\nSaturday: 9:00 am-Noon"
+    },
+    {
+        "id":  "bowerbird-friends",
+        "name":  "Bowerbird \u0026 Friends",
+        "hours":  "Mon 9:00 AM-5:00 PM\nTue 9:00 AM-5:00 PM\nWed 9:00 AM-5:00 PM\nThu 9:00 AM-5:00 PM\nFri 9:00 AM-5:00 PM\nSat 10:00 AM-4:00 PM\nSun Closed"
+    },
+    {
+        "id":  "brady-s-american-grill",
+        "name":  "Brady\u0027s American Grill",
+        "hours":  "Mon 11:00 AM-9:00 PM\nTue 11:00 AM-9:00 PM\nWed 11:00 AM-9:00 PM\nThu 11:00 AM-9:00 PM\nFri 11:00 AM-9:00 PM\nSat 11:00 AM-9:00 PM\nSun Closed"
+    },
+    {
+        "id":  "coopershill-public-house",
+        "name":  "Coopershill Public House",
+        "hours":  "Mon 11:30am-9pm\nTue 11:30am-9pm\nWed 11:30am-9pm\nThu 11:30am-9pm\nFri 11:30am-close (kitchen closes at 9)\nSat 11:30am-close (kitchen closes at 9)\nSun 11:30am-9pm"
+    },
+    {
+        "id":  "dollar-general",
+        "name":  "Dollar General",
+        "hours":  "Mon 8:00 AM-9:00 PM\nTue 8:00 AM-9:00 PM\nWed 8:00 AM-9:00 PM\nThu 8:00 AM-9:00 PM\nFri 8:00 AM-9:00 PM\nSat 8:00 AM-9:00 PM\nSun 8:00 AM-9:00 PM"
+    },
+    {
+        "id":  "european-esthetics",
+        "name":  "European Esthetics",
+        "hours":  "Mon Closed\nTue 9:00 AM-4:00 PM\nWed 9:00 AM-4:00 PM\nThu 9:00 AM-7:00 PM\nFri 9:00 AM-4:00 PM\nSat 9:00 AM-3:00 PM\nSun Closed"
+    },
+    {
+        "id":  "harlow-s-pub",
+        "name":  "Harlow\u0027s Pub",
+        "hours":  "Mon 5:00 PM-12:00 AM\nTue 5:00 PM-12:00 AM\nWed 11:00 AM-12:00 AM\nThu 11:00 AM-12:00 AM\nFri 11:00 AM-12:00 AM\nSat 11:00 AM-12:00 AM\nSun 11:00 AM-7:00 PM"
+    },
+    {
+        "id":  "hearth-magick",
+        "name":  "Hearth Magick",
+        "hours":  "Mon Closed\nTue 9:00 AM-6:00 PM\nWed 9:00 AM-6:00 PM\nThu 9:00 AM-6:00 PM\nFri 9:00 AM- 6:00 PM\nSat 9:00 AM-6:00 PM\nSun Closed"
+    },
+    {
+        "id":  "hobbs-jewelers",
+        "name":  "Hobbs Jewelers",
+        "hours":  "Mon Closed\nTue 9:30 AM-5:00 PM\nWed 9:30 AM-5:00 PM\nThu 9:30 AM-5:00 PM\nFri 9:30 AM-5:00 PM\nSat 9:30 AM-4:30 PM\nSun Closed"
+    },
+    {
+        "id":  "joseph-s-coat",
+        "name":  "Joseph\u0027s Coat",
+        "hours":  "Mon Closed\nTue Closed\nWed 11:00 AM- 3:00 PM\nThu 11:00 AM-3:00 PM\nFri 11:00 AM-3:00 PM\nSat 10:00 AM-4:00 PM\nSun 10:00 AM-3:00 PM"
+    },
+    {
+        "id":  "knitty-gritty-yarn-shop",
+        "name":  "Knitty Gritty Yarn Shop",
+        "hours":  "Mon Closed\nTue 10:00 AM-7:00 PM\nWed 10:00 AM-4:00 PM\nThu 10:00 AM-7:00 PM\nFri 10:00 AM-4:00 PM\nSat 10:00 AM-6:00 PM\nSun 12:00 PM-4:00 PM"
+    },
+    {
+        "id":  "maxt-makerspace",
+        "name":  "MAxT Makerspace",
+        "category":  "Arts \u0026 makers",
+        "promo":  "Runs the Holiday Night Market, Saturday Nov 28, 2–7 PM at the Peterborough Town House — 70+ vendors indoors and out, outdoor bar, food trucks, warming stands and a campfire with free s\u0027mores.",
+        "address":  "Noone Falls, 50 Jaffrey Road. Market is at the Town House, Grove Street.",
+        "link":  "https://maxtmakerspace.org/"
+    },
+    {
+        "id":  "monadnock-eats",
+        "name":  "Monadnock Eats",
+        "hours":  "Mon 11:00 AM-6:30 PM\nTue 11:00 AM-6:30 PM\nWed 11:00 AM-6:30 PM\nThu 11:00 AM-6:30 PM\nFri 11:00 AM-6:30 PM\nSat 11:00 AM-4:00 PM\nSun Closed"
+    },
+    {
+        "id":  "performance-health-fitness",
+        "name":  "Performance Health \u0026 Fitness",
+        "hours":  "Open 24 Hours"
+    },
+    {
+        "id":  "peterborough-art-academy",
+        "name":  "Peterborough Art Academy"
+    },
+    {
+        "id":  "peterborough-diner",
+        "name":  "Peterborough Diner",
+        "category":  "Eat \u0026 drink",
+        "promo":  "Santa\u0027s Stop, Friday Nov 27, 4–6 PM: cocoa, cookies and visits with Santa and Mrs. Claus. The historic diner car is lit at 4:00 PM.",
+        "address":  "10 Depot Street",
+        "link":  "https://www.facebook.com/PeterboroughDiner",
+        "hours":  "Mon 7:00 AM-2:00 PM\nTue 7:00 AM-2:00 PM\nWed 7:00 AM-2:00 PM\nThu 7:00 AM-2:00 PM\nFri 7:00 AM-2:00 PM\nSat 7:00 AM-2:00 PM\nSun 7:00 AM-2:00 PM"
+    },
+    {
+        "id":  "post-beam-brewery",
+        "name":  "Post \u0026 Beam Brewery",
+        "hours":  "Mon 12:00 PM-8:00 PM\nTue 4:00 PM-8:00 PM\nWed 4:00 PM-8:00 PM\nThu 4:00 PM-8:00 PM\nFri 12:00 PM-9:00 PM\nSat 12:00 PM-9:00 PM\nSun 12:00 PM-8:00 PM"
+    },
+    {
+        "id":  "remarkable",
+        "name":  "Remarkable",
+        "hours":  "Mon 10:00 AM-5:00 PM\nTue Closed\nWed 10:00 AM-5:00 PM\nThu 10:00 AM-5:00 PM\nFri 10:00 AM-5:00 PM\nSat 10:00 AM-5:00 PM\nSun 11:00 AM-4:00 PM"
+    },
+    {
+        "id":  "roy-s-market",
+        "name":  "Roy\u0027s Market",
+        "hours":  "Mon 9:00 AM-6:00 PM\nTue 9:00 AM-6:00 PM\nWed 9:00 AM-6:00 PM\nThu 9:00 AM-6:00 PM\nFri 9:00 AM-6:00 PM\nSat 9:00 AM-6:00 PM\nSun 10:00 AM-5:00 PM"
+    },
+    {
+        "id":  "sonder",
+        "name":  "Sonder",
+        "hours":  "Thurs - Sat 10am - 5pm\nSun 10am - 4pm"
+    },
+    {
+        "id":  "steele-s-stationers",
+        "name":  "Steele\u0027s Stationers",
+        "hours":  "Monday–Saturday 9:00 am to 5:00 pm"
+    },
+    {
+        "id":  "sweet-macarons",
+        "name":  "Sweet Macarons",
+        "hours":  "Monday–Sunday 9:00 am to 5:00 pm"
+    },
+    {
+        "id":  "thai-cafe",
+        "name":  "Thai Café",
+        "hours":  "Mon 11:30 AM-8:00 PM\nTue 11:30 AM-8:00 PM\nWed 11:30 AM-8:00 PM\nThu 11:30 AM-8:00 PM\nFri 11:30 AM-8:00 PM\nSat 11:30 AM-8:00 PM\nSun Closed"
+    },
+    {
+        "id":  "the-apothecary",
+        "name":  "The Apothecary",
+        "hours":  "Mon 10:00 AM-5:00 PM\nTue 10:00 AM-5:00 PM\nWed 10:00 AM-5:00 PM\nThu 10:00 AM-5:00 PM\nFri 10:00 AM-5:00 PM\nSat 10:00 AM-5:00 PM\nSun 10:00 AM-3:00 PM"
+    },
+    {
+        "id":  "the-blue-fern-gallery",
+        "name":  "The Blue Fern Gallery",
+        "hours":  "Wednesday-Saturday 10:30AM-5:30PM\nSunday 12:00PM-4:00PM\nFriday, Dec. 5 10:30AM-7:00PM\nOpen every day beginning Friday, November 27"
+    },
+    {
+        "id":  "the-toadstool-bookshop",
+        "name":  "The Toadstool Bookshop",
+        "hours":  "Mon 10:00 AM-6:00 PM\nTue 10:00 AM-6:00 PM\nWed 10:00 AM-6:00 PM\nThu 10:00 AM-6:00 PM\nFri 10:00 AM-6:00 PM\nSat 10:00 AM-6:00 PM\nSun 10:00 AM-5:00 PM"
+    },
+    {
+        "id":  "tria-yoga",
+        "name":  "Tria Yoga",
+        "hours":  "Check website for class \u0026 workshop times"
+    },
+    {
+        "id":  "tribals-rugs-by-hand",
+        "name":  "Tribals Rugs by Hand"
+    },
+    {
+        "id":  "twelve-pine",
+        "name":  "Twelve Pine",
+        "hours":  "Currently closed for renovations"
+    },
+    {
+        "id":  "twin-elm-farm",
+        "name":  "Twin Elm Farm",
+        "hours":  "Mon 10:00 AM-5:00 PM\nTue 10:00 AM-5:00 PM\nWed 10:00 AM-5:00 PM\nThu 10:00 AM-5:00 PM\nFri 10:00 AM-5:00 PM\nSat 10:00 AM-5:00 PM\nSun 11:00 AM-4:00 PM"
+    },
+    {
+        "id":  "underneath-it-all",
+        "name":  "Underneath It All",
+        "hours":  "Mon 10:00 AM-6:00 PM\nTue 10:00 AM-6:00 PM\nWed 10:00 AM-6:00 PM\nThu 10:00 AM-6:00 PM\nFri 10:00 AM-6:00 PM\nSat 10:00 AM-5:00 PM\nSun Closed"
+    },
+    {
+        "id":  "waterhouse",
+        "name":  "Waterhouse",
+        "hours":  "Mon Closed\nTue 11:30 AM-8:00 PM\nWed 11:30 AM-8:00 PM\nThu 11:30 AM-8:00 PM\nFri 11:30 AM-9:00 PM\nSat 11:30 AM-9:00 PM\nSun 10:00 AM-7:00 PM"
+    }
 ]
