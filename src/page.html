@@ -999,7 +999,7 @@ const EVENTS = [
     id:"firstfriday", title:"First Friday", cat:"shop",
     start:"2026-12-04", time:"5 – 7 PM", sort:1020,
     place:"Independent businesses across Peterborough", venue:"mainst",
-    desc:"Evening shopping at independent businesses downtown. Hours and offers vary by shop — see the Shops tab."
+    desc:"Evening shopping at independent businesses downtown, with live music at the Mariposa Museum from 5 – 6:30 PM. Hours and offers vary by shop — see the Shops tab."
   },
   {
     id:"messiah", title:"Handel’s Messiah — Christmas Section", cat:"music",
@@ -1667,7 +1667,7 @@ let DB = null, shops = [], dbShops = [], shopsLoaded = false, canWrite = null, e
    the hours and the offer on top. */
 const DIR_CAT   = {food:"Eat & drink", shop:"Shop", culture:"Arts & makers", civic:"Services"};
 const DIR_EXTRA = ["The Blue Fern Gallery","Bar Harbor Bank & Trust","Performance Health & Fitness",
-                   "Peterborough Art Academy","Tria Yoga"];
+                   "Peterborough Art Academy","Tria Yoga","Mariposa Museum"];
 const SHOP_ADDR = {
   "Steele’s Stationers":"40 Main Street",
   "The Blue Fern Gallery":"40B Main Street",
@@ -1685,6 +1685,7 @@ const SHOP_ADDR = {
   "The Apothecary":"20 Depot Street, Unit 40",
   "Hobbs Jewelers":"20-30 Depot Street",
   "Peterborough Art Academy":"Depot Square",
+  "Mariposa Museum":"26 Main Street",
   "Tria Yoga":"36 Grove Street",
   "Joseph’s Coat":"32 Grove Street",
   "Remarkable":"Main Street",

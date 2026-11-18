@@ -83,6 +83,14 @@
         "link":  "https://maxtmakerspace.org/"
     },
     {
+        "id":  "mariposa-museum",
+        "name":  "Mariposa Museum",
+        "category":  "Arts & makers",
+        "promo":  "Live music on First Friday, Dec 4, 5 – 6:30 PM.",
+        "address":  "26 Main Street",
+        "link":  "https://www.mariposamuseum.org/"
+    },
+    {
         "id":  "monadnock-eats",
         "name":  "Monadnock Eats",
         "hours":  "Mon 11:00 AM-6:30 PM\nTue 11:00 AM-6:30 PM\nWed 11:00 AM-6:30 PM\nThu 11:00 AM-6:30 PM\nFri 11:00 AM-6:30 PM\nSat 11:00 AM-4:00 PM\nSun Closed"
