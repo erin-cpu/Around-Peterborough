@@ -176,6 +176,12 @@ nav.views .wrap::-webkit-scrollbar{display:none}
 }
 @media (prefers-reduced-motion:reduce){.tab{transition:none}}
 @media (min-width:640px){.tab{font-size:14.5px;padding:10px 20px}}
+/* On a phone the four tabs overflow one line, and a horizontal scroller hides
+   the last one entirely. Stack them two by two so all four are visible. */
+@media (max-width:560px){
+  nav.views .wrap{display:grid;grid-template-columns:1fr 1fr;overflow-x:visible}
+  .tab{width:100%;text-align:center;padding-left:6px;padding-right:6px}
+}
 
 main{padding-block:26px 56px}
 section[role="tabpanel"]{animation:fade .25s ease both}
