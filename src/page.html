@@ -267,6 +267,23 @@ section[role="tabpanel"]{animation:fade .25s ease both}
 .card .desc{font-size:14px;color:var(--ink-2);margin-top:8px}
 .card ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--ink-2);display:grid;gap:1px}
 .card .links{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.expand{display:none}
+/* On a phone a full card runs to a screen or more, so everything under the
+   heading collapses to three lines of description until asked for. Clamping
+   whole lines and hiding the rest outright keeps the cut clean - a plain
+   height clamp sliced link chips and flyer thumbnails in half. */
+@media (max-width:560px){
+  .card:not(.open) .more > *:not(.desc){display:none}
+  .card:not(.open) .more .desc{
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card.clipped .expand,.card.open .expand{
+    display:inline-flex;align-items:center;gap:5px;margin-top:9px;
+    background:none;border:0;padding:0;cursor:pointer;
+    font-size:13px;font-weight:700;color:var(--c,var(--ink-2));
+    text-decoration:underline;text-underline-offset:3px;
+  }
+}
 .ilink{
   font-size:12.5px;font-weight:600;text-decoration:none;
   border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--ink-2);
@@ -1128,6 +1145,8 @@ function eventCard(ev){
     + '<h4>'+esc(ev.title)+'</h4>'
     + '<p class="when">'+esc(ev.time)+'</p>'
     + '<p class="where">'+esc(ev.place)+'</p>'
+    /* Everything below the heading collapses on a phone; see trimCards(). */
+    + '<div class="more">'
     + '<p class="desc">'+esc(ev.desc)+'</p>'
     + (ev.list ? '<ul>'+ev.list.map(i => '<li>'+esc(i)+'</li>').join("")+'</ul>' : "")
     + (ev.note ? '<p class="evnote">'+esc(ev.note)+'</p>' : "")
@@ -1138,8 +1157,33 @@ function eventCard(ev){
         + '<span>View the full flyer</span></button>' : "")
     + (ev.flag ? '<p class="flag"><b>Check this:</b> '+esc(ev.flag)+'</p>' : "")
     + '<p class="links">'+onMap+links+maps+'</p>'
+    + '</div>'
+    + '<button type="button" class="expand" aria-expanded="false">Read more</button>'
     + '</article>';
 }
+
+/* Mark only the cards that really have something hidden, so a short card never
+   shows a pointless "Read more". Something is hidden if the card holds more
+   than its description, or that description runs past three lines. Re-run after
+   every render. */
+function trimCards(){
+  const narrow = window.matchMedia("(max-width:560px)").matches;
+  document.querySelectorAll(".card").forEach(card => {
+    const more = card.querySelector(".more");
+    if(!more) return;
+    if(!narrow){ card.classList.remove("clipped","open"); return; }
+    if(card.classList.contains("open")) return;
+    const desc = more.querySelector(".desc");
+    const extras = more.children.length > (desc ? 1 : 0);
+    const overflows = !!desc && desc.scrollHeight > desc.clientHeight + 4;
+    card.classList.toggle("clipped", extras || overflows);
+  });
+}
+let trimTimer = null;
+window.addEventListener("resize", () => {
+  clearTimeout(trimTimer);
+  trimTimer = setTimeout(trimCards, 150);
+});
 
 /* ---------------- tabs ---------------- */
 const tabs = Array.from(document.querySelectorAll(".tab"));
@@ -1154,6 +1198,9 @@ function show(view, push){
   if(!VALID.includes(view)) view = "list";
   tabs.forEach(t => t.setAttribute("aria-selected", String(t.dataset.view === view)));
   VALID.forEach(v => { panels[v].hidden = (v !== view); });
+  /* A hidden panel measures as zero height, so cards rendered while its tab was
+     closed never got marked clipped. Re-measure now this panel is on screen. */
+  trimCards();
   if(push){ try{ location.hash = view; }catch(e){} }
 }
 tabs.forEach(t => t.addEventListener("click", () => show(t.dataset.view, true)));
@@ -1204,6 +1251,7 @@ function renderDay(){
   dayPanel.innerHTML = '<h3>'+esc(fmtLong(k))+'</h3>'
     + '<p class="dp-sub">'+evs.length+' event'+(evs.length===1?"":"s")+' listed</p>'
     + '<div class="daylist cards">'+evs.map(eventCard).join("")+'</div>';
+  trimCards();
 }
 
 function pickDefaultDay(){
@@ -1260,6 +1308,7 @@ function renderList(){
   listOut.innerHTML = groups.map(g =>
     '<div class="daygroup"><h3>'+esc(g.head)+'</h3><div class="cards">'+g.items.map(eventCard).join("")+'</div></div>'
   ).join("");
+  trimCards();
 }
 catChips(document.getElementById("list-chips"), listState, renderList);
 searchEl.addEventListener("input", renderList);
@@ -1863,6 +1912,14 @@ document.addEventListener("click", e => {
   const thumb = e.target.closest(".flyerthumb");
   if(thumb){ openLb(thumb.dataset.src, thumb.dataset.alt); return; }
   if(e.target === lb || e.target.closest(".lbclose")){ closeLb(); return; }
+  const ex = e.target.closest("button.expand");
+  if(ex){
+    const card = ex.closest(".card");
+    const open = card.classList.toggle("open");
+    ex.setAttribute("aria-expanded", String(open));
+    ex.textContent = open ? "Show less" : "Read more";
+    return;
+  }
   const jump = e.target.closest("button.mapjump");
   if(jump){ jumpToMap(jump.dataset.ev); return; }
   const sj = e.target.closest("button.shopjump");
