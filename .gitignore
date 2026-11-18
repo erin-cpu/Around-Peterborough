@@ -13,3 +13,8 @@ Desktop.ini
 # Local scratch
 /tmp/
 *.log
+
+# Source images dropped in the project root; the site serves them from docs/
+/*.jpg
+/*.jpeg
+/*.png
