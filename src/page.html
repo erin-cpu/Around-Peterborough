@@ -1277,6 +1277,12 @@ function venueColor(key, fallback){
   const evs = SORTED.filter(e => e.venue === key);
   return evs.length ? CATS[evs[0].cat].c : fallback;
 }
+/* Hover text for a pin or route: what is happening there, since the pin's
+   own label already carries the name. */
+function venueTitle(key, v){
+  const evs = SORTED.filter(e => e.venue === key);
+  return evs.length ? evs.map(e => e.title).join(" & ") : v.name;
+}
 
 function buildMap(){
   const k = view.w / HOME.w;              /* 1 at the downtown view, larger zoomed out */
@@ -1298,7 +1304,7 @@ function buildMap(){
   const greens = GREENS.map(d => '<path class="greens" d="'+d+'"></path>').join("");
 
   const routes = Object.entries(VENUES).filter(e => e[1].route).map(([key, v]) =>
-      '<path class="routehit" data-v="'+key+'" d="'+v.route+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'"></path>'
+      '<path class="routehit" data-v="'+key+'" d="'+v.route+'" role="button" tabindex="0" aria-label="'+esc(v.name)+'"><title>'+esc(venueTitle(key, v))+'</title></path>'
     + '<path class="route'+(key===activeVenue?" on":"")+'" d="'+v.route+'" stroke="'+v.rc+'" stroke-width="'+v.w+'"'
     + (v.dash ? ' stroke-dasharray="'+v.dash+'"' : "") + '></path>').join("");
 
@@ -1339,6 +1345,7 @@ function buildMap(){
     + '<path class="body" d="M'+v.x+' '+(v.y+r1(4))+' l'+r1(-8.5)+' '+r1(-14)+' a'+r1(10)+' '+r1(10)+' 0 1 1 '+r1(17)+' 0 Z"></path>'
     + '<circle class="head" cx="'+v.x+'" cy="'+(v.y-r1(14))+'" r="'+r1(3.8)+'"></circle>'
     + (show(v.x, v.y) ? '<text x="'+(v.x + (v.lx - v.x) * k)+'" y="'+(v.y + (v.ly - v.y) * k)+'" text-anchor="'+v.anchor+'">'+esc(v.short)+'</text>' : "")
+    + '<title>'+esc(venueTitle(key, v))+'</title>'
     + '</g>').join("");
 
   const labels = detail ? (

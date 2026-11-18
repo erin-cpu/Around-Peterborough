@@ -22,7 +22,9 @@ $links = @([regex]::Matches($page, '(?m)^[ \t]*<link rel="(?:preconnect|styleshe
            ForEach-Object { $_.Value.Trim() })
 
 $body = $page
-$body = [regex]::Replace($body, '(?s)<title>.*?</title>[ \t]*\r?\n?', '')
+# Only the FIRST <title> is the document title. The page also writes <title>
+# elements inside its SVG for tooltips, and a global replace silently ate them.
+$body = ([regex]'(?s)<title>.*?</title>[ \t]*\r?\n?').Replace($body, '', 1)
 # viewport-fit-sides is a hint to the artifact viewer only.
 $body = [regex]::Replace($body, '(?m)^[ \t]*<meta name="claude:viewport-fit-sides"[^>]*>[ \t]*\r?\n?', '')
 foreach ($l in $links) { $body = $body.Replace($l, '') }
