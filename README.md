@@ -1,4 +1,4 @@
-# Peterborough Holiday Happenings
+# Hometown Holiday Happenings in Peterborough
 
 An interactive guide to the 2026 holiday season in Peterborough, New Hampshire:
 every event in list and calendar form, a to-scale downtown map, and a directory

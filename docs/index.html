@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Peterborough Holiday Happenings</title>
+<title>Hometown Holiday Happenings in Peterborough</title>
 <meta name="description" content="Calendar, downtown map and shop guide to the 2026 holiday season in Peterborough, New Hampshire.">
 <meta name="theme-color" content="#102B22">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Peterborough Holiday Happenings">
+<meta property="og:title" content="Hometown Holiday Happenings in Peterborough">
 <meta property="og:description" content="Calendar, downtown map and shop guide to the 2026 holiday season in Peterborough, New Hampshire.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -544,6 +544,8 @@ button.ilink.mapjump:hover{background:color-mix(in srgb,var(--c) 12%,transparent
 .cf-status{font-size:13px;font-weight:600;color:var(--ink-3)}
 .cf-status.ok{color:var(--c-giving)}
 .cf-status.bad{color:var(--cranberry)}
+.cf-alt{display:block;margin-top:4px;font-weight:400;color:var(--ink-3)}
+.cf-alt a{color:var(--ink-2);text-underline-offset:3px}
 .contact form[aria-busy="true"] .btn{opacity:.6;pointer-events:none}
 .contact .field input[aria-invalid="true"],
 .contact .field textarea[aria-invalid="true"]{border-color:var(--cranberry)}
@@ -559,7 +561,7 @@ footer p + p{margin-top:7px}
 <header class="mast">
   <div class="wrap">
     <p class="eyebrow">Peterborough, New Hampshire &middot; Winter 2026</p>
-    <h1>Holiday Happenings <em>in Peterborough</em></h1>
+    <h1>Hometown Holiday Happenings <em>in Peterborough</em></h1>
     <p class="sub">Cocoa at the diner counter, seventy-odd makers filling the Town House, carols under the tree in Putnam Park, and a river of paper lanterns up Grove Street. Everything the town is doing this season, gathered in one place.</p>
     <p class="facts"><span id="fact-count">18 events</span><span>Nov 21 &ndash; Dec 15</span><span>Downtown &amp; around town</span></p>
     <svg class="lights" id="lights" viewBox="0 0 1200 34" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
@@ -2066,9 +2068,34 @@ if(cform){
   /* Without an endpoint the button composes mail, so don't label it "Send". */
   if(!FORM_ENDPOINT) sendBtn.textContent = "Compose email";
 
+  const subjectFor = v => "Around Peterborough — " + v.name;
+  const bodyFor    = v => v.message + "\n\n— " + v.name + " <" + v.email + ">";
+
   const mailtoFor = v => "mailto:" + CONTACT_EMAIL
-    + "?subject=" + encodeURIComponent("Around Peterborough — " + v.name)
-    + "&body=" + encodeURIComponent(v.message + "\n\n— " + v.name + " <" + v.email + ">");
+    + "?subject=" + encodeURIComponent(subjectFor(v))
+    + "&body=" + encodeURIComponent(bodyFor(v));
+
+  /* mailto: hands off to whatever mail program the device has registered. On a
+     computer with none set up - common for people who live in Gmail in a tab -
+     the click does nothing at all and looks broken. Gmail's compose URL always
+     opens, so offer it beside the status line as a way out of that dead end. */
+  const gmailFor = v => "https://mail.google.com/mail/?view=cm&fs=1"
+    + "&to=" + encodeURIComponent(CONTACT_EMAIL)
+    + "&su=" + encodeURIComponent(subjectFor(v))
+    + "&body=" + encodeURIComponent(bodyFor(v));
+
+  function offerGmail(v){
+    const a = document.createElement("a");
+    a.href = gmailFor(v);
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = "open it in Gmail";
+    const tail = document.createElement("span");
+    tail.className = "cf-alt";
+    /* textContent on the pieces, so a name or message can never become markup. */
+    tail.append(" Nothing opened? You can ", a, " instead.");
+    cstatus.append(tail);
+  }
 
   cform.addEventListener("submit", async e => {
     e.preventDefault();
@@ -2091,6 +2118,7 @@ if(cform){
 
     if(!FORM_ENDPOINT){
       say("Opening your email app…");
+      offerGmail(v);
       location.href = mailtoFor(v);
       return;
     }
@@ -2111,6 +2139,7 @@ if(cform){
          a network can fail anywhere. Hand the message to their mail app rather
          than losing what they typed. */
       say("Couldn’t send from here — opening your email app…", "bad");
+      offerGmail(v);
       setTimeout(() => { location.href = mailtoFor(v); }, 1000);
     }finally{
       cform.removeAttribute("aria-busy");

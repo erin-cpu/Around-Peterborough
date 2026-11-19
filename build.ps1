@@ -17,7 +17,7 @@ $page = Get-Content -Raw -Encoding UTF8 $src
 
 # The <title> and the Google Fonts links belong in <head>, so lift them out.
 $title = [regex]::Match($page, '(?s)<title>(.*?)</title>').Groups[1].Value
-if (-not $title) { $title = 'Peterborough Holiday Happenings' }
+if (-not $title) { $title = 'Hometown Holiday Happenings in Peterborough' }
 $links = @([regex]::Matches($page, '(?m)^[ \t]*<link rel="(?:preconnect|stylesheet)"[^>]*>[ \t]*$') |
            ForEach-Object { $_.Value.Trim() })
 
