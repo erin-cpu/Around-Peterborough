@@ -846,6 +846,9 @@ const POIS = [
   {g:"shop", n:"The Toadstool Bookshop", x:419, y:442},
   /* West side of Depot Square, running north to south:
      Underneath It All, Hobbs, the Apothecary, then European Esthetics. */
+  /* Also 20 Depot Street, so the same west-side building as the three below.
+     Which unit is a guess - position approximate. */
+  {g:"civic", n:"Dogs on Depot", x:326, y:412, url:"https://www.dogsondepot.com/"},
   {g:"shop", n:"Underneath It All", x:328, y:428},
   {g:"shop", n:"Hobbs Jewelers", x:330, y:446},
   {g:"shop", n:"The Apothecary", x:332, y:462},
@@ -856,9 +859,16 @@ const POIS = [
   {g:"shop", n:"Knitty Gritty Yarn Shop", x:373, y:503},
   {g:"shop", n:"Tribals Rugs by Hand", x:383, y:509},
   {g:"shop", n:"Bowerbird & Friends", x:393, y:515},
+  /* 14 Depot Square, upstairs - put at the east end of the same row, since
+     which storefront it sits over is a guess. Position approximate. */
+  {g:"civic", n:"SHAKTI Healing Arts", x:403, y:521, url:"https://www.shaktinh.com/"},
   {g:"culture", n:"The Blue Fern Gallery", x:376, y:306},
   {g:"culture", n:"Mariposa Museum", x:391, y:319},
   {g:"culture", n:"Peterborough Historical Society", x:276, y:374},
+  /* The Monadnock Center's own shop, same building at 19 Grove - offset up the
+     street so the two dots stay separately tappable. */
+  {g:"shop", n:"The Merchantile Museum Gift Shop", x:271, y:362,
+   url:"https://monadnockcenter.org/1-active-pages/the-mercantile/"},
   {g:"culture", n:"Aquarius No. 1 Fire Museum", x:394, y:166},
   {g:"civic", n:"Peterborough Post Office", x:256, y:421},
   {g:"civic", n:"Bar Harbor Bank & Trust", x:482, y:316, tree:true},
@@ -1696,7 +1706,8 @@ let DB = null, shops = [], dbShops = [], shopsLoaded = false, canWrite = null, e
    the hours and the offer on top. */
 const DIR_CAT   = {food:"Eat & drink", shop:"Shop", culture:"Arts & makers", civic:"Services"};
 const DIR_EXTRA = ["The Blue Fern Gallery","Bar Harbor Bank & Trust","Performance Health & Fitness",
-                   "Peterborough Art Academy","Tria Yoga","Mariposa Museum"];
+                   "Peterborough Art Academy","Tria Yoga","Mariposa Museum",
+                   "SHAKTI Healing Arts","Dogs on Depot"];
 const SHOP_ADDR = {
   "Steele’s Stationers":"40 Main Street",
   "The Blue Fern Gallery":"40B Main Street",
