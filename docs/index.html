@@ -328,18 +328,18 @@ button.ilink.mapjump:hover{background:color-mix(in srgb,var(--c) 12%,transparent
   border-radius:999px;padding:2.5px 9px;letter-spacing:.08em;
 }
 .evnote{margin-top:10px;font-size:13.5px;color:var(--ink-2)}
-.evmail{margin-top:7px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.evmail code{
+.evmail,.contactline{margin-top:7px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.evmail code,.contactline code{
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;
   background:var(--snow);border:1px solid var(--line);border-radius:6px;
   padding:3px 8px;color:var(--ink);word-break:break-all;
 }
-.evmail .copy{
+.evmail .copy,.contactline .copy{
   appearance:none;background:none;border:0;cursor:pointer;padding:0;
   font-size:12.5px;font-weight:600;color:var(--ink-3);
   text-decoration:underline;text-underline-offset:3px;
 }
-.evmail .copy:hover{color:var(--ink)}
+.evmail .copy:hover,.contactline .copy:hover{color:var(--ink)}
 .flyerthumb{
   appearance:none;cursor:pointer;background:none;border:0;padding:0;margin-top:12px;
   display:flex;align-items:center;gap:12px;text-align:left;width:100%;
@@ -531,6 +531,14 @@ button.ilink.mapjump:hover{background:color-mix(in srgb,var(--c) 12%,transparent
 .status{font-size:13px;color:var(--ink-3);margin-bottom:12px}
 .status.warn{color:var(--brass);font-weight:600}
 
+/* Sits between the last panel and the footer, so it reads as part of the page
+   rather than as small print. */
+.contact{
+  margin-top:26px;padding:18px 20px;border-radius:12px;
+  background:var(--snow);border:1px solid var(--line);
+}
+.contact h3{font-family:var(--display);font-size:19px;letter-spacing:.1px}
+.contact p{font-size:14px;color:var(--ink-2);margin-top:6px;max-width:60ch}
 footer{border-top:1px solid var(--line);margin-top:10px;padding-block:22px 10px}
 footer p{font-size:12.5px;color:var(--ink-3);max-width:70ch}
 footer p + p{margin-top:7px}
@@ -654,6 +662,16 @@ footer p + p{margin-top:7px}
     </div>
     <div id="shop-editor" hidden></div>
     <div class="shopgrid" id="shopgrid"></div>
+  </section>
+
+  <section class="contact" aria-labelledby="contact-h">
+    <h3 id="contact-h">Get in touch</h3>
+    <p>For more information, or to collaborate with Around Peterborough, send us an email.</p>
+    <p class="contactline">
+      <a class="ilink" href="mailto:AroundPeterborough@gmail.com?subject=Around%20Peterborough">Email us &#8599;</a>
+      <code>AroundPeterborough@gmail.com</code>
+      <button type="button" class="copy" data-copy="AroundPeterborough@gmail.com">Copy</button>
+    </p>
   </section>
 
   <footer>
