@@ -2024,10 +2024,12 @@ document.addEventListener("keydown", e => {
 });
 
 /* ---------------- contact form ---------------- */
-/* Paste the endpoint your form service gives you between the quotes; Formspree's
-   looks like "https://formspree.io/f/abcdwxyz". While it is empty the form opens
-   the visitor's own mail app with the fields filled in, so nothing is lost and
-   nothing pretends to have been sent. */
+/* Deliberately empty: Erin chose the mail-app route over renting a form service,
+   so the form composes the message in the visitor's own mail client with the
+   fields filled in. Nothing is lost and nothing pretends to have been sent, and
+   it behaves the same in the artifact, where posting out is blocked anyway.
+   Should that change, paste the endpoint between the quotes - Formspree's looks
+   like "https://formspree.io/f/abcdwxyz" - and posting turns on by itself. */
 const FORM_ENDPOINT = "";
 const CONTACT_EMAIL = "AroundPeterborough@gmail.com";
 
