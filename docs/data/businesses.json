@@ -7,7 +7,9 @@
     {
         "id":  "anytime-apparel",
         "name":  "Anytime Apparel",
-        "hours":  "Tue - Fri 11:00 am - 5:00 pm\nSat 11:00 am - 4:00 pm\nMon Closed"
+        "hours":  "Tue - Fri 11:00 am - 5:00 pm\nSat 11:00 am - 4:00 pm\nMon Closed",
+        "category":  "Shop",
+        "address":  "Depot Square"
     },
     {
         "id":  "ava-marie-s-chocolates",
@@ -17,7 +19,9 @@
     {
         "id":  "baker-s-station",
         "name":  "Baker\u0027s Station",
-        "hours":  "Mon Closed\nTue Closed\nWed 8:00 AM-2:30 PM\nThu 8:00 AM-2:30 PM\nFri 8:00 AM-2:30 PM\nSat 8:00 AM-2:30 PM\nSun 8:00 AM-2:30 PM"
+        "hours":  "Mon Closed\nTue Closed\nWed 8:00 AM-2:30 PM\nThu 8:00 AM-2:30 PM\nFri 8:00 AM-2:30 PM\nSat 8:00 AM-2:30 PM\nSun 8:00 AM-2:30 PM",
+        "category":  "Eat \u0026 drink",
+        "address":  "Depot Square"
     },
     {
         "id":  "bar-harbor-bank-trust",
@@ -27,7 +31,9 @@
     {
         "id":  "bowerbird-friends",
         "name":  "Bowerbird \u0026 Friends",
-        "hours":  "Mon 9:00 AM-5:00 PM\nTue 9:00 AM-5:00 PM\nWed 9:00 AM-5:00 PM\nThu 9:00 AM-5:00 PM\nFri 9:00 AM-5:00 PM\nSat 10:00 AM-4:00 PM\nSun Closed"
+        "hours":  "Mon 9:00 AM-5:00 PM\nTue 9:00 AM-5:00 PM\nWed 9:00 AM-5:00 PM\nThu 9:00 AM-5:00 PM\nFri 9:00 AM-5:00 PM\nSat 10:00 AM-4:00 PM\nSun Closed",
+        "category":  "Shop",
+        "address":  "Depot Square"
     },
     {
         "id":  "brady-s-american-grill",
@@ -38,6 +44,15 @@
         "id":  "coopershill-public-house",
         "name":  "Coopershill Public House",
         "hours":  "Mon 11:30am-9pm\nTue 11:30am-9pm\nWed 11:30am-9pm\nThu 11:30am-9pm\nFri 11:30am-close (kitchen closes at 9)\nSat 11:30am-close (kitchen closes at 9)\nSun 11:30am-9pm"
+    },
+    {
+        "id":  "qeb22typ49zpogrmipw1",
+        "name":  "Dogs on Depot",
+        "category":  "Services",
+        "promo":  "Visit during the downtown events for discounted nail trims and special savings throughout the store. \n\nTreat your four-legged friend while checking off your holiday shopping list.",
+        "address":  "20 Depot St",
+        "link":  "https://www.dogsondepot.com/",
+        "hours":  "Mon-Wed 9 AM - 5 PM\nThu-Fri 9 AM - 7 PM\nSat-Sun 9 AM - 5 PM"
     },
     {
         "id":  "dollar-general",
@@ -57,7 +72,11 @@
     {
         "id":  "hearth-magick",
         "name":  "Hearth Magick",
-        "hours":  "Mon Closed\nTue 9:00 AM-6:00 PM\nWed 9:00 AM-6:00 PM\nThu 9:00 AM-6:00 PM\nFri 9:00 AM- 6:00 PM\nSat 9:00 AM-6:00 PM\nSun Closed"
+        "hours":  "Friday, November 27th 9:00 AM-7:00PM\nSaturday, November 28th 9:00 AM-7:00PM\n\nMon Closed\nTue 9:00 AM-6:00 PM\nWed 9:00 AM-6:00 PM\nThu 9:00 AM-6:00 PM\nFri 9:00 AM- 6:00 PM\nSat 9:00 AM-6:00 PM\nSun Closed\n\nShop Closed on Thanksgiving, Christmas, \u0026 Christmas Eve",
+        "category":  "Shop",
+        "promo":  "Plaid Friday - Friday, November 27th: Enjoy a 20% off sale all day.\nSaturday, November 28th: Receive $10 off an Aura Photo and explore your energy in a whole new way! \n\nThe shop will stay open until 7:00 PM on Plaid Friday - Friday, November 27th \u0026 Saturday, November 28th so stop by and enjoy the holidays festivities.",
+        "address":  "43 Grove Street",
+        "link":  "https://www.hearthmagickshop.com"
     },
     {
         "id":  "hobbs-jewelers",
@@ -72,7 +91,18 @@
     {
         "id":  "knitty-gritty-yarn-shop",
         "name":  "Knitty Gritty Yarn Shop",
-        "hours":  "Mon Closed\nTue 10:00 AM-7:00 PM\nWed 10:00 AM-4:00 PM\nThu 10:00 AM-7:00 PM\nFri 10:00 AM-4:00 PM\nSat 10:00 AM-6:00 PM\nSun 12:00 PM-4:00 PM"
+        "hours":  "Mon Closed\nTue 10:00 AM-7:00 PM\nWed 10:00 AM-4:00 PM\nThu 10:00 AM-7:00 PM\nFri 10:00 AM-4:00 PM\nSat 10:00 AM-6:00 PM\nSun 12:00 PM-4:00 PM",
+        "category":  "Shop",
+        "address":  "Depot Square"
+    },
+    {
+        "id":  "mariposa-museum",
+        "name":  "Mariposa Museum",
+        "category":  "Arts \u0026 makers",
+        "promo":  "Live music on First Friday, Dec 4, 5 – 6:30 PM. Alex and the Boomers will be performing. Free admission with donations appreciated.",
+        "address":  "26 Main Street",
+        "link":  "https://www.mariposamuseum.org/",
+        "hours":  "Friday, December 4 open until 7.\nThursday – Saturday 11 to 5\n\u0026 Sundays 12 to 4"
     },
     {
         "id":  "maxt-makerspace",
@@ -83,17 +113,12 @@
         "link":  "https://maxtmakerspace.org/"
     },
     {
-        "id":  "mariposa-museum",
-        "name":  "Mariposa Museum",
-        "category":  "Arts & makers",
-        "promo":  "Live music on First Friday, Dec 4, 5 – 6:30 PM.",
-        "address":  "26 Main Street",
-        "link":  "https://www.mariposamuseum.org/"
-    },
-    {
         "id":  "monadnock-eats",
         "name":  "Monadnock Eats",
-        "hours":  "Mon 11:00 AM-6:30 PM\nTue 11:00 AM-6:30 PM\nWed 11:00 AM-6:30 PM\nThu 11:00 AM-6:30 PM\nFri 11:00 AM-6:30 PM\nSat 11:00 AM-4:00 PM\nSun Closed"
+        "hours":  "Mon 11:00 AM-6:30 PM\nTue 11:00 AM-6:30 PM\nWed 11:00 AM-6:30 PM\nThu 11:00 AM-6:30 PM\nFri 11:00 AM-6:30 PM\nSat 11:00 AM-4:00 PM\nSun Closed",
+        "category":  "Eat \u0026 drink",
+        "address":  "15 Main St",
+        "link":  "https://www.monadnockeats.com/"
     },
     {
         "id":  "performance-health-fitness",
@@ -109,14 +134,17 @@
         "name":  "Peterborough Diner",
         "category":  "Eat \u0026 drink",
         "promo":  "Santa\u0027s Stop, Friday Nov 27, 4–6 PM: cocoa, cookies and visits with Santa and Mrs. Claus. The historic diner car is lit at 4:00 PM.",
-        "address":  "10 Depot Street",
+        "address":  "Depot St",
         "link":  "https://www.facebook.com/PeterboroughDiner",
         "hours":  "Mon 7:00 AM-2:00 PM\nTue 7:00 AM-2:00 PM\nWed 7:00 AM-2:00 PM\nThu 7:00 AM-2:00 PM\nFri 7:00 AM-2:00 PM\nSat 7:00 AM-2:00 PM\nSun 7:00 AM-2:00 PM"
     },
     {
         "id":  "post-beam-brewery",
         "name":  "Post \u0026 Beam Brewery",
-        "hours":  "Mon 12:00 PM-8:00 PM\nTue 4:00 PM-8:00 PM\nWed 4:00 PM-8:00 PM\nThu 4:00 PM-8:00 PM\nFri 12:00 PM-9:00 PM\nSat 12:00 PM-9:00 PM\nSun 12:00 PM-8:00 PM"
+        "hours":  "11/21 - 12:00-5:00 PM Closing Early\n11/26 Closed\n11/27 Normal Hours\n\nMon 12:00 PM-8:00 PM\nTue 4:00 PM-8:00 PM\nWed 4:00 PM-8:00 PM\nThu 4:00 PM-8:00 PM\nFri 12:00 PM-9:00 PM\nSat 12:00 PM-9:00 PM\nSun 12:00 PM-8:00 PM",
+        "category":  "Eat \u0026 drink",
+        "address":  "40 Grove St",
+        "link":  "https://www.postandbeambrewery.com/"
     },
     {
         "id":  "remarkable",
@@ -127,6 +155,14 @@
         "id":  "roy-s-market",
         "name":  "Roy\u0027s Market",
         "hours":  "Mon 9:00 AM-6:00 PM\nTue 9:00 AM-6:00 PM\nWed 9:00 AM-6:00 PM\nThu 9:00 AM-6:00 PM\nFri 9:00 AM-6:00 PM\nSat 9:00 AM-6:00 PM\nSun 10:00 AM-5:00 PM"
+    },
+    {
+        "id":  "2uwwioasn6xly84m4rsn",
+        "name":  "SHAKTI Healing Arts",
+        "category":  "Services",
+        "promo":  "Enjoy FREE BioMat Sessions, special discounts on Yin, Soma, \u0026 Axis Mats, and complimentary Crystal Singing Bowl Sound Baths. \n\nEscape the holiday hustle and unwind in our beautiful temple.",
+        "address":  "14 Depot Square, Upstairs",
+        "link":  "https://www.shaktinh.com/"
     },
     {
         "id":  "sonder",
@@ -141,7 +177,10 @@
     {
         "id":  "sweet-macarons",
         "name":  "Sweet Macarons",
-        "hours":  "Monday–Sunday 9:00 am to 5:00 pm"
+        "hours":  "Open until 7 PM during Downtown Events\n\nMonday–Sunday 9:00 am to 5:00 pm",
+        "category":  "Eat \u0026 drink",
+        "address":  "28 Grove Street",
+        "link":  "https://sweetmacaronnh.com/"
     },
     {
         "id":  "thai-cafe",
@@ -151,12 +190,23 @@
     {
         "id":  "the-apothecary",
         "name":  "The Apothecary",
-        "hours":  "Mon 10:00 AM-5:00 PM\nTue 10:00 AM-5:00 PM\nWed 10:00 AM-5:00 PM\nThu 10:00 AM-5:00 PM\nFri 10:00 AM-5:00 PM\nSat 10:00 AM-5:00 PM\nSun 10:00 AM-3:00 PM"
+        "hours":  "Mon 10:00 AM-5:00 PM\nTue 10:00 AM-5:00 PM\nWed 10:00 AM-5:00 PM\nThu 10:00 AM-5:00 PM\nFri 10:00 AM-5:00 PM\nSat 10:00 AM-5:00 PM\nSun 10:00 AM-3:00 PM",
+        "category":  "Shop",
+        "promo":  "Shop local and receive a FREE gift with purchases of $50+! \n\nEnjoy complimentary refreshments while you browse unique holiday gifts and festive finds.",
+        "address":  "20 Depot Street, Unit 40"
     },
     {
         "id":  "the-blue-fern-gallery",
         "name":  "The Blue Fern Gallery",
         "hours":  "Wednesday-Saturday 10:30AM-5:30PM\nSunday 12:00PM-4:00PM\nFriday, Dec. 5 10:30AM-7:00PM\nOpen every day beginning Friday, November 27"
+    },
+    {
+        "id":  "10oljsl02n3eksa1bf7z",
+        "name":  "The Merchantile Museum Gift Shop",
+        "category":  "Shop",
+        "address":  "19 Grove Street",
+        "link":  "https://monadnockcenter.org/1-active-pages/the-mercantile/",
+        "hours":  "Wed-Sat, 10:00 AM -4:00 PM"
     },
     {
         "id":  "the-toadstool-bookshop",
@@ -185,7 +235,10 @@
     {
         "id":  "underneath-it-all",
         "name":  "Underneath It All",
-        "hours":  "Mon 10:00 AM-6:00 PM\nTue 10:00 AM-6:00 PM\nWed 10:00 AM-6:00 PM\nThu 10:00 AM-6:00 PM\nFri 10:00 AM-6:00 PM\nSat 10:00 AM-5:00 PM\nSun Closed"
+        "hours":  "Mon 10:00 AM-6:00 PM\nTue 10:00 AM-6:00 PM\nWed 10:00 AM-6:00 PM\nThu 10:00 AM-6:00 PM\nFri 10:00 AM-6:00 PM\nSat 10:00 AM-5:00 PM\nSun Closed",
+        "category":  "Shop",
+        "promo":  "Winter Stroll, Saturday, November 28th: Visit and mention \u0027The Winter Stroll\u0027 for a chance to win a $50 Gift Certificate! (Winner announced December 1st)\n\nFirst Friday, December 4th:  The first 10 customers gets $10.00 off their purchase of $50.00 or more.",
+        "address":  "20-10 Depot Street"
     },
     {
         "id":  "waterhouse",
