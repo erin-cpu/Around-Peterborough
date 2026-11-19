@@ -539,6 +539,18 @@ button.ilink.mapjump:hover{background:color-mix(in srgb,var(--c) 12%,transparent
 }
 .contact h3{font-family:var(--display);font-size:19px;letter-spacing:.1px}
 .contact p{font-size:14px;color:var(--ink-2);margin-top:6px;max-width:60ch}
+.contact form{margin-top:13px}
+.contact .erow{display:flex;flex-wrap:wrap;gap:11px;align-items:center;margin-top:13px}
+.cf-status{font-size:13px;font-weight:600;color:var(--ink-3)}
+.cf-status.ok{color:var(--c-giving)}
+.cf-status.bad{color:var(--cranberry)}
+.contact form[aria-busy="true"] .btn{opacity:.6;pointer-events:none}
+.contact .field input[aria-invalid="true"],
+.contact .field textarea[aria-invalid="true"]{border-color:var(--cranberry)}
+/* Off-screen rather than display:none - a bot reading the markup still finds
+   it, which is the point, but no one sees or tabs into it. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.orline{font-size:13px;color:var(--ink-3)}
 footer{border-top:1px solid var(--line);margin-top:10px;padding-block:22px 10px}
 footer p{font-size:12.5px;color:var(--ink-3);max-width:70ch}
 footer p + p{margin-top:7px}
@@ -666,9 +678,34 @@ footer p + p{margin-top:7px}
 
   <section class="contact" aria-labelledby="contact-h">
     <h3 id="contact-h">Get in touch</h3>
-    <p>For more information, or to collaborate with Around Peterborough, send us an email.</p>
+    <p>For more information, or to collaborate with Around Peterborough, send us a note.</p>
+    <form id="contact-form" novalidate>
+      <div class="fields">
+        <div class="field">
+          <label for="cf-name">Your name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="cf-email">Your email</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field wide">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" rows="4" required></textarea>
+        </div>
+      </div>
+      <!-- Bots fill every field they find; people never see this one. -->
+      <div class="hp" aria-hidden="true">
+        <label for="cf-website">Leave this empty</label>
+        <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="erow">
+        <button class="btn" type="submit" id="cf-send">Send</button>
+        <span class="cf-status" id="cf-status" role="status" aria-live="polite"></span>
+      </div>
+    </form>
     <p class="contactline">
-      <a class="ilink" href="mailto:AroundPeterborough@gmail.com?subject=Around%20Peterborough">Email us &#8599;</a>
+      <span class="orline">Or email us directly:</span>
       <code>AroundPeterborough@gmail.com</code>
       <button type="button" class="copy" data-copy="AroundPeterborough@gmail.com">Copy</button>
     </p>
@@ -2006,6 +2043,78 @@ document.addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if(e.key === "Escape" && !lb.hidden) closeLb();
 });
+
+/* ---------------- contact form ---------------- */
+/* Paste the endpoint your form service gives you between the quotes; Formspree's
+   looks like "https://formspree.io/f/abcdwxyz". While it is empty the form opens
+   the visitor's own mail app with the fields filled in, so nothing is lost and
+   nothing pretends to have been sent. */
+const FORM_ENDPOINT = "";
+const CONTACT_EMAIL = "AroundPeterborough@gmail.com";
+
+const cform = document.getElementById("contact-form");
+if(cform){
+  const cstatus = document.getElementById("cf-status");
+  const sendBtn = document.getElementById("cf-send");
+  const f = id => document.getElementById(id);
+  const say = (msg, kind) => {
+    cstatus.textContent = msg;
+    cstatus.className = "cf-status" + (kind ? " " + kind : "");
+  };
+  /* Without an endpoint the button composes mail, so don't label it "Send". */
+  if(!FORM_ENDPOINT) sendBtn.textContent = "Compose email";
+
+  const mailtoFor = v => "mailto:" + CONTACT_EMAIL
+    + "?subject=" + encodeURIComponent("Around Peterborough — " + v.name)
+    + "&body=" + encodeURIComponent(v.message + "\n\n— " + v.name + " <" + v.email + ">");
+
+  cform.addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = f("cf-name"), email = f("cf-email"), message = f("cf-message");
+    [name, email, message].forEach(el => el.removeAttribute("aria-invalid"));
+
+    const blank = [name, email, message].find(el => !el.value.trim());
+    if(blank){
+      blank.setAttribute("aria-invalid", "true"); blank.focus();
+      say("Please fill in all three fields.", "bad"); return;
+    }
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())){
+      email.setAttribute("aria-invalid", "true"); email.focus();
+      say("That email address doesn’t look right.", "bad"); return;
+    }
+    /* Anything in the hidden field is a bot. Behave as if it worked and drop it. */
+    if(f("cf-website").value){ cform.reset(); say("Thanks — we’ll be in touch.", "ok"); return; }
+
+    const v = {name:name.value.trim(), email:email.value.trim(), message:message.value.trim()};
+
+    if(!FORM_ENDPOINT){
+      say("Opening your email app…");
+      location.href = mailtoFor(v);
+      return;
+    }
+
+    cform.setAttribute("aria-busy", "true");
+    say("Sending…");
+    try{
+      const r = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {"Content-Type":"application/json", "Accept":"application/json"},
+        body: JSON.stringify(v)
+      });
+      if(!r.ok) throw new Error("status " + r.status);
+      cform.reset();
+      say("Thanks — we’ll be in touch.", "ok");
+    }catch(err){
+      /* The artifact's content policy blocks posting to an outside service, and
+         a network can fail anywhere. Hand the message to their mail app rather
+         than losing what they typed. */
+      say("Couldn’t send from here — opening your email app…", "bad");
+      setTimeout(() => { location.href = mailtoFor(v); }, 1000);
+    }finally{
+      cform.removeAttribute("aria-busy");
+    }
+  });
+}
 
 /* ---------------- boot ---------------- */
 document.getElementById("fact-count").textContent = EVENTS.length + " events";
