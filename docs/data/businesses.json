@@ -5,6 +5,13 @@
         "hours":  "Mon 7:30 AM-4:00 PM\nTue 7:30 AM-4:00 PM\nWed 7:30 AM-4:00 PM\nThu 7:30 AM-4:00 PM\nFri 7:30 AM-4:00 PM\nSat 7:30 AM-4:00 PM\nSun Closed"
     },
     {
+        "id":  "alice-blue-boutique",
+        "name":  "Alice Blue Boutique",
+        "category":  "Shop",
+        "address":  "10 School Street",
+        "hours":  "Mon - Sat 10:00 AM-5:00 PM\nSun 11:00 AM-4:00 PM"
+    },
+    {
         "id":  "anytime-apparel",
         "name":  "Anytime Apparel",
         "hours":  "Tue - Fri 11:00 am - 5:00 pm\nSat 11:00 am - 4:00 pm\nMon Closed",
