@@ -106,7 +106,7 @@
         "id":  "mariposa-museum",
         "name":  "Mariposa Museum",
         "category":  "Arts \u0026 makers",
-        "promo":  "Live music on First Friday, Dec 4, 5 – 6:30 PM. Alex and the Boomers will be performing. Free admission with donations appreciated.",
+        "promo":  "Live music on First Friday, Dec 4, 5 – 6:30 PM. Alex and the Boomers will be performing. Free admission with donations appreciated.\n\nAlex and the Boomers\n  Alexandra Murray, Alex, is a powerhouse vocalist who effortlessly soars from lilting Irish tunes to familiar \u002720s and \u002730s Jazz Standards from the American Song Book, to popular genres!  The Boomers are an acoustic band (Grove Street) made up of Chaz Beaulieu (flute and percussion), David Duhon (cello), Eric Blackmer (guitar), and Lisa Murray (piano).  \n   Alex and the Boomers will be performing Celtic, Classical, Folk and Popular songs.",
         "address":  "26 Main Street",
         "link":  "https://www.mariposamuseum.org/",
         "hours":  "Friday, December 4 open until 7.\nThursday – Saturday 11 to 5\n\u0026 Sundays 12 to 4"
@@ -179,7 +179,10 @@
     {
         "id":  "steele-s-stationers",
         "name":  "Steele\u0027s Stationers",
-        "hours":  "Monday–Saturday 9:00 am to 5:00 pm"
+        "hours":  "Monday–Saturday 9:00 am to 5:00 pm",
+        "category":  "Shop",
+        "promo":  "Steele\u0027s will be open for First Friday.",
+        "address":  "40 Main Street"
     },
     {
         "id":  "sweet-macarons",
