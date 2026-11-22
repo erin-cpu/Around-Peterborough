@@ -271,6 +271,20 @@ section[role="tabpanel"]{animation:fade .25s ease both}
   padding-bottom:7px;border-bottom:1px solid var(--line);margin-bottom:12px;
 }
 .cards{display:grid;gap:12px}
+/* Everything that has already happened, kept but set back: faded, below a rule,
+   and readable again on hover for anyone looking up what there was. */
+.pastwrap{margin-top:34px;border-top:2px solid var(--line);padding-top:18px}
+.pasthead{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:16px;
+  font-family:var(--display);font-size:20px;color:var(--ink-2);
+}
+.pasthead span{
+  font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.pastwrap .card{opacity:.58;transition:opacity .15s}
+.pastwrap .card:hover,.pastwrap .card:focus-within{opacity:1}
+@media (prefers-reduced-motion:reduce){.pastwrap .card{transition:none}}
 @media (min-width:760px){.cards{grid-template-columns:1fr 1fr}}
 .card{
   background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
@@ -1165,6 +1179,13 @@ function dateSpan(ev, long){
   return long ? fmtLong(ev.start) : fmtShort(ev.start);
 }
 function isMultiDay(ev){ return !!(ev.end || ev.days); }
+/* An event is over once its LAST day is behind us - the last of `days`, the end
+   of a range, or the one date it runs on. So the Giving Trees, up since
+   November 21st but collecting until December 15th, stay among the upcoming,
+   while the Stroll on the 21st drops away the moment the 21st does. Read from
+   the visitor's own clock at render time, so the page ages by itself. */
+function lastDay(ev){ return ev.days ? ev.days[ev.days.length - 1] : (ev.end || ev.start); }
+function isPast(ev){ return lastDay(ev) < TODAY_KEY; }
 function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 function mapsHref(name){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(name + ", Peterborough, NH"); }
 
@@ -1378,16 +1399,38 @@ function renderList(){
     listOut.innerHTML = '<div class="empty"><strong>No events match</strong>Try a different word, or clear the category filters.</div>';
     return;
   }
-  const groups = [];
-  matched.forEach(ev => {
-    const head = dateSpan(ev, true);
-    let g = groups.find(x => x.head === head);
-    if(!g){ g = {head, key:ev.start, items:[]}; groups.push(g); }
-    g.items.push(ev);
-  });
-  listOut.innerHTML = groups.map(g =>
+  const groupsOf = list => {
+    const groups = [];
+    list.forEach(ev => {
+      const head = dateSpan(ev, true);
+      let g = groups.find(x => x.head === head);
+      if(!g){ g = {head, key:ev.start, items:[]}; groups.push(g); }
+      g.items.push(ev);
+    });
+    return groups;
+  };
+  const draw = groups => groups.map(g =>
     '<div class="daygroup"><h3>'+esc(g.head)+'</h3><div class="cards">'+g.items.map(eventCard).join("")+'</div></div>'
   ).join("");
+
+  /* What is still to come comes first, so the weekend someone is standing in is
+     at the top of the page. What is over keeps its cards, below. */
+  const ahead = matched.filter(ev => !isPast(ev));
+  const over  = matched.filter(isPast);
+
+  /* Nothing ahead means two different things: the season is genuinely over, or
+     this search just happens to match only things that are. */
+  const narrowed = matched.length !== EVENTS.length;
+  let html = ahead.length ? draw(groupsOf(ahead))
+    : narrowed
+      ? '<div class="empty"><strong>Nothing still to come</strong>Everything matching has already happened — it is below.</div>'
+      : '<div class="empty"><strong>The season has ended</strong>Everything below has already happened. See you next year.</div>';
+  if(over.length){
+    html += '<section class="pastwrap"><h3 class="pasthead">Past events'
+      + '<span>'+over.length+(over.length === 1 ? " event" : " events")+', already happened</span></h3>'
+      + draw(groupsOf(over)) + '</section>';
+  }
+  listOut.innerHTML = html;
   trimCards();
 }
 catChips(document.getElementById("list-chips"), listState, renderList);
@@ -2030,7 +2073,12 @@ document.addEventListener("keydown", e => {
 });
 
 /* ---------------- boot ---------------- */
-document.getElementById("fact-count").textContent = EVENTS.length + " events";
+/* Once part of the season is behind us, the headline number should be what a
+   reader can still go to, not the season's total. */
+const AHEAD = EVENTS.filter(ev => !isPast(ev)).length;
+document.getElementById("fact-count").textContent =
+  AHEAD === EVENTS.length ? EVENTS.length + " events"
+  : AHEAD ? AHEAD + " still to come" : "the season has ended";
 document.getElementById("foot-note").textContent =
   "Shop holiday hours and offers live on the Shops tab, where they can be added or edited at any time.";
 show(location.hash.replace("#","") || "list", false);
