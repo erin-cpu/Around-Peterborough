@@ -719,8 +719,6 @@ const VENUES = {
              x:517, y:257, lx:531, ly:253, anchor:"start"},
   uu:       {name:"Peterborough Unitarian Universalist Church", short:"UU Church", sub:"25 Main Street",
              x:404, y:262, lx:397, ly:235, anchor:"end"},
-  diner:    {name:"Peterborough Diner", short:"The Diner", sub:"10 Depot Street",
-             x:427, y:376, lx:441, ly:372, anchor:"start"},
   conval:   {name:"ConVal Regional High School", short:"ConVal", sub:"184 Hancock Road",
              x:1039, y:-3774, lx:1060, ly:-3770, anchor:"start"},
   maxt:     {name:"MAxT Makerspace", short:"MAxT", sub:"Noone Falls, 50 Jaffrey Road",
@@ -848,6 +846,8 @@ const POIS = [
   {g:"food", n:"Baker’s Station", x:342, y:486},
   {g:"food", n:"Thai Café", x:232, y:568},
   {g:"food", n:"Monadnock Eats", x:430, y:274},
+  /* Was a venue pin while it hosted Santa's Stop; a dot now that it doesn't. */
+  {g:"food", n:"Peterborough Diner", x:427, y:376, url:"https://www.facebook.com/PeterboroughDiner"},
   {g:"shop", n:"Remarkable", x:448, y:270},
   {g:"food", n:"Harlow’s Pub", x:302, y:399},
   {g:"food", n:"Coopershill Public House", x:348, y:392, tree:true},
@@ -1733,6 +1733,7 @@ const SHOP_ADDR = {
   "Harlow’s Pub":"3 School Street",
   "Coopershill Public House":"School Street",
   "Sweet Macarons":"28 Grove Street",
+  "Peterborough Diner":"10 Depot Street",
   "Roy’s Market":"Depot Street, at Main",
   "Brady’s American Grill":"225 Concord Street",
   "Dollar General":"Monadnock Community Plaza, 1 Jaffrey Road",
@@ -1764,9 +1765,6 @@ const BASE_SHOPS = POIS
               address:SHOP_ADDR[p.n] || "", link:p.url || "", tree:!!p.tree,
               x:p.x, y:p.y}))
   .concat([
-    {id:slug(VENUES.diner.name), name:VENUES.diner.name, category:"Eat & drink",
-     address:VENUES.diner.sub, link:"https://www.facebook.com/PeterboroughDiner",
-     x:VENUES.diner.x, y:VENUES.diner.y},
     {id:slug(VENUES.maxt.name), name:VENUES.maxt.name, category:"Arts & makers",
      address:VENUES.maxt.sub, link:"https://maxtmakerspace.org/",
      x:VENUES.maxt.x, y:VENUES.maxt.y}
