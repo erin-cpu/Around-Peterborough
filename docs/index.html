@@ -681,7 +681,7 @@ footer p + p{margin-top:7px}
   </footer>
 </main>
 
-<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Event flyer">
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Event image">
   <img id="lbimg" alt="">
   <button type="button" class="lbclose">Close</button>
 </div>
@@ -1060,7 +1060,9 @@ const EVENTS = [
     id:"firstfriday", title:"First Friday", cat:"shop",
     start:"2026-12-04", time:"5 – 7 PM", sort:1020,
     place:"Independent businesses across Peterborough", venue:"mainst",
-    desc:"Evening shopping at independent businesses downtown, with Alex and the Boomers playing at the Mariposa Museum from 5 – 6:30 PM. Hours and offers vary by shop — see the Shops tab."
+    desc:"Evening shopping at independent businesses downtown, with Alex and the Boomers playing at the Mariposa Museum from 5 – 6:30 PM. Hours and offers vary by shop — see the Shops tab.",
+    flyer:{src:"boomers.jpg", label:"See Alex and the Boomers",
+      alt:"Alex and the Boomers: the five members of the band standing side by side outdoors on a summer evening, leaning against a granite boulder with a wooded hillside behind them."}
   },
   {
     id:"messiah", title:"Handel’s Messiah — Christmas Section", cat:"music",
@@ -1215,7 +1217,9 @@ function eventCard(ev){
         + '<button type="button" class="copy" data-copy="'+esc(ev.email)+'">Copy</button></p>' : "")
     + (ev.flyer ? '<button type="button" class="flyerthumb" data-src="'+esc(ev.flyer.src)+'" data-alt="'+esc(ev.flyer.alt)+'">'
         + '<img src="'+esc(ev.flyer.src)+'" alt="'+esc(ev.flyer.alt)+'" loading="lazy">'
-        + '<span>View the full flyer</span></button>' : "")
+        /* Not every attached image is a flyer, so the caption is the event's
+           to set; flyers just don't bother. */
+        + '<span>'+esc(ev.flyer.label || "View the full flyer")+'</span></button>' : "")
     + (ev.flag ? '<p class="flag"><b>Check this:</b> '+esc(ev.flag)+'</p>' : "")
     + '<p class="links">'+onMap+links+maps+'</p>'
     + '</div>'
