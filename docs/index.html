@@ -737,6 +737,12 @@ const VENUES = {
              x:1039, y:-3774, lx:1060, ly:-3770, anchor:"start"},
   maxt:     {name:"MAxT Makerspace", short:"MAxT", sub:"Noone Falls, 50 Jaffrey Road",
              x:-682, y:2418, lx:-660, ly:2423, anchor:"start"},
+  /* Out Wilton Road (Route 101), east of downtown. Placed by street number,
+     between Sonder at 107 and Twin Elm Farm at 133, a little north of the
+     road - close to the yard rather than surveyed onto the building. */
+  monadnockchurch: {name:"Monadnock Congregational Church", short:"Monadnock Church",
+             sub:"120 Wilton Road (Route 101)",
+             x:880, y:1779, lx:901, ly:1783, anchor:"start"},
   mainst:   {name:"Shops on Main, Depot & School Streets",
              sub:"Main between Grove and Pine, plus Depot and School",
              rc:"var(--c-shop)", w:9,
@@ -1153,6 +1159,23 @@ const EVENTS = [
     desc:"As the seasons shift and the days grow shorter, fall invites us to turn inward. Join Jill for a 90-minute candlelit, Ayurvedic-inspired yoga class featuring a blend of yin, flow and restorative postures. Nurturing adjustments and essential oils will enhance your practice, offering a deeply nourishing and grounding experience.",
     note:"Space is limited — check the Tria Yoga workshops page to register.",
     links:[{label:"Register at triayoga.com", href:"https://www.triayoga.com/workshops"}]
+  },
+  {
+    id:"celebrate", title:"Celebrate!", cat:"family",
+    start:"2026-12-06", time:"4 – 6 PM", sort:960,
+    place:"Monadnock Congregational Church, 120 Wilton Road (Route 101)",
+    venue:"monadnockchurch",
+    badge:"Free · All families welcome",
+    desc:"A joyful, family-friendly celebration centered on the birth of Jesus — an afternoon of festive activities, sweet treats, music and meaningful moments marking the true reason for Christmas. Free and open to families in the community.",
+    list:[
+      "Christmas craft for children",
+      "Cookie decorating and hot cocoa",
+      "Photos at the manger",
+      "Christmas storytime and carol singing",
+      "A short Christmas movie",
+      "A fun family activity"
+    ],
+    note:"Come enjoy some Christmas cheer, make special memories together, and celebrate the greatest gift ever given."
   },
   {
     id:"maxt-openhouse", title:"MAxT Holiday Open House", cat:"make",
